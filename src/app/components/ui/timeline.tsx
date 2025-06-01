@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 
 interface TimelineEntry {
-  title: string;
+  title: React.ReactNode;
   content: React.ReactNode;
 }
 
@@ -34,7 +34,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   return (
     <div
-      className="w-full bg-white dark:bg-neutral-950 font-sans"
+      className="w-full bg-white dark:bg-neutral-950 font-michroma"
       ref={containerRef}
     >
       <div ref={ref} className="relative max-w-7xl mx-auto">
@@ -53,9 +53,10 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
             </div>
 
             <div className="relative pl-12 pr-2 md:pl-2 w-full">
-              <h3 className="md:hidden block text-xl mb-1 text-left font-bold text-neutral-500 dark:text-neutral-500">
+              <h3 className="md:hidden block text-2xl mb-1 text-left font-bold text-neutral-500 dark:text-neutral-500">
                 {item.title}
               </h3>
+              
               {item.content}
             </div>
           </div>

@@ -6,10 +6,14 @@ import { Timeline } from "@/app/components/ui/timeline";
 export function TimelineDemo() {
   const data = [
     {
-      title: "Aryan S P",
+      title: (
+        <span className="bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+          Aryan S P
+        </span>
+      ),
       content: (
         <div>
-          <p className="text-xs font-normal text-neutral-800 md:text-sm dark:text-neutral-200">
+          <p className="text-lg font-normal text-neutral-800 md:text-sm dark:text-neutral-200">
             Expertise in AI/ML, AI Integration and LLM training
           </p>
           <div className="mt-2">
@@ -34,11 +38,15 @@ export function TimelineDemo() {
       ),
     },
     {
-      title: "Eshan Vijay Shettennavar",
+      title: (
+        <span className="bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+          Eshan Vijay Shettennavar
+        </span>
+      ),
       content: (
         <div>
-          <p className="text-xs font-normal text-neutral-800 md:text-sm dark:text-neutral-200">
-            Expertise in Full stack web development & DevOps
+          <p className="text-lg font-normal text-neutral-800 md:text-sm dark:text-neutral-200">
+            Expertise in Full stack web development, UI/UX Design and DevOps
           </p>
           <div className="mt-2">
             <img
@@ -62,10 +70,14 @@ export function TimelineDemo() {
       ),
     },
     {
-      title: "Why did we build this?",
+      title: (
+        <span className="bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
+          Why did we build this?
+        </span>
+      ),
       content: (
         <div>
-          <p className="text-xs font-normal text-neutral-800 md:text-sm dark:text-neutral-200">
+          <p className="text-lg font-normal text-neutral-800 md:text-sm dark:text-neutral-200">
           We built this platform to help students and professionals prepare for the best jobs and internships.
           </p>
           <div className="mt-2">

@@ -245,12 +245,12 @@ export const NavbarLogo = () => {
     >
       <img
         suppressHydrationWarning
-        src="https://assets.aceternity.com/logo-dark.png"
+        src="/EA.ai.svg"
         alt="logo"
-        width={30}
-        height={30}
+        width={100}
+        height={100}
       />
-      <span className="font-medium text-black dark:text-white">EA.ai</span>
+      {/* <span className="font-medium text-black dark:text-white">EA.ai</span> */}
     </a>
   );
 };

@@ -29,11 +29,15 @@ export default function Home() {
     },
     {
       name: "Pricing",
-      link: "#pricing",
+      link: "/Pricing",
     },
     {
       name: "Contact",
-      link: "#contact",
+      link: "/Contact",
+    },
+    {
+      name: "Go to Dashboard",
+      link: "/dashboard",
     },
   ]
 
@@ -91,10 +95,10 @@ export default function Home() {
 
       <WavyBackground className="mt-8 sm:mt-12 md:mt-16 lg:mt-20">
         <div className="flex flex-col items-center justify-center h-full">
-          <h2 className="mx-auto max-w-7xl text-center text-4xl font-bold text-balance text-gray-900 md:text-4xl lg:text-6xl">
-            Your next opportunity begins{" "}
-            <span className="inline-block rounded-xl bg-blue-500/20 px-4 py-1 text-gray-900 underline decoration-sky-500 decoration-[6px] underline-offset-[16px] backdrop-blur-sm">
-              right here
+          <h2 className="mx-auto max-w-7xl text-center text-4xl font-medium text-balance text-gray-900 md:text-4xl lg:text-6xl">
+            Your Next Opportunity Begins{" "}
+            <span className="inline-block rounded-xl font-bold bg-blue-500/20 px-4 py-1 text-gray-900 underline decoration-sky-500 decoration-[6px] underline-offset-[16px] backdrop-blur-sm">
+              Right Here
             </span>
             .
           </h2>
@@ -139,7 +143,7 @@ export default function Home() {
             </div>
           </h2>
         </div>
-        <div className="relative w-full overflow-hidden rounded-2xl bg-white shadow-lg p-8 border border-gray-100">
+        <div id="About" className="relative w-full overflow-hidden rounded-2xl bg-white shadow-lg p-8 border border-gray-100">
           <TimelineDemo />
         </div>
       </div>
