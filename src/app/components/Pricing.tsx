@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 const preReleasePlan = {
   name: "Pre-release",
@@ -44,6 +45,7 @@ const postReleasePlans = [
 ]
 
 export default function Pricing() {
+  const router = useRouter();
   return (
     <div className="max-w-4xl mx-auto py-12 px-4 flex flex-col items-center justify-center">
       {/* Header with back link and title - Improved alignment */}
@@ -81,7 +83,7 @@ export default function Pricing() {
               ))}
             </ul>
           </div>
-          <button className="mt-auto bg-black hover:text-amber-200 text-white py-2 px-4 rounded">Get Started</button>
+          <button onClick={() => router.push('/auth/login')} className="mt-auto bg-black hover:text-amber-200 text-white py-2 px-4 rounded">Get Started</button>
         </div>
       </div>
 

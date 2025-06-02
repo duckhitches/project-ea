@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   Navbar,
   NavBody,
@@ -21,6 +22,7 @@ import { TimelineDemo } from './components/ui/timeline-demo'
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const router = useRouter()
 
   const navItems = [
     {
@@ -42,7 +44,7 @@ export default function Home() {
   ]
 
   const scrollToCarousel = () => {
-    document.getElementById('carousel')?.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
@@ -108,7 +110,7 @@ export default function Home() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2 sm:pt-3 md:pt-4">
-            <button className="rounded-md bg-sky-600 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-sky-700 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-none">
+            <button onClick={() => router.push('/auth/login')} className="rounded-md bg-sky-600 px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-sky-700 focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:outline-none">
               Join the club
             </button>
             <button onClick={scrollToCarousel} className="rounded-md border border-gray-200 bg-white px-6 py-2.5 text-sm font-medium text-gray-900 shadow-sm transition-colors hover:bg-gray-50 focus:ring-2 focus:ring-gray-200 focus:ring-offset-2 focus:outline-none">
@@ -118,7 +120,7 @@ export default function Home() {
         </div>
       </WavyBackground>
 
-      <div id='carousel' className="mt-8 sm:mt-12 md:mt-16 lg:mt-20">
+      <div id='features' className="mt-8 sm:mt-12 md:mt-16 lg:mt-20">
         <div className="text-center mb-6 sm:mb-8 md:mb-12 flex flex-col items-center justify-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Why and when to use our 

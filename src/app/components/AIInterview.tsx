@@ -102,7 +102,7 @@ const AIInterview = () => {
         </motion.div>
 
         {/* Resume Upload */}
-        <motion.div
+        {/* <motion.div
           className="w-full max-w-xl text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -122,7 +122,7 @@ const AIInterview = () => {
               <pre>{resumeText.slice(0, 500)}{resumeText.length > 500 ? '... (truncated)' : ''}</pre>
             </div>
           )}
-        </motion.div>
+        </motion.div> */}
 
         {/* ElevenLabs "Need Help?" widget */}
         <div dangerouslySetInnerHTML={{

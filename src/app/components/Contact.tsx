@@ -44,7 +44,7 @@ const eaTeam = {
     "Business Process Management",
   ],
   avatar: "/EA.ai.svg?height=80&width=80",
-  href: "mailto:justnording@gmail.com",
+  href: "mailto:duckhitches@outlook.com",
 }
 
 const contactMethods = [
