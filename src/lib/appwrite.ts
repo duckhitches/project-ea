@@ -1,9 +1,25 @@
-import { Client, Account, ID } from 'appwrite';
+import { Client, Account, Databases, ID } from 'appwrite';
 
 const client = new Client()
-  .setEndpoint('https://cloud.appwrite.io/v1')
+  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1')
   .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || '');
 
-const account = new Account(client);
+export const account = new Account(client);
+export const databases = new Databases(client);
+export { ID };
 
-export { client, account, ID }; 
+// Add type declarations
+declare module 'appwrite' {
+  interface Account {
+    createEmailPasswordSession(email: string, password: string): Promise<any>;
+    deleteSession(sessionId: string): Promise<any>;
+  }
+  interface Databases {
+    createDocument(
+      databaseId: string,
+      collectionId: string,
+      documentId: string,
+      data: any
+    ): Promise<any>;
+  }
+} 

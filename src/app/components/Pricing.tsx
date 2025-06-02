@@ -22,6 +22,15 @@ const postReleasePlans = [
     features: ["Free Access to AI Interview", "Free Transcript", "Upto 15 minutes of AI Interview"],
   },
   {
+    name: "Student",
+    price: "$11.99/mo",
+    features: [
+      "Everything in pro",
+      "Upto 45 minutes of AI Interview",
+    
+    ],
+  },
+  {
     name: "Pro",
     price: "$9.99/mo",
     features: [

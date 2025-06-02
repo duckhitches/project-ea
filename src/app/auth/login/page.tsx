@@ -20,7 +20,7 @@ const Login = () => {
     try {
       // First, delete all existing sessions
       try {
-        await account.deleteSessions();
+        await account.deleteSession('current');
       } catch (error) {
         console.log('No sessions to delete or error deleting sessions:', error);
       }
@@ -29,6 +29,22 @@ const Login = () => {
       const session = await account.createEmailPasswordSession(email, password);
       
       if (session) {
+        // Record login history
+        try {
+          await fetch('/api/users/history', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ipAddress: 'client_ip',
+              userAgent: navigator.userAgent
+            })
+          });
+        } catch (error) {
+          console.error('Error recording login history:', error);
+        }
+
         // Force a hard navigation to dashboard
         window.location.href = '/dashboard';
       } else {
@@ -37,6 +53,30 @@ const Login = () => {
     } catch (error: any) {
       console.error('Login error:', error);
       setError(error.message || 'An error occurred during login');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    setLoading(true);
+    try {
+      // Delete any existing sessions
+      try {
+        await account.deleteSession('current');
+      } catch (error) {
+        console.log('No sessions to delete or error deleting sessions:', error);
+      }
+
+      // Create a guest session in localStorage
+      localStorage.setItem('guestSession', 'true');
+      localStorage.setItem('guestName', 'Guest User');
+      
+      // Navigate to dashboard
+      window.location.href = '/dashboard';
+    } catch (error: any) {
+      console.error('Guest login error:', error);
+      setError(error.message || 'An error occurred during guest login');
     } finally {
       setLoading(false);
     }
@@ -120,13 +160,24 @@ const Login = () => {
           </div>
         </form>
 
-        <div className="text-center">
-          <Link
-            href="/auth/signup"
-            className="text-indigo-600 hover:text-indigo-500"
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-gray-50 text-gray-500">or</span>
+          </div>
+        </div>
+
+        <div className="text-center space-y-4">
+          <div className="text-gray-500 text-sm italic">Too lazy to signup??</div>
+          <button
+            onClick={handleGuestLogin}
+            disabled={loading}
+            className="w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Don't have an account? Sign up
-          </Link>
+            {loading ? 'Signing in...' : 'Log in as Guest'}
+          </button>
         </div>
       </div>
     </div>

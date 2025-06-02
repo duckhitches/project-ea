@@ -5,7 +5,11 @@ import { useConversation } from '@elevenlabs/react';
 import { motion } from 'framer-motion';
 import { AuroraBackground } from './ui/aurora-background';
 
-const AIInterview = () => {
+interface AIInterviewProps {
+  isGuest?: boolean;
+}
+
+const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
   const [resumeText, setResumeText] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -73,27 +77,53 @@ const AIInterview = () => {
           animate={{ opacity: 1, y: 0 }}
         >
           <p className="text-sm text-gray-600 dark:text-gray-300 text-center">
-            Our AI interviewer listens, responds, and even keeps a transcript.
+            {isGuest 
+              ? "Try our AI interviewer with a quick demo. Sign up for full access!"
+              : "Our AI interviewer listens, responds, and even keeps a transcript."}
           </p>
 
           <div className="rounded-full h-40 w-40 bg-gradient-to-tr from-green-300 via-white-400 via-yellow-500 to-silver-500 animate-pulse" />
 
-          <div className="flex gap-4">
-            <button
-              onClick={startConversation}
-              disabled={conversation.status === 'connected'}
-              className="px-4 py-2 bg-black hover:bg-gradient-to-r from-gray-400 via-gray-800 to-black-500 text-white rounded-4xl disabled:bg-gray-400"
-            >
-              Start 
-            </button>
-            <button
-              onClick={stopConversation}
-              disabled={conversation.status !== 'connected'}
-              className="px-4 py-2 bg-red-500 hover:bg-gradient-to-r from-red-500 via-red-600 to-red-400 text-white rounded-4xl"
-            >
-              End 
-            </button>
-          </div>
+          {isGuest ? (
+            <div className="flex flex-col items-center space-y-4">
+              <div className="flex gap-4">
+                <button
+                  onClick={startConversation}
+                  disabled={conversation.status === 'connected'}
+                  className="px-6 py-3 rounded-full bg-black hover:bg-gradient-to-r from-gray-400 via-gray-800 to-black-500 text-white rounded-4xl disabled:bg-gray-400"
+                >
+                  Try Now (Demo)
+                </button>
+                <button
+                  onClick={stopConversation}
+                  disabled={conversation.status !== 'connected'}
+                  className="px-6 py-3 rounded-full bg-red-500 hover:bg-gradient-to-r from-red-500 via-red-600 to-red-400 text-white rounded-4x"
+                >
+                  End
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 italic">
+                Limited to 2 minutes in guest mode
+              </p>
+            </div>
+          ) : (
+            <div className="flex gap-4">
+              <button
+                onClick={startConversation}
+                disabled={conversation.status === 'connected'}
+                className="px-4 py-2 rounded-full bg-black hover:bg-gradient-to-r from-gray-400 via-gray-800 to-black-500 text-white rounded-4xl disabled:bg-gray-400"
+              >
+                Start 
+              </button>
+              <button
+                onClick={stopConversation}
+                disabled={conversation.status !== 'connected'}
+                className="px-4 py-2 rounded-full bg-red-500 hover:bg-gradient-to-r from-red-500 via-red-600 to-red-400 text-white rounded-4xl"
+              >
+                End 
+              </button>
+            </div>
+          )}
 
           <p className="text-sm">
             <strong>Status:</strong> {conversation.status} |{' '}
@@ -101,28 +131,30 @@ const AIInterview = () => {
           </p>
         </motion.div>
 
-        {/* Resume Upload */}
-        {/* <motion.div
-          className="w-full max-w-xl text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
-            📎 Upload Resume (TXT/PDF - Coming soon....)
-          </label>
-          <input
-            type="file"
-            accept=".txt,.pdf"
-            onChange={handleResumeUpload}
-            className="mt-2 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:border-0 file:bg-gray-100 hover:file:bg-gray-200 file:text-blue-700 rounded"
-          />
-          {resumeText && (
-            <div className="mt-4 p-2 text-xs bg-gray-100/80 dark:bg-neutral-800/80 backdrop-blur-sm border rounded max-h-40 overflow-y-auto">
-              <pre>{resumeText.slice(0, 500)}{resumeText.length > 500 ? '... (truncated)' : ''}</pre>
-            </div>
-          )}
-        </motion.div> */}
+        {/* Resume Upload - Only for registered users */}
+        {!isGuest && (
+          <motion.div
+            className="w-full max-w-xl text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-200">
+              📎 Upload Resume (TXT/PDF - Coming soon....)
+            </label>
+            <input
+              type="file"
+              accept=".txt,.pdf"
+              onChange={handleResumeUpload}
+              className="mt-2 block w-full text-sm text-gray-500 file:py-2 file:px-4 file:border-0 file:bg-gray-100 hover:file:bg-gray-200 file:text-blue-700 rounded"
+            />
+            {resumeText && (
+              <div className="mt-4 p-2 text-xs bg-gray-100/80 dark:bg-neutral-800/80 backdrop-blur-sm border rounded max-h-40 overflow-y-auto">
+                <pre>{resumeText.slice(0, 500)}{resumeText.length > 500 ? '... (truncated)' : ''}</pre>
+              </div>
+            )}
+          </motion.div>
+        )}
 
         {/* ElevenLabs "Need Help?" widget */}
         <div dangerouslySetInnerHTML={{
