@@ -253,7 +253,7 @@ export default function Pricing() {
         {/* FAQ Section */}
         <div className="mt-16 sm:mt-20 md:mt-24 text-center">
           <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
-            Questions? We're here to help
+            Questions? We&apos;re here to help
           </h3>
           <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6 sm:mb-8">
             Contact our support team for any pricing questions
