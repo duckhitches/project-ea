@@ -16,7 +16,6 @@ import {
 } from './components/ui/resizable-navbar'
 import { CarouselDemo } from './components/ui/carousel-demo'
 import { PointerHighlight } from './components/ui/pointer-highlight'
-import { CardBody, CardContainer, CardItem } from '@/app/components/ui/3d-card'
 import { WavyBackground } from './components/ui/wavy-background'
 import { TimelineDemo } from './components/ui/timeline-demo'
 import { motion } from 'framer-motion'
