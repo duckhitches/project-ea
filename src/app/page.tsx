@@ -141,7 +141,7 @@ export default function Home() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="mx-auto max-w-2xl py-6 sm:py-8 text-center text-base sm:text-lg text-gray-600"
             >
-              Whether you're hiring talent or becoming it — every interview is a step toward something greater. Let AI
+              Whether you&apos;re hiring talent or becoming it — every interview is a step toward something greater. Let AI
               make the journey smoother and smarter.
             </motion.p>
 
