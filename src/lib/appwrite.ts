@@ -12,7 +12,7 @@ export { ID };
 // Add type declarations
 declare module 'appwrite' {
   interface Account {
-    createEmailPasswordSession(email: string, password: string): Promise<any>;
+    createEmailSession(email: string, password: string): Promise<any>;
     deleteSession(sessionId: string): Promise<any>;
     updatePassword(password: string, oldPassword?: string): Promise<any>;
     deleteSessions(): Promise<any>;

@@ -24,24 +24,21 @@ const Signup = () => {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
     setError("")
+    setLoading(true)
 
     try {
-      // Create user account
-      await account.create(
-        ID.unique(),
-        email,
-        password,
-        name
-      )
+      // Create the user account
+      await account.create(ID.unique(), email, password, name)
 
-      // Create session
-      await account.createEmailPasswordSession(email, password)
+      // Create a session for the new user
+      await account.createEmailSession(email, password)
+
+      // Redirect to dashboard
       router.push("/dashboard")
     } catch (error: any) {
       console.error("Signup error:", error)
-      setError(error.message || "Failed to create account")
+      setError(error.message || "An error occurred during signup")
     } finally {
       setLoading(false)
     }
