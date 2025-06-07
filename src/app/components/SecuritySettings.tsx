@@ -269,7 +269,7 @@ export default function SecuritySettings() {
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-4 h-4 mt-0.5 text-blue-600 flex-shrink-0" />
-              Don&apos;t reuse passwords from other accounts
+              Don't reuse passwords from other accounts
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle className="w-4 h-4 mt-0.5 text-blue-600 flex-shrink-0" />
