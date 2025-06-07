@@ -228,7 +228,7 @@ export function Carousel({ slides }: CarouselProps) {
         </AnimatePresence>
 
         {/* Navigation Arrows */}
-        <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-1 sm:px-2 pointer-events-none">
+        <div className="absolute inset-y-0 left-0 z-20 right-0 flex items-center justify-between px-1 sm:px-2 pointer-events-none">
           <button
             onClick={() => paginate(-1)}
             className="p-1.5 sm:p-2 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-all duration-300 pointer-events-auto z-50"

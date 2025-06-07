@@ -5,6 +5,9 @@ declare module 'appwrite' {
   }
 
   export class Account {
+    create(arg0: any, email: string, password: string, name: string) {
+      throw new Error("Method not implemented.");
+    }
     constructor(client: Client);
     getSession(sessionId: string): Promise<any>;
     get(): Promise<any>;
