@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { ArrowLeft, Mail, MessageCircle, Linkedin, Clock, Code, Users } from "lucide-react"
+import { useEffect, useState } from "react"
 
 const developerTeam = [
   {
@@ -79,6 +80,17 @@ const contactMethods = [
 ]
 
 export default function Contact() {
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
+
+  useEffect(() => {
+    if (isSuccess) {
+      setIsSuccess(false)
+      setShowSuccess(true)
+      setTimeout(() => setShowSuccess(false), 3000)
+    }
+  }, [isSuccess])
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       {/* Enhanced Header */}
@@ -103,7 +115,7 @@ export default function Contact() {
             <div className="text-center max-w-4xl mx-auto">
               <div className="inline-flex items-center px-3 py-1 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-green-100 to-blue-100 text-green-800 text-xs sm:text-sm font-medium mb-4 sm:mb-6">
                 <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                We're Here to Help
+                We&apos;re here to help!{" "}
               </div>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
@@ -302,7 +314,7 @@ export default function Contact() {
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-white">
             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6">Ready to Start Your Project?</h3>
             <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
-              Let's discuss your requirements and create something amazing together
+              Let&apos;s get started!{" "}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a

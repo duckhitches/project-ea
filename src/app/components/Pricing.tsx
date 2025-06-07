@@ -104,6 +104,10 @@ export default function Pricing() {
                 Start your interview preparation journey with our AI-powered platform. Choose the plan that fits your
                 needs and budget.
               </p>
+
+              <p className="text-sm text-gray-600">
+                Let&apos;s get started!{" "}
+              </p>
             </div>
           </div>
         </div>
