@@ -31,7 +31,7 @@ const Signup = () => {
       // Create the user account
       await account.create(ID.unique(), email, password, name)
 
-      // Create a session for the new user
+      // Create a session for the new user - using createEmailSession (the correct method name for your SDK version)
       await account.createEmailSession(email, password)
 
       // Redirect to dashboard
@@ -69,7 +69,7 @@ const Signup = () => {
 
           {/* Image overlay - using the same image as login */}
           <img
-            src="/login-page.jpg" // Same image as login page
+            src="/login-page.jpg"
             alt="Professional working environment"
             className="absolute inset-0 w-full h-full object-cover opacity-70 mix-blend-overlay"
           />

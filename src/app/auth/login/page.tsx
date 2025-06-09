@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { account } from "@/lib/appwrite"
+import { account, ID } from "@/lib/appwrite"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, Eye, EyeOff, Mail, Lock, User, Sparkles, Shield, Zap } from "lucide-react"
@@ -34,7 +34,7 @@ const Login = () => {
         console.log("No sessions to delete or error deleting sessions:", error)
       }
 
-      // Create new session
+      // Create new session - using createEmailSession (the correct method name for your SDK version)
       const session = await account.createEmailSession(email, password)
 
       if (session) {
@@ -102,7 +102,7 @@ const Login = () => {
 
           {/* Image overlay */}
           <img
-            src="/login-page.jpg" // Use the same image for both login and signup
+            src="/login-page.jpg"
             alt="Professional working environment"
             className="absolute inset-0 w-full h-full object-cover opacity-70 mix-blend-overlay"
           />
