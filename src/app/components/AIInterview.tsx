@@ -176,7 +176,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
                         onClick={startConversation}
                         disabled={conversation.status === "connected"}
                         size="lg"
-                        className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base border-0"
+                        className="bg-black hover:bg-black  text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base border-0"
                       >
                         <Play className="w-5 h-5 mr-2" />
                         Try Demo
@@ -185,7 +185,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
                         onClick={stopConversation}
                         disabled={conversation.status !== "connected"}
                         size="lg"
-                        className="bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base border-0"
+                        className="bg-red-500 hover:bg-red-500 text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base border-0"
                       >
                         <Square className="w-5 h-5 mr-2" />
                         Stop

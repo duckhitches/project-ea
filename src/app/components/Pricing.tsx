@@ -67,7 +67,7 @@ const postReleasePlans = [
 
 export default function Pricing() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50" id="pricing">
       {/* Enhanced Header */}
       <div className="relative overflow-hidden bg-white border-b border-gray-200">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50" />
@@ -161,7 +161,7 @@ export default function Pricing() {
                     ))}
                   </ul>
 
-                  <button onClick={() => window.location.href = '/auth/login'} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 sm:py-4 px-6 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                  <button onClick={() => window.location.href = '/auth/login'} className="w-full bg-black hover:bg-black text-white py-3 sm:py-4 px-6 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
                     Get Started Free
                   </button>
                 </div>
@@ -259,7 +259,7 @@ export default function Pricing() {
             Contact our support team for any pricing questions
           </p>
           <Link href="/Contact">
-            <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 sm:py-4 px-6 sm:px-8 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+            <button className="bg-black hover:bg-black text-white py-3 sm:py-4 px-6 sm:px-8 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
               Contact Support
             </button>
           </Link>

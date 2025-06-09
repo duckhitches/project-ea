@@ -311,7 +311,7 @@ export default function Contact() {
 
         {/* CTA Section */}
         <div className="mt-16 sm:mt-20 md:mt-24 text-center">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-white">
+          <div className="bg-black rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-white">
             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6">Ready to Start Your Project?</h3>
             <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
               Let&apos;s get started!{" "}
@@ -319,7 +319,7 @@ export default function Contact() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:justnord@gmail.com"
-                className="bg-white text-blue-600 hover:bg-gray-100 py-3 sm:py-4 px-6 sm:px-8 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all duration-200 transform hover:scale-105"
+                className="bg-white text-black hover:bg-white py-3 sm:py-4 px-6 sm:px-8 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all duration-200 transform hover:scale-105"
               >
                 Schedule a Call
               </a>
