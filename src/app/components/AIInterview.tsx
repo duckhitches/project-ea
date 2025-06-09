@@ -48,7 +48,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
       await conversation.startSession({
-        agentId: "agent_01jx4zw480f8evwgs0sk69gedf",
+        agentId: "agent_01jxa7dek1eh78bqvhfmg10m34",
       })
     } catch (error) {
       console.error("Failed to start conversation:", error)
