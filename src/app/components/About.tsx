@@ -220,10 +220,7 @@ export default function About() {
       <motion.section
         ref={heroRef}
         style={{ y: heroY, opacity: heroOpacity }}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        
         id="About"
         className="relative min-h-screen space-y-10 flex items-center justify-center bg-white dark:bg-gray-900"
       >
