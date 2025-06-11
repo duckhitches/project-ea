@@ -23,6 +23,7 @@ declare module "appwrite" {
     get(): Promise<any>
     deleteIdentity(): Promise<any>
     delete(): Promise<any>
+    createOAuth2Session(provider: string, success?: string, failure?: string, scopes?: string[]): void;
   }
   interface Databases {
     createDocument(databaseId: string, collectionId: string, documentId: string, data: any): Promise<any>

@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import Image from "next/image"
 
 const Login = () => {
   const [email, setEmail] = useState("")
@@ -92,20 +93,16 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-black/50 flex flex-col lg:flex-row">
       {/* Left Side - Branding with Image */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         {/* Image Background with Gradient Overlay */}
         <div className="absolute inset-0">
           {/* Base gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600" />
+          <div className="absolute inset-0 " />
 
           {/* Image overlay */}
-          <img
-            src="/login-page.jpg"
-            alt="Professional working environment"
-            className="absolute inset-0 w-full h-full object-cover opacity-70 mix-blend-overlay"
-          />
+          <Image src="/login-page.jpg" alt="Professional working environment" fill className="absolute inset-0 w-full h-full object-cover opacity-70 mix-blend-overlay" />
 
           {/* Gradient overlay for better text contrast */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70 mix-blend-multiply"></div>
@@ -124,7 +121,7 @@ const Login = () => {
             <div className="space-y-6">
               <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight">
                 Welcome Back to
-                <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
                   AI Interview
                 </span>
               </h1>
@@ -172,7 +169,7 @@ const Login = () => {
             <p className="text-gray-600">Sign in to continue your interview preparation</p>
           </div>
 
-          <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+          <Card className="border-0 shadow-xl bg-white/10 backdrop-blur-sm">
             <CardHeader className="space-y-1 pb-6">
               <CardTitle className="text-2xl font-bold text-center text-gray-900">Sign In</CardTitle>
               <CardDescription className="text-center text-gray-600">
@@ -181,6 +178,7 @@ const Login = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <form onSubmit={handleLogin} className="space-y-4">
+                {/* Email Login */}
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-sm font-medium text-gray-700">
                     Email Address
@@ -233,7 +231,7 @@ const Login = () => {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="w-full h-12 bg-black hover:bg-black text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
                   {loading ? (
                     <div className="flex items-center space-x-2">
@@ -253,10 +251,35 @@ const Login = () => {
                 <div className="relative flex justify-center text-sm">
                   <span className="px-4 bg-white text-gray-500">or</span>
                 </div>
+
+
+
+
+                {/* Google Login */}
+                <div className="relative mt-4">
+                  <button
+                    type="button"
+                    onClick={() => account.createOAuth2Session(
+                      'google',
+                      'http://localhost:3000/dashboard',
+                      'http://localhost:3000/auth/login'
+                    )}
+                    className="w-full flex items-center justify-center gap-2 h-12 border border-black bg-white text-black font-semibold rounded-lg transition-all duration-200 hover:bg-gray-100 mt-2"
+                  >
+                    <svg className="w-5 h-5" viewBox="0 0 48 48"><g><path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                    </g></svg>
+                    Login with Google
+                  </button>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-4 bg-white text-gray-500">or</span>
+                </div>
               </div>
 
+              
+
               <div className="space-y-3">
-                <p className="text-center text-sm text-gray-500 italic">Too lazy to sign up?</p>
+                <p className="text-center text-sm text-gray-500 ">Too lazy to sign up?</p>
                 <Button
                   type="button"
                   onClick={handleGuestLogin}
@@ -272,11 +295,14 @@ const Login = () => {
               <div className="text-center">
                 <p className="text-sm text-gray-600">
                   Don&apos;t have an account?{" "}
-                  <Link href="/auth/signup" className="text-blue-600 hover:text-blue-700 font-medium">
+                  <Link href="/auth/signup" className="text-purple-500 hover:text-blue-700 font-medium">
                     Sign up
                   </Link>
                 </p>
               </div>
+
+
+
             </CardContent>
           </Card>
 
@@ -288,7 +314,7 @@ const Login = () => {
               { icon: Zap, text: "Fast Results" },
             ].map((feature, index) => (
               <div key={index} className="text-center space-y-2">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center mx-auto">
+                <div className="w-10 h-10 bg-black rounded-lg flex items-center justify-center mx-auto">
                   <feature.icon className="w-5 h-5 text-white" />
                 </div>
                 <p className="text-xs text-gray-600">{feature.text}</p>
