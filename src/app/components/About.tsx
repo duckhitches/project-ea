@@ -19,6 +19,7 @@ import {
   Star,
   ArrowRight,
   Sparkle,
+  Sparkles,
 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -214,11 +215,17 @@ export default function About() {
 
   return (
     <div ref={containerRef} className="relative bg-white dark:bg-gray-900 overflow-hidden" id="About">
+      
       {/* Hero Section */}
       <motion.section
         ref={heroRef}
         style={{ y: heroY, opacity: heroOpacity }}
-        className="relative min-h-screen flex items-center justify-center bg-white dark:bg-gray-900"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        id="About"
+        className="relative min-h-screen space-y-10 flex items-center justify-center bg-white dark:bg-gray-900"
       >
         {/* Background Pattern */}
         {/* <div className="absolute inset-0 opacity-10">
@@ -226,10 +233,14 @@ export default function About() {
           <div className="absolute top-40 right-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
           <div className="absolute bottom-20 left-40 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
         </div> */}
+        
 
         <div className="relative z-10 max-w-7xl mx-auto mt-20 px-4 sm:px-6 lg:px-8 text-center">
-          
-
+          <div className="inline-flex items-center px-4 pb-2 rounded-full bg-gray-100 text-gray-800 text-sm font-medium">
+            <Sparkles className="w-4 h-4 mr-2" />
+            About Us
+          </div>
+        
           <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white mb-6 leading-tight">
             About{" "}
             <span className="bg-gradient-to-r from-blue-500  to-purple-500 bg-clip-text text-transparent">
@@ -241,7 +252,7 @@ export default function About() {
             Empowering careers through AI-powered interview preparation
           </p>
 
-          <p className="hero-description text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+          <p className="hero-description text-2xl sm:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
             We&apos;re on a mission to democratize interview success by making professional-grade interview coaching
             accessible to everyone, everywhere, at any time.
           </p>
@@ -315,10 +326,10 @@ export default function About() {
                       </div>
                     </div>
 
-                    <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">{founder.description}</p>
+                    <p className="text-gray-600 sm:text-lg md:text-xl  lg:text-xl xl:text-xl dark:text-gray-300 mb-8 leading-relaxed">{founder.description}</p>
 
                     <div className="mb-8">
-                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                      <h4 className="text-2xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                         {founder.role === "AI/ML Specialist" ? (
                           <Brain className="w-5 h-5 mr-2 text-purple-600" />
                         ) : (
@@ -337,14 +348,14 @@ export default function About() {
                             className="flex items-center bg-gray-50 dark:bg-gray-800 rounded-lg px-4 py-3"
                           >
                             <CheckCircle className="w-4 h-4 text-green-500 mr-3 flex-shrink-0" />
-                            <span className="text-gray-700 dark:text-gray-300 text-sm">{skill}</span>
+                            <span className="text-gray-700 sm:text-lg md:text-lg lg:text-lg xl:text-lg dark:text-gray-300 text-base">{skill}</span>
                           </motion.div>
                         ))}
                       </div>
                     </div>
 
                     <div className="mb-8">
-                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                      <h4 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                         <Award className="w-5 h-5 mr-2 text-yellow-600" />
                         Key Achievements
                       </h4>
@@ -362,7 +373,7 @@ export default function About() {
 
                     <Button
                       asChild
-                      className="w-full bg-black hover:bg-black text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-105"
+                      className="w-full bg-black hover:bg-black text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-105 sm:text-lg md:text-xl lg:text-lg xl:text-xl"
                     >
                       <a
                         href={founder.linkedin}
@@ -386,7 +397,7 @@ export default function About() {
       <section
         ref={storyRef}
         className="py-20 sm:py-32 bg-gray-50 dark:bg-gray-800"
-        
+
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -402,7 +413,7 @@ export default function About() {
               Our Story
             </div>
             <h2 className="text-4xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-             {whyWeBuiltThis.title}
+              {whyWeBuiltThis.title}
             </h2>
             <p className="text-2xl sm:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               {whyWeBuiltThis.subtitle}
@@ -437,7 +448,7 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-8"
-              
+
             >
               <div>
                 <h3 className="text-3xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6">
