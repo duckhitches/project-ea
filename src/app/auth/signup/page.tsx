@@ -260,8 +260,8 @@ const Signup = () => {
                     type="button"
                     onClick={() => account.createOAuth2Session(
                       'google',
-                      'http://localhost:3000/dashboard',
-                      'http://localhost:3000/auth/signup'
+                      'https://project-ea.vercel.app/dashboard',
+                      'https://project-ea.vercel.app/auth/signup'
                     )}
                     className="w-full flex items-center justify-center gap-2 h-12 border border-black bg-white text-black font-semibold rounded-lg transition-all duration-200 hover:bg-gray-100 mt-2"
                   >
