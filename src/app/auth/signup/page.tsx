@@ -261,7 +261,7 @@ const Signup = () => {
                     onClick={() => account.createOAuth2Session(
                       'google',
                       'https://project-ea.vercel.app/dashboard',
-                      'https://fra.cloud.appwrite.io/v1/account/sessions/oauth2/callback/google/68380ec200271d405887'
+                      'https://project-ea.vercel.app/auth/signup'
                     )}
                     className="w-full flex items-center justify-center gap-2 h-12 border border-black bg-white text-black font-semibold rounded-lg transition-all duration-200 hover:bg-gray-100 mt-2"
                   >
