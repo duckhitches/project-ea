@@ -60,7 +60,7 @@ const foundersData = [
     role: "Full Stack Developer",
     title: "Co-Founder & Chief Executive Officer",
     description:
-      "Expertise in Full stack web development, UI/UX Design and DevOps. Crafting beautiful, scalable applications with modern technologies.",
+      "Expertise in Full stack web development, UI/UX Design and DevOps. Crafting beautiful, scalable applications with AI-powered modern technologies.",
     skills: [
       "React, Next.js, TypeScript, Javascript",
       "Node.js, Python, Go",
@@ -238,7 +238,7 @@ export default function About() {
             About Us
           </div>
         
-          <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-black dark:text-white mb-6 leading-tight">
+          <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white mb-6 leading-tight">
             About{" "}
             <span className="bg-gradient-to-r from-blue-500  to-purple-500 bg-clip-text text-transparent">
               AI Interview
@@ -272,7 +272,7 @@ export default function About() {
               <Users className="w-4 h-4 mr-2" />
               Meet the Founders
             </div>
-            <h2 className="text-4xl flex flex-col items-center justify-center sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-4xl flex flex-col items-center justify-center sm:text-4xl md:text-5xl font-semibold text-gray-900 dark:text-white mb-6">
               The Minds Behind{" "}
               <PointerHighlight pointerClassName="text-blue-500 dark:text-purple-500">Innovation</PointerHighlight>
             </h2>
@@ -311,7 +311,7 @@ export default function About() {
                         </div>
                       </motion.div>
 
-                      <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                      <h3 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-2">
                         {founder.name}
                       </h3>
                       <p className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-1">{founder.title}</p>
@@ -326,7 +326,7 @@ export default function About() {
                     <p className="text-gray-600 sm:text-lg md:text-xl  lg:text-xl xl:text-xl dark:text-gray-300 mb-8 leading-relaxed">{founder.description}</p>
 
                     <div className="mb-8">
-                      <h4 className="text-2xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                      {/* <h4 className="text-2xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                         {founder.role === "AI/ML Specialist" ? (
                           <Brain className="w-5 h-5 mr-2 text-purple-600" />
                         ) : (
@@ -348,7 +348,7 @@ export default function About() {
                             <span className="text-gray-700 sm:text-lg md:text-lg lg:text-lg xl:text-lg dark:text-gray-300 text-base">{skill}</span>
                           </motion.div>
                         ))}
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="mb-8">
@@ -409,7 +409,7 @@ export default function About() {
               <Rocket className="w-4 h-4 mr-2" />
               Our Story
             </div>
-            <h2 className="text-4xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-4xl sm:text-4xl md:text-5xl font-semibold text-gray-900 dark:text-white mb-6">
               {whyWeBuiltThis.title}
             </h2>
             <p className="text-2xl sm:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
@@ -448,7 +448,7 @@ export default function About() {
 
             >
               <div>
-                <h3 className="text-3xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                <h3 className="text-3xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-6">
                   The Problem We Faced
                 </h3>
                 <p className="text-xl sm:text-xl text-gray-900 dark:text-gray-300 mb-6 leading-relaxed">{whyWeBuiltThis.story}</p>
@@ -470,7 +470,7 @@ export default function About() {
               </div>
 
               <div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6">Our Solution</h3>
+                <h3 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-6">Our Solution</h3>
                 <div className="space-y-3">
                   {whyWeBuiltThis.solution.map((solution, index) => (
                     <motion.div
@@ -481,7 +481,7 @@ export default function About() {
                       transition={{ delay: index * 0.1 }}
                       className="flex items-start"
                     >
-                      <Sparkle className="w-5 h-5 text-yellow-500 mt-1 mr-4 flex-shrink-0" />
+                      <div className="w-2 h-2 bg-green-400 rounded-full mt-3 mr-4 flex-shrink-0"></div>
                       <span className="text-xl sm:text-xl text-gray-600 dark:text-gray-300">{solution}</span>
                     </motion.div>
                   ))}
@@ -506,7 +506,7 @@ export default function About() {
               <TrendingUp className="w-4 h-4 mr-2" />
               Why Trust Us
             </div>
-            <h2 className="text-4xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-4xl sm:text-4xl md:text-5xl font-semibold text-gray-900 dark:text-white mb-6">
               Proven Results That{" "}
               <span className="bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
                 Speak for Themselves

@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import dynamic from "next/dynamic"
+import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 // Dynamically import AudioVisualizer
 const AudioVisualizerCanvas = dynamic(() => import("./ui/AudioVisualizer"), {
@@ -78,232 +80,240 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
 
   if (!isMounted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
       </div>
     )
   }
 
-  const getStatusColor = () => {
-    switch (conversation.status) {
-      case "connected":
-        return "bg-green-500"
-      case "connecting":
-        return "bg-yellow-500"
-      case "disconnected":
-        return "bg-gray-400"
-      default:
-        return "bg-gray-400"
-    }
-  }
-
-  const getStatusText = () => {
-    switch (conversation.status) {
-      case "connected":
-        return conversation.isSpeaking ? "AI is speaking..." : "Listening to you..."
-      case "connecting":
-        return "Connecting..."
-      case "disconnected":
-        return "Ready to start"
-      default:
-        return "Ready to start"
-    }
-  }
+  const StatusBadge = ({ status }: { status: string }) => (
+    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-gray-200 shadow-sm">
+      <div className={cn(
+        "w-2 h-2 rounded-full animate-pulse",
+        status === "connected" ? "bg-green-500" : 
+        status === "connecting" ? "bg-yellow-500" : 
+        "bg-gray-400"
+      )} />
+      <span className="text-xs font-medium text-gray-700">
+        {status === "connected" ? "Active Session" : 
+         status === "connecting" ? "Connecting..." : 
+         "Ready to Start"}
+      </span>
+    </div>
+  )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
-      {/* Subtle background pattern overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.01),transparent_50%)] z-10"></div>
-
-      <div className="relative z-20 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 lg:py-20">
         {/* Header */}
         <motion.div
-          className="text-center mb-8 sm:mb-12 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
         >
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-gray-200 shadow-sm mb-6">
-            <Brain className="w-4 h-4 mr-2 text-blue-600" />
-            <span className="text-sm font-medium text-gray-700">AI-Powered Interview</span>
-          </div>
+          <span className="inline-flex items-center px-3 py-1 rounded-full bg-gray-900 text-white text-xs font-medium mb-4">
+            <Brain className="w-3.5 h-3.5 mr-1.5" />
+            AI-Powered Practice Interview
+          </span>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Practice with{" "}
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
-              AI Interviewer
-            </span>
+          <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-4">
+            Perfect Your Interview Skills
           </h1>
-
-          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            {isGuest
-              ? "Experience our AI interviewer with a quick demo. Sign up for unlimited access!"
-              : "Get real-time feedback and improve your interview skills with our advanced AI"}
+          
+          <p className="text-sm text-gray-600 max-w-lg mx-auto">
+            Get real-time feedback and guidance from our AI interviewer. 
+            {isGuest && " Try a 2-minute demo or sign up for full access."}
           </p>
         </motion.div>
 
-        {/* Main Interface - Centered in Particle Field */}
+        {/* Main Interview Interface */}
         <motion.div
-          className="w-full max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mb-8"
         >
-          <Card className="bg-white/85 backdrop-blur-xl border border-gray-200/50 shadow-2xl shadow-blue-500/10 relative overflow-hidden">
-            <CardContent className="p-6 sm:p-8 lg:p-12 relative z-10">
-              {/* Clean AI Interface - No Sphere */}
-              <div className="flex flex-col items-center mb-8 sm:mb-12">
-                {/* Central Visualizer Area */}
-                <div className="relative mb-8 w-full max-w-2xl">
-                  <div className="w-full h-96 rounded-lg bg-white backdrop-blur-sm border border-gray-200/50 overflow-hidden">
-                    <AudioVisualizerCanvas isActive={conversation.status === "connected"} />
+          <div className="p-6 sm:p-8">
+            {/* Status Bar */}
+            <div className="flex items-center justify-between mb-8">
+              <StatusBadge status={conversation.status} />
+              {!isGuest && (
+                <span className="text-xs text-gray-500">
+                  Session duration: 20 minutes
+                </span>
+              )}
+            </div>
+
+            {/* Visualizer */}
+            <div className="relative aspect-[16/9] mb-8 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
+              {conversation.status === "connected" ? (
+                <AudioVisualizerCanvas isActive={true} />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+                  <AudioVisualizerCanvas isActive={false} />
+                </div>
+              )}
+            </div>
+
+            {/* Controls */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Button
+                onClick={startConversation}
+                disabled={conversation.status === "connected" || conversation.status === "connecting"}
+                className="w-full sm:w-auto h-11 px-6 bg-black hover:bg-gray-900 text-white rounded-full disabled:opacity-50"
+              >
+                <Mic className="w-4 h-4 mr-2" />
+                {isGuest ? "Try Demo" : "Start Interview"}
+              </Button>
+
+              <Button
+                onClick={stopConversation}
+                disabled={conversation.status !== "connected"}
+                className="w-full sm:w-auto h-11 px-6 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full disabled:opacity-50"
+              >
+                <Square className="w-4 h-4 mr-2" />
+                End Session
+              </Button>
+            </div>
+
+            {/* Instructions */}
+            <div className="mt-8 pt-8 border-t border-gray-100">
+              <h3 className="text-sm font-medium text-gray-900 mb-4">Quick Instructions</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-600">
+                <div className="flex items-start gap-2">
+                  <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-medium text-gray-600">1</span>
                   </div>
+                  <p>Click &quot;Start Interview&quot; and allow microphone access when prompted</p>
                 </div>
-
-                {/* Status */}
-                <div className="flex items-center space-x-3 mb-8">
-                  <div className={`w-3 h-3 rounded-full ${getStatusColor()} animate-pulse shadow-sm`} />
-                  <span className="text-gray-700 font-medium text-lg bg-white/70 backdrop-blur-sm px-3 py-1 rounded-full">
-                    {getStatusText()}
-                  </span>
+                <div className="flex items-start gap-2">
+                  <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-medium text-gray-600">2</span>
+                  </div>
+                  <p>Speak clearly and naturally when responding to questions</p>
                 </div>
-
-                {/* Controls */}
-                <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
-                  {isGuest ? (
-                    <>
-                      <Button
-                        onClick={startConversation}
-                        disabled={conversation.status === "connected"}
-                        size="lg"
-                        className="bg-black hover:bg-black  text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base border-0"
-                      >
-                        <Play className="w-5 h-5 mr-2" />
-                        Try Demo
-                      </Button>
-                      <Button
-                        onClick={stopConversation}
-                        disabled={conversation.status !== "connected"}
-                        size="lg"
-                        className="bg-red-500 hover:bg-red-500 text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base border-0"
-                      >
-                        <Square className="w-5 h-5 mr-2" />
-                        Stop
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        onClick={startConversation}
-                        disabled={conversation.status === "connected"}
-                        size="lg"
-                        className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base border-0"
-                      >
-                        <Mic className="w-5 h-5 mr-2" />
-                        Start Interview
-                      </Button>
-                      <Button
-                        onClick={stopConversation}
-                        disabled={conversation.status !== "connected"}
-                        size="lg"
-                        className="bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base border-0"
-                      >
-                        <MicOff className="w-5 h-5 mr-2" />
-                        End Interview
-                      </Button>
-                    </>
-                  )}
+                <div className="flex items-start gap-2">
+                  <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-medium text-gray-600">3</span>
+                  </div>
+                  <p>Wait for the AI to process your response before continuing</p>
                 </div>
+                <div className="flex items-start gap-2">
+                  <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-medium text-gray-600">4</span>
+                  </div>
+                  <p>Click &quot;End Session&quot; when you&apos;re finished or want to start over</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
-                {/* Guest Limitation */}
-                {isGuest && (
-                  <Badge className="bg-yellow-100/90 text-yellow-800 border-yellow-200 px-4 py-2 backdrop-blur-sm">
-                    <Zap className="w-4 h-4 mr-2" />
-                    Demo limited to 2 minutes
-                  </Badge>
-                )}
+        {/* Resume Upload - Only for registered users */}
+        {!isGuest && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mb-8"
+          >
+            <div className="p-6 sm:p-8">
+              <div className="text-center mb-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center justify-center">
+                  <Upload className="w-5 h-5 mr-2 text-gray-600" />
+                  Upload Your Resume (Coming Soon)
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Upload your resume for personalized interview questions (TXT format supported)
+                </p>
               </div>
 
-              {/* Audio Visualizer Sub-Card */}
-              
+              <div className="max-w-md mx-auto">
+                <label className="block">
+                  <input
+                    type="file"
+                    accept=".txt,.pdf"
+                    onChange={handleResumeUpload}
+                    className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 transition-all duration-200 cursor-pointer"
+                  />
+                </label>
 
-              {/* Resume Upload - Only for registered users */}
-              {!isGuest && (
-                <motion.div
-                  className="border-t border-gray-200/50 pt-8"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <div className="text-center mb-6">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 flex items-center justify-center">
-                      <Upload className="w-5 h-5 mr-2 text-blue-600" />
-                      Upload Your Resume (Rolling out soon)
-                    </h3>
-                    <p className="text-gray-600">
-                      Upload your resume for personalized interview questions (TXT format supported)
-                    </p>
-                  </div>
-
-                  <div className="max-w-md mx-auto">
-                    <label className="block">
-                      {/* <input
-                        type="file"
-                        accept=".txt,.pdf"
-                        onChange={handleResumeUpload}
-                        className="block w-full text-sm text-gray-600 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all duration-200 cursor-pointer"
-                      /> */}
-                    </label>
-
-                    {resumeText && (
-                      <motion.div
-                        className="mt-6 p-4 bg-gray-50/90 backdrop-blur-sm border border-gray-200 rounded-lg"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                      >
-                        <div className="flex items-center mb-2">
-                          <FileText className="w-4 h-4 mr-2 text-green-600" />
-                          <span className="text-sm font-medium text-gray-900">Resume Preview</span>
-                        </div>
-                        <div className="max-h-32 overflow-y-auto text-xs text-gray-700 font-mono bg-white/90 backdrop-blur-sm p-3 rounded border">
-                          <pre className="whitespace-pre-wrap">
-                            {resumeText.slice(0, 500)}
-                            {resumeText.length > 500 ? "\n... (truncated)" : ""}
-                          </pre>
-                        </div>
-                      </motion.div>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
+                {resumeText && (
+                  <motion.div
+                    className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <div className="flex items-center mb-2">
+                      <FileText className="w-4 h-4 mr-2 text-gray-600" />
+                      <span className="text-sm font-medium text-gray-900">Resume Preview</span>
+                    </div>
+                    <div className="max-h-32 overflow-y-auto text-xs text-gray-700 font-mono bg-white p-3 rounded border">
+                      <pre className="whitespace-pre-wrap">
+                        {resumeText.slice(0, 500)}
+                        {resumeText.length > 500 ? "\n... (truncated)" : ""}
+                      </pre>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* Features */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-12 max-w-4xl mx-auto w-full"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.2 }}
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
         >
           {[
-            { icon: Brain, title: "AI Analysis", desc: "Real-time feedback on your responses" },
-            { icon: Mic, title: "Voice Recognition", desc: "Natural conversation flow" },
-            { icon: Sparkles, title: "Smart Questions", desc: "Personalized interview content" },
+            {
+              icon: Brain,
+              title: "AI Analysis",
+              desc: "Get instant feedback on your responses"
+            },
+            {
+              icon: Volume2,
+              title: "Natural Conversation",
+              desc: "Practice with human-like interactions"
+            },
+            {
+              icon: Sparkles,
+              title: "Smart Questions",
+              desc: "Industry-specific interview scenarios"
+            }
           ].map((feature, index) => (
-            <Card
+            <div
               key={index}
-              className="bg-white/75 backdrop-blur-sm border border-gray-200/50 text-center hover:bg-white/90 transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="bg-white p-4 rounded-lg border border-gray-200"
             >
-              <CardContent className="p-4 sm:p-6">
-                <feature.icon className="w-8 h-8 mx-auto mb-3 text-blue-600" />
-                <h4 className="font-semibold text-gray-900 mb-2 text-base">{feature.title}</h4>
-                <p className="text-sm text-gray-600">{feature.desc}</p>
-              </CardContent>
-            </Card>
+              <feature.icon className="w-5 h-5 text-gray-900 mb-2" />
+              <h3 className="text-sm font-medium text-gray-900 mb-1">
+                {feature.title}
+              </h3>
+              <p className="text-xs text-gray-600">{feature.desc}</p>
+            </div>
           ))}
         </motion.div>
+
+        {/* Guest Notice */}
+        {isGuest && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mt-8 text-center"
+          >
+            <p className="text-xs text-gray-500">
+              Demo limited to 2 minutes. 
+              <Link href="/auth/signup" className="text-gray-900 font-medium ml-1">
+                Sign up for full access →
+              </Link>
+            </p>
+          </motion.div>
+        )}
       </div>
     </div>
   )

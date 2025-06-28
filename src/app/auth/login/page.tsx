@@ -1,25 +1,25 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { account, ID } from "@/lib/appwrite"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, Eye, EyeOff, Mail, Lock, User, Sparkles, Shield, Zap } from "lucide-react"
+import { ArrowLeft, Mail, Lock, User, ArrowRight, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Image from "next/image"
+import { motion, AnimatePresence } from "framer-motion"
+import { cn } from "@/lib/utils"
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const [focusedField, setFocusedField] = useState<string | null>(null)
   const router = useRouter()
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -35,7 +35,7 @@ const Login = () => {
         console.log("No sessions to delete or error deleting sessions:", error)
       }
 
-      // Create new session - using createEmailSession (the correct method name for your SDK version)
+      // Create new session
       const session = await account.createEmailSession(email, password)
 
       if (session) {
@@ -93,235 +93,280 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black/50 flex flex-col lg:flex-row">
-      {/* Left Side - Branding with Image */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        {/* Image Background with Gradient Overlay */}
+    <div className="min-h-screen flex">
+      {/* Left Side - Clean Visual */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
+        {/* Animated background elements */}
         <div className="absolute inset-0">
-          {/* Base gradient background */}
-          <div className="absolute inset-0 " />
-
-          {/* Image overlay */}
-          <Image src="/login-page.jpg" alt="Professional working environment" fill className="absolute inset-0 w-full h-full object-cover opacity-70 mix-blend-overlay" />
-
-          {/* Gradient overlay for better text contrast */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70 mix-blend-multiply"></div>
-
-          {/* Final overlay to ensure text readability */}
-          <div className="absolute inset-0 bg-black opacity-30"></div>
+          <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
 
-        <div className="relative z-10 p-8 xl:p-12 flex flex-col justify-between h-full">
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-between h-full p-12 xl:p-16">
           <div>
-            <Link href="/" className="inline-flex items-center text-white hover:text-gray-200 transition-colors mb-8">
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              <span className="font-medium">Back to Home</span>
+            <Link 
+              href="/" 
+              className="inline-flex items-center text-gray-400 hover:text-white transition-all duration-300 group"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
+              <span className="text-sm">Home</span>
             </Link>
-
-            <div className="space-y-6">
-              <h1 className="text-4xl xl:text-5xl font-bold text-white leading-tight">
-                Welcome Back to
-                <span className="block bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
-                  AI Interview
-                </span>
-              </h1>
-              <p className="text-xl text-blue-100 leading-relaxed">
-                Continue your journey to interview success with our AI-powered platform
-              </p>
-            </div>
           </div>
 
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 gap-4">
+          <div className="space-y-8 max-w-md">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <h1 className="text-5xl xl:text-6xl font-light text-white leading-tight tracking-tight">
+                Welcome
+                <span className="block text-3xl xl:text-4xl bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mt-2">
+                  to AI Interview
+                </span>
+              </h1>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="space-y-4"
+            >
               {[
-                { icon: Sparkles, text: "AI-Powered Feedback" },
-                { icon: Shield, text: "Secure & Private" },
-                { icon: Zap, text: "Instant Results" },
-              ].map((feature, index) => (
-                <div key={index} className="flex items-center space-x-3 text-white">
-                  <div className="flex-shrink-0 w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                    <feature.icon className="w-4 h-4" />
-                  </div>
-                  <span className="text-blue-100">{feature.text}</span>
-                </div>
+                "AI-powered interview preparation",
+                "Real-time feedback and analysis",
+                "Track your improvement journey"
+              ].map((text, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                  className="flex items-center space-x-3 text-gray-300"
+                >
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
+                  <span className="text-lg">{text}</span>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
+          </div>
+
+          <div className="text-gray-500 text-xs">
+            <p>&copy; 2024 AI Interview. All rights reserved.</p>
           </div>
         </div>
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-gray-50">
-        <div className="w-full max-w-md space-y-6">
+      <div className="flex-1 bg-white lg:bg-gray-50 flex items-center justify-center p-6 sm:p-8 lg:p-12">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md lg:max-w-sm"
+        >
           {/* Mobile Back Button */}
-          <div className="lg:hidden">
-            <Link href="/" className="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors">
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              <span className="font-medium">Back to Home</span>
+          <div className="lg:hidden mb-8">
+            <Link 
+              href="/" 
+              className="inline-flex items-center text-gray-500 hover:text-gray-700 transition-colors group"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
+              <span className="text-sm">Back</span>
             </Link>
           </div>
 
-          {/* Mobile Header */}
-          <div className="lg:hidden text-center space-y-2">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Welcome Back
-            </h1>
-            <p className="text-gray-600">Sign in to continue your interview preparation</p>
-          </div>
+          {/* Form Container */}
+          <div className="bg-white lg:bg-transparent lg:p-0 p-8 rounded-2xl lg:rounded-none shadow-xl lg:shadow-none">
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">
+                Sign in
+              </h2>
+              <p className="mt-2 text-sm text-gray-600">
+                Welcome back! Please enter your details.
+              </p>
+            </div>
 
-          <Card className="border-0 shadow-xl bg-white/10 backdrop-blur-sm">
-            <CardHeader className="space-y-1 pb-6">
-              <CardTitle className="text-2xl font-bold text-center text-gray-900">Sign In</CardTitle>
-              <CardDescription className="text-center text-gray-600">
-                Enter your credentials to access your account
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <form onSubmit={handleLogin} className="space-y-4">
-                {/* Email Login */}
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                    Email Address
-                  </Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                      required
-                    />
-                  </div>
+            <form onSubmit={handleLogin} className="space-y-6">
+              {/* Email Field */}
+              <div className="space-y-2">
+                <Label 
+                  htmlFor="email" 
+                  className="text-sm font-medium text-gray-700"
+                >
+                  Email
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onFocus={() => setFocusedField('email')}
+                    onBlur={() => setFocusedField(null)}
+                    className={cn(
+                      "h-12 px-4 bg-white border transition-all duration-200",
+                      focusedField === 'email' 
+                        ? "border-gray-900 shadow-sm" 
+                        : "border-gray-200"
+                    )}
+                    required
+                  />
+                  <AnimatePresence>
+                    {email && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="absolute right-3 top-1/2 -translate-y-1/2"
+                      >
+                        <Check className="w-4 h-4 text-green-500" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+              {/* Password Field */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label 
+                    htmlFor="password" 
+                    className="text-sm font-medium text-gray-700"
+                  >
                     Password
                   </Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10 pr-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
-                </div>
-
-                {error && (
-                  <Alert className="border-red-200 bg-red-50">
-                    <AlertDescription className="text-red-800">{error}</AlertDescription>
-                  </Alert>
-                )}
-
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full h-12 bg-black hover:bg-black text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                >
-                  {loading ? (
-                    <div className="flex items-center space-x-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Signing in...</span>
-                    </div>
-                  ) : (
-                    "Sign In"
-                  )}
-                </Button>
-              </form>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-200" />
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-gray-500">or</span>
-                </div>
-
-
-
-
-                {/* Google Login */}
-                <div className="relative mt-4">
-                  <button
-                    type="button"
-                    onClick={() => account.createOAuth2Session(
-                      'google',
-                      'https://project-ea.vercel.app/dashboard',
-                      'https://project-ea.vercel.app/auth/login'
-                    )}
-                    className="w-full flex items-center justify-center gap-2 h-12 border border-black bg-white text-black font-semibold rounded-lg transition-all duration-200 hover:bg-gray-100 mt-2"
+                  <Link 
+                    href="/auth/forgot-password" 
+                    className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
                   >
-                    <svg className="w-5 h-5" viewBox="0 0 48 48"><g><path d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
-                    </g></svg>
-                    Login with Google
-                  </button>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-gray-500">or</span>
-                </div>
-              </div>
-
-              
-
-              <div className="space-y-3">
-                <p className="text-center text-sm text-gray-500 ">Too lazy to sign up?</p>
-                <Button
-                  type="button"
-                  onClick={handleGuestLogin}
-                  disabled={loading}
-                  variant="outline"
-                  className="w-full h-12 border-gray-200 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition-all duration-200"
-                >
-                  <User className="w-4 h-4 mr-2" />
-                  {loading ? "Signing in..." : "Continue as Guest"}
-                </Button>
-              </div>
-
-              <div className="text-center">
-                <p className="text-sm text-gray-600">
-                  Don&apos;t have an account?{" "}
-                  <Link href="/auth/signup" className="text-purple-500 hover:text-blue-700 font-medium">
-                    Sign up
+                    Forgot password?
                   </Link>
-                </p>
-              </div>
-
-
-
-            </CardContent>
-          </Card>
-
-          {/* Features for Mobile */}
-          <div className="lg:hidden grid grid-cols-3 gap-4 pt-6">
-            {[
-              { icon: Sparkles, text: "AI Feedback" },
-              { icon: Shield, text: "Secure" },
-              { icon: Zap, text: "Fast Results" },
-            ].map((feature, index) => (
-              <div key={index} className="text-center space-y-2">
-                <div className="w-10 h-10 bg-black rounded-lg flex items-center justify-center mx-auto">
-                  <feature.icon className="w-5 h-5 text-white" />
                 </div>
-                <p className="text-xs text-gray-600">{feature.text}</p>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onFocus={() => setFocusedField('password')}
+                  onBlur={() => setFocusedField(null)}
+                  className={cn(
+                    "h-12 px-4 bg-white border transition-all duration-200",
+                    focusedField === 'password' 
+                      ? "border-gray-900 shadow-sm" 
+                      : "border-gray-200"
+                  )}
+                  required
+                />
               </div>
-            ))}
+
+              {/* Error Message */}
+              <AnimatePresence>
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Alert className="border-red-200 bg-red-50">
+                      <AlertDescription className="text-red-800 text-sm">
+                        {error}
+                      </AlertDescription>
+                    </Alert>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                disabled={loading}
+                className="relative w-full h-12 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg transition-all duration-300 overflow-hidden group"
+              >
+                <AnimatePresence mode="wait">
+                  {loading ? (
+                    <motion.div
+                      key="loading"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="absolute inset-0 flex items-center justify-center"
+                    >
+                      {/* Custom loading animation */}
+                      <div className="flex space-x-1">
+                        {[0, 1, 2].map((i) => (
+                          <motion.div
+                            key={i}
+                            className="w-2 h-2 bg-white rounded-full"
+                            animate={{
+                              y: ["0%", "-50%", "0%"],
+                            }}
+                            transition={{
+                              duration: 0.6,
+                              repeat: Infinity,
+                              delay: i * 0.1,
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.span
+                      key="idle"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="flex items-center justify-center"
+                    >
+                      Sign in
+                      <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </Button>
+            </form>
+
+            {/* Divider */}
+            <div className="relative my-8">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white lg:bg-gray-50 text-gray-500">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+
+            {/* Guest Login */}
+            <Button
+              type="button"
+              onClick={handleGuestLogin}
+              disabled={loading}
+              variant="outline"
+              className="w-full h-12 border-gray-300 hover:border-gray-400 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition-all duration-200"
+            >
+              <User className="w-4 h-4 mr-2" />
+              Continue as Guest
+            </Button>
+
+            {/* Sign up link */}
+            <p className="mt-8 text-center text-sm text-gray-600">
+              Don&apos;t have an account?{" "}
+              <Link 
+                href="/auth/signup" 
+                className="font-medium text-gray-900 hover:text-gray-700 transition-colors"
+              >
+                Sign up
+              </Link>
+            </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

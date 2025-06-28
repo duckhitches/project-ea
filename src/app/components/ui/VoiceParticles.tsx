@@ -1,103 +1,203 @@
 "use client"
 
-import { useRef, useMemo } from "react"
-import { Canvas, useFrame } from "@react-three/fiber"
-import * as THREE from "three"
+import React, { useEffect, useRef } from 'react'
 
-const VoiceReactiveParticles = ({ isSpeaking, isRecording }: { isSpeaking: boolean; isRecording: boolean }) => {
-  const meshRef = useRef<THREE.Points>(null)
-  const originalPositions = useRef<Float32Array>()
+interface Particle {
+  x: number
+  y: number
+  z: number
+  vx: number
+  vy: number
+  vz: number
+  radius: number
+  alpha: number
+}
 
-  const count = 800
-  const positions = useMemo(() => {
-    const arr = new Float32Array(count * 3)
-    for (let i = 0; i < count * 3; i += 3) {
-      // Create particles in a sphere distribution
-      const radius = Math.random() * 3 + 1
-      const theta = Math.random() * Math.PI * 2
-      const phi = Math.acos(2 * Math.random() - 1)
+interface VoiceParticlesProps {
+  audioData?: Uint8Array | null
+  isActive?: boolean
+}
 
-      arr[i] = radius * Math.sin(phi) * Math.cos(theta) // x
-      arr[i + 1] = radius * Math.sin(phi) * Math.sin(theta) // y
-      arr[i + 2] = radius * Math.cos(phi) // z
-    }
-    originalPositions.current = arr.slice()
-    return arr
-  }, [])
+const VoiceParticles: React.FC<VoiceParticlesProps> = ({ audioData, isActive = false }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const particlesRef = useRef<Particle[]>([])
+  const frameRef = useRef<number>()
+  const radiusRef = useRef(200) // Base radius of the globe
 
-  const scale = useRef(1)
-  const time = useRef(0)
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-  useFrame((state, delta) => {
-    if (!meshRef.current || !originalPositions.current) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-    time.current += delta
-
-    // Scale animation based on voice activity
-    const targetScale = isSpeaking ? 1.8 : isRecording ? 1.2 : 1
-    scale.current = THREE.MathUtils.lerp(scale.current, targetScale, 0.08)
-
-    // Update particle positions with wave effect
-    const positions = meshRef.current.geometry.attributes.position.array as Float32Array
-
-    for (let i = 0; i < count * 3; i += 3) {
-      const originalX = originalPositions.current[i]
-      const originalY = originalPositions.current[i + 1]
-      const originalZ = originalPositions.current[i + 2]
-
-      // Add wave motion when speaking
-      const waveIntensity = isSpeaking ? 0.3 : isRecording ? 0.1 : 0.05
-      const waveSpeed = isSpeaking ? 4 : 2
-
-      positions[i] = originalX + Math.sin(time.current * waveSpeed + originalX) * waveIntensity
-      positions[i + 1] = originalY + Math.cos(time.current * waveSpeed + originalY) * waveIntensity
-      positions[i + 2] = originalZ + Math.sin(time.current * waveSpeed + originalZ) * waveIntensity
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = canvas.offsetWidth * window.devicePixelRatio
+      canvas.height = canvas.offsetHeight * window.devicePixelRatio
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
     }
 
-    meshRef.current.geometry.attributes.position.needsUpdate = true
-    meshRef.current.scale.setScalar(scale.current)
+    resizeCanvas()
+    window.addEventListener('resize', resizeCanvas)
 
-    // Rotate the entire particle system slowly
-    meshRef.current.rotation.y += delta * 0.1
-  })
+    // Initialize particles in a sphere formation
+    const initParticles = () => {
+      const particles: Particle[] = []
+      const particleCount = 200 // Increased particle count for more density
 
-  // Dynamic color based on state
-  const particleColor = isSpeaking ? "#8b5cf6" : isRecording ? "#3b82f6" : "#64748b"
-  const particleSize = isSpeaking ? 0.08 : isRecording ? 0.06 : 0.04
+      for (let i = 0; i < particleCount; i++) {
+        // Generate points on a sphere using spherical coordinates
+        const theta = Math.random() * Math.PI * 2 // Azimuthal angle
+        const phi = Math.acos((Math.random() * 2) - 1) // Polar angle
+        const radius = radiusRef.current
+
+        const x = radius * Math.sin(phi) * Math.cos(theta)
+        const y = radius * Math.sin(phi) * Math.sin(theta)
+        const z = radius * Math.cos(phi)
+
+        particles.push({
+          x,
+          y,
+          z,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          vz: (Math.random() - 0.5) * 0.5,
+          radius: 2,
+          alpha: 0.6
+        })
+      }
+      particlesRef.current = particles
+    }
+
+    initParticles()
+
+    // Animation function
+    const animate = () => {
+      if (!canvas || !ctx) return
+
+      ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight)
+
+      // Center point
+      const centerX = canvas.offsetWidth / 2
+      const centerY = canvas.offsetHeight / 2
+
+      // Update and draw particles
+      particlesRef.current.forEach((particle, i) => {
+        // Add some wave motion
+        const time = Date.now() * 0.001
+        const wave = Math.sin(time + i * 0.1) * 2
+
+        if (isActive && audioData) {
+          // Use audio data to affect particle movement
+          const audioIndex = i % audioData.length
+          const audioValue = audioData[audioIndex] / 255
+          particle.vx += (Math.random() - 0.5) * audioValue * 0.2
+          particle.vy += (Math.random() - 0.5) * audioValue * 0.2
+          particle.vz += (Math.random() - 0.5) * audioValue * 0.2
+          particle.radius = 1 + audioValue * 2
+        }
+
+        // Update position with velocity
+        particle.x += particle.vx + wave * 0.1
+        particle.y += particle.vy + wave * 0.1
+        particle.z += particle.vz + wave * 0.1
+
+        // Keep particles within sphere bounds
+        const distance = Math.sqrt(
+          particle.x * particle.x +
+          particle.y * particle.y +
+          particle.z * particle.z
+        )
+
+        if (distance > radiusRef.current) {
+          const scale = radiusRef.current / distance
+          particle.x *= scale
+          particle.y *= scale
+          particle.z *= scale
+        }
+
+        // Calculate perspective
+        const perspective = 1000
+        const depth = perspective / (perspective - particle.z)
+        const projectedX = particle.x * depth + centerX
+        const projectedY = particle.y * depth + centerY
+
+        // Draw particle
+        ctx.beginPath()
+        ctx.arc(
+          projectedX,
+          projectedY,
+          particle.radius * depth,
+          0,
+          Math.PI * 2
+        )
+        
+        // Create gradient for each particle
+        const gradient = ctx.createRadialGradient(
+          projectedX,
+          projectedY,
+          0,
+          projectedX,
+          projectedY,
+          particle.radius * depth * 2
+        )
+        
+        const alpha = (1 - Math.abs(particle.z) / radiusRef.current) * particle.alpha
+        gradient.addColorStop(0, `rgba(0, 0, 0, ${alpha})`)
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
+        
+        ctx.fillStyle = gradient
+        ctx.fill()
+      })
+
+      // Draw connections between nearby particles
+      ctx.beginPath()
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)'
+      particlesRef.current.forEach((p1, i) => {
+        particlesRef.current.slice(i + 1).forEach(p2 => {
+          const dx = (p1.x - p2.x)
+          const dy = (p1.y - p2.y)
+          const dz = (p1.z - p2.z)
+          const distance = Math.sqrt(dx * dx + dy * dy + dz * dz)
+
+          if (distance < 50) {
+            const perspective = 1000
+            const depth1 = perspective / (perspective - p1.z)
+            const depth2 = perspective / (perspective - p2.z)
+            
+            const x1 = p1.x * depth1 + centerX
+            const y1 = p1.y * depth1 + centerY
+            const x2 = p2.x * depth2 + centerX
+            const y2 = p2.y * depth2 + centerY
+
+            ctx.moveTo(x1, y1)
+            ctx.lineTo(x2, y2)
+          }
+        })
+      })
+      ctx.stroke()
+
+      frameRef.current = requestAnimationFrame(animate)
+    }
+
+    animate()
+
+    return () => {
+      if (frameRef.current) {
+        cancelAnimationFrame(frameRef.current)
+      }
+      window.removeEventListener('resize', resizeCanvas)
+    }
+  }, [audioData, isActive])
 
   return (
-    <points ref={meshRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
-      </bufferGeometry>
-      <pointsMaterial
-        size={particleSize}
-        color={particleColor}
-        transparent
-        opacity={0.8}
-        sizeAttenuation
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
+    <canvas
+      ref={canvasRef}
+      className="w-full h-full absolute inset-0"
+      style={{ background: 'transparent' }}
+    />
   )
 }
 
-const ParticleCanvas = ({
-  isSpeaking,
-  isRecording,
-  className = "absolute inset-0 -z-10",
-}: {
-  isSpeaking: boolean
-  isRecording: boolean
-  className?: string
-}) => (
-  <div className={className}>
-    <Canvas camera={{ position: [0, 0, 6], fov: 60 }} style={{ background: "transparent" }}>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} intensity={0.3} />
-      <VoiceReactiveParticles isSpeaking={isSpeaking} isRecording={isRecording} />
-    </Canvas>
-  </div>
-)
-
-export default ParticleCanvas
+export default VoiceParticles
