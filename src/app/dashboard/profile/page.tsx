@@ -432,7 +432,7 @@ const ProfilePage = () => {
       {/* Profile Picture Section */}
       <motion.div
         variants={pageVariants}
-        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6"
+        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-4 sm:p-6"
       >
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
           <ProfilePicture
@@ -457,7 +457,7 @@ const ProfilePage = () => {
       {/* Personal Information Form */}
       <motion.div
         variants={pageVariants}
-        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-6"
+        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6 space-y-6"
       >
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Personal Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -520,11 +520,11 @@ const ProfilePage = () => {
       {/* Account Information */}
       <motion.div
         variants={pageVariants}
-        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6"
+        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6"
       >
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Account Information</h3>
         <div className="space-y-4">
-          <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
+          <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-900">
             <span className="text-sm text-gray-600 dark:text-gray-400">Account Type</span>
             <Badge variant="outline" className={cn(
               "font-medium",
@@ -534,7 +534,7 @@ const ProfilePage = () => {
             </Badge>
           </div>
           
-          <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
+          <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-900">
             <span className="text-sm text-gray-600 dark:text-gray-400">Member Since</span>
             <span className="text-sm font-medium text-gray-900 dark:text-white">
               {new Date(user?.$createdAt || "").toLocaleDateString()}

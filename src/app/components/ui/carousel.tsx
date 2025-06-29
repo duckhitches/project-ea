@@ -2,8 +2,8 @@
 
 import { useRef, useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronLeft, ChevronRight, Play, Star, Pause } from "lucide-react"
-import gsap from "gsap"
+import { ChevronLeft, ChevronRight, Play, Star, Pause, Menu, ArrowRight } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
@@ -23,59 +23,87 @@ interface CarouselProps {
 }
 
 export function Carousel({ slides }: CarouselProps) {
-  const [current, setCurrent] = useState(0)
-  const [direction, setDirection] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  const carouselRef = useRef<HTMLDivElement>(null)
-  const autoPlayRef = useRef<NodeJS.Timeout | undefined>(undefined)
+  const [direction, setDirection] = useState(0)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const [areControlsVisible, setAreControlsVisible] = useState(false)
+
+  const startAutoPlay = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    intervalRef.current = setInterval(() => {
+      setDirection(1)
+      setCurrentIndex(prev => (prev + 1) % slides.length)
+    }, 5000)
+  }
 
   useEffect(() => {
-    if (isAutoPlaying) {
-      autoPlayRef.current = setInterval(() => {
-        handleNextClick()
-      }, 6000)
-    }
+    if (isAutoPlaying) startAutoPlay()
     return () => {
-      if (autoPlayRef.current) {
-        clearInterval(autoPlayRef.current)
-      }
+      if (intervalRef.current) clearInterval(intervalRef.current)
     }
-  }, [current, isAutoPlaying])
+  }, [isAutoPlaying, slides.length])
 
-  const handlePreviousClick = () => {
-    const previous = current - 1
-    const newIndex = previous < 0 ? slides.length - 1 : previous
-    setDirection(-1)
-    setCurrent(newIndex)
-  }
-
-  const handleNextClick = () => {
-    const next = current + 1
-    const newIndex = next === slides.length ? 0 : next
+  const handleNext = () => {
     setDirection(1)
-    setCurrent(newIndex)
+    setCurrentIndex(prev => (prev + 1) % slides.length)
+    if (isAutoPlaying) startAutoPlay()
   }
 
-  const handleSlideClick = (index: number) => {
-    if (current !== index) {
-      setDirection(index > current ? 1 : -1)
-      setCurrent(index)
-    }
+  const handlePrev = () => {
+    setDirection(-1)
+    setCurrentIndex(prev => (prev - 1 + slides.length) % slides.length)
+    if (isAutoPlaying) startAutoPlay()
+  }
+
+  const pauseAutoPlay = () => {
+    setIsAutoPlaying(false)
+    if (intervalRef.current) clearInterval(intervalRef.current)
+  }
+
+  const resumeAutoPlay = () => {
+    setIsAutoPlaying(true)
+    startAutoPlay()
+  }
+
+  const handleMouseEnter = () => {
+    setAreControlsVisible(true)
+    pauseAutoPlay()
+  }
+
+  const handleMouseLeave = () => {
+    setAreControlsVisible(false)
+    resumeAutoPlay()
+  }
+
+  const handleTouchStart = () => {
+    setAreControlsVisible(true)
+    pauseAutoPlay()
+  }
+
+  const handleTouchEnd = () => {
+    setTimeout(() => {
+      setAreControlsVisible(false)
+      resumeAutoPlay()
+    }, 3000)
   }
 
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? "100%" : "-100%",
+      x: direction > 0 ? 1000 : -1000,
       opacity: 0,
       scale: 0.95,
     }),
     center: {
+      zIndex: 1,
       x: 0,
       opacity: 1,
       scale: 1,
     },
     exit: (direction: number) => ({
-      x: direction < 0 ? "100%" : "-100%",
+      zIndex: 0,
+      x: direction < 0 ? 1000 : -1000,
       opacity: 0,
       scale: 0.95,
     }),
@@ -83,217 +111,238 @@ export function Carousel({ slides }: CarouselProps) {
 
   const contentVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: [0.4, 0, 0.2, 1],
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.4, 0, 0.2, 1]
-      },
-    },
+    visible: { opacity: 1, y: 0 },
   }
 
   return (
     <div
-      className="relative w-full overflow-hidden"
-      ref={carouselRef}
-      onMouseEnter={() => setIsAutoPlaying(false)}
-      onMouseLeave={() => setIsAutoPlaying(true)}
+      className="relative w-full max-w-[400px] mx-auto bg-white dark:bg-black rounded-3xl overflow-hidden shadow-2xl transition-colors duration-300"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12 bg-white dark:bg-black">
-        <div className="max-w-7xl mx-auto">
-          {/* Container with navigation arrows */}
-          <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
-            {/* Left Arrow */}
-            <button
-              onClick={handlePreviousClick}
-              className="flex-shrink-0 p-2 sm:p-2.5 md:p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 transform hover:scale-110 group shadow-md"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 group-hover:-translate-x-0.5 transition-transform" />
-            </button>
+      <div className="relative aspect-[9/16]">
+        <AnimatePresence initial={false} custom={direction} mode="wait">
+          <motion.div
+            key={currentIndex}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            className="absolute inset-0"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = Math.abs(offset.x) * velocity.x
 
-            {/* Carousel Content */}
-            <div className="flex-1 overflow-hidden">
-              <AnimatePresence initial={false} custom={direction} mode="wait">
-                <motion.div
-                  key={current}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    x: { type: "spring", stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.2 },
-                    scale: { duration: 0.2 },
-                  }}
-                  className="relative w-full"
+              if (swipe < -10000) {
+                handleNext()
+              } else if (swipe > 10000) {
+                handlePrev()
+              }
+            }}
+          >
+            {/* Image Container */}
+            <div className="relative w-full h-full">
+              <Image
+                src={slides[currentIndex].src}
+                alt={slides[currentIndex].title}
+                fill
+                priority
+                className="object-cover"
+                onLoadingComplete={() => setIsLoading(false)}
+              />
+              
+              {/* Enhanced Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/95" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
+
+              {/* Content */}
+              <motion.div 
+                className="absolute inset-0 flex flex-col justify-between p-6"
+                initial="hidden"
+                animate="visible"
+                transition={{ staggerChildren: 0.1 }}
+              >
+                {/* Top Bar */}
+                <motion.div 
+                  className="flex justify-between items-start"
+                  variants={contentVariants}
                 >
-                  <div className="relative rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl bg-white dark:bg-black dark:shadow-none dark:border dark:border-gray-800 dark:border-opacity-50 dark:rounded-xl">
-                    {/* Responsive aspect ratio container */}
-                    <div className="relative aspect-[4/5] sm:aspect-[16/12] md:aspect-[16/10] lg:aspect-[16/9]">
-                      {/* Background Image */}
-                      <div className="absolute inset-0">
-                        <img
-                          className="w-full h-full object-cover"
-                          alt={slides[current].title}
-                          src={slides[current].src || "/placeholder.svg"}
-                          loading="eager"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
-                      </div>
+                  <div className="flex items-center space-x-3">
+                    <motion.div 
+                      className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Image
+                        src="/EA.ai.svg"
+                        alt="Logo"
+                        width={24}
+                        height={24}
+                        className="opacity-90"
+                      />
+                    </motion.div>
+                    <div className="text-white/90 text-sm font-medium">EA.ai</div>
+                  </div>
+                  
+                  <motion.button 
+                    className="w-10 h-10 flex items-center justify-center"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                   
+                  </motion.button>
+                </motion.div>
 
-                      {/* Content - Positioned at bottom for mobile, centered for desktop */}
-                      <div className="absolute inset-0 flex items-end sm:items-center">
-                        <motion.div
-                          variants={contentVariants}
-                          initial="hidden"
-                          animate="visible"
-                          className="w-full px-4 sm:px-6 md:px-8 lg:px-12 pb-6 sm:pb-0 text-white"
-                        >
-                          {/* Badge */}
-                          <motion.div variants={itemVariants} className="mb-2 sm:mb-3 md:mb-4">
-                            <span className="inline-flex items-center px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium bg-yellow-500/20 backdrop-blur-sm border border-yellow-500/30 text-yellow-200">
-                              <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1 sm:mr-1.5 text-yellow-400 fill-current" />
-                              {slides[current].subtitle}
-                            </span>
-                          </motion.div>
+                {/* Center Content */}
+                <motion.div 
+                  className="flex-1 flex flex-col items-center justify-center text-center space-y-4"
+                  variants={contentVariants}
+                >
+                  <motion.span 
+                    className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs text-white/90"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    {slides[currentIndex].subtitle}
+                  </motion.span>
+                  
+                  <motion.h2 
+                    className="text-2xl font-bold text-white"
+                    variants={contentVariants}
+                  >
+                    {slides[currentIndex].title}
+                  </motion.h2>
+                  
+                  <motion.p 
+                    className="text-white/80 text-sm max-w-xs"
+                    variants={contentVariants}
+                  >
+                    {slides[currentIndex].description}
+                  </motion.p>
+                </motion.div>
 
-                          {/* Title */}
-                          <motion.h1
-                            variants={itemVariants}
-                            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 leading-tight max-w-2xl"
-                          >
-                            {slides[current].title}
-                          </motion.h1>
+                {/* Bottom Section */}
+                <motion.div 
+                  className="space-y-4"
+                  variants={contentVariants}
+                >
+                  {/* Features */}
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {slides[currentIndex].features.map((feature, idx) => (
+                      <motion.div
+                        key={idx}
+                        className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs text-white/90"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: idx * 0.1 }}
+                      >
+                        {feature}
+                      </motion.div>
+                    ))}
+                  </div>
 
-                          {/* Description - Hidden on very small screens */}
-                          <motion.p
-                            variants={itemVariants}
-                            className="hidden sm:block text-sm md:text-base lg:text-lg mb-3 sm:mb-4 md:mb-6 text-gray-200 leading-relaxed max-w-xl"
-                          >
-                            {slides[current].description}
-                          </motion.p>
-
-                          {/* Features - Responsive grid */}
-                          <motion.div variants={itemVariants} className="mb-3 sm:mb-4 md:mb-6">
-                            <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                              {slides[current].features.slice(0, window.innerWidth < 640 ? 2 : 3).map((feature, featureIndex) => (
-                                <div
-                                  key={featureIndex}
-                                  className="flex items-center text-[10px] sm:text-xs md:text-sm bg-white/10 backdrop-blur-sm rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 border border-white/10"
-                                >
-                                  <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-green-400 rounded-full mr-1.5 sm:mr-2 flex-shrink-0" />
-                                  <span className="truncate max-w-[100px] sm:max-w-none">{feature}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </motion.div>
-
-                          {/* Stats - Better mobile layout */}
-                          {slides[current].stats && (
-                            <motion.div variants={itemVariants} className="mb-4 sm:mb-6 md:mb-8">
-                              <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 lg:gap-8 max-w-md">
-                                {slides[current].stats.slice(0, 3).map((stat, statIndex) => (
-                                  <div key={statIndex} className="text-center sm:text-left">
-                                    <div className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">{stat.value}</div>
-                                    <div className="text-[10px] sm:text-xs lg:text-sm text-gray-300">{stat.label}</div>
-                                  </div>
-                                ))}
-                              </div>
-                            </motion.div>
-                          )}
-
-                          {/* CTA Buttons - Stack on mobile */}
-                          <motion.div
-                            variants={itemVariants}
-                            className="flex flex-col xs:flex-row gap-2 sm:gap-3"
-                          >
-                            <Link href="/auth/login" className="w-full xs:w-auto">
-                              <button className="w-full xs:w-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 text-xs sm:text-sm lg:text-base bg-white text-gray-900 rounded-lg sm:rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5">
-                                {slides[current].button}
-                              </button>
-                            </Link>
-                            <button className="w-full xs:w-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 text-xs sm:text-sm lg:text-base bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl text-white font-medium hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2 border border-white/20">
-                              <Play className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
-                              <span className="hidden xs:inline">Watch</span> Demo
-                            </button>
-                          </motion.div>
-                        </motion.div>
-                      </div>
+                  {/* Analytics/Stats */}
+                  {slides[currentIndex].stats && (
+                    <div className="flex justify-center gap-6 mt-2">
+                      {slides[currentIndex].stats.map((stat, idx) => (
+                        <div key={idx} className="flex flex-col items-center">
+                          <span className="text-2xl font-bold text-white/90">{stat.value}</span>
+                          <span className="text-xs text-white/70">{stat.label}</span>
+                        </div>
+                      ))}
                     </div>
+                  )}
+
+                  {/* CTA Button */}
+                  <Link href="/auth/login" className="block">
+                    <motion.button 
+                      className="w-full py-4 bg-white rounded-xl text-black font-semibold flex items-center justify-center gap-2 group"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {slides[currentIndex].button}
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </motion.button>
+                  </Link>
+
+                  {/* Progress Dots */}
+                  <div className="flex justify-center gap-2">
+                    {slides.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          setDirection(idx > currentIndex ? 1 : -1)
+                          setCurrentIndex(idx)
+                        }}
+                        className={cn(
+                          "h-2 rounded-full transition-all duration-300",
+                          idx === currentIndex 
+                            ? "bg-white w-6" 
+                            : "bg-white/30 w-2 hover:bg-white/50"
+                        )}
+                      />
+                    ))}
                   </div>
                 </motion.div>
-              </AnimatePresence>
+              </motion.div>
             </div>
+          </motion.div>
+        </AnimatePresence>
 
-            {/* Right Arrow */}
-            <button
-              onClick={handleNextClick}
-              className="flex-shrink-0 p-2 sm:p-2.5 md:p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 transform hover:scale-110 group shadow-md"
-              aria-label="Next slide"
+        {/* Loading State */}
+        {isLoading && (
+          <div className="absolute inset-0 bg-white dark:bg-black">
+            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-white via-white/60 to-white dark:from-black dark:via-black/60 dark:to-black" />
+          </div>
+        )}
+
+        {/* Navigation Buttons */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: areControlsVisible ? 1 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="absolute inset-0 flex items-center justify-between pointer-events-none"
+        >
+          {/* Navigation Buttons */}
+          <div className="w-full px-4 flex justify-between items-center">
+            <motion.button
+              className="pointer-events-auto p-3 rounded-full bg-black/20 dark:bg-white/20 backdrop-blur-md text-white hover:bg-black/30 dark:hover:bg-white/30 transition-colors"
+              onClick={handlePrev}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
-              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 group-hover:translate-x-0.5 transition-transform" />
-            </button>
+              <ChevronLeft className="w-6 h-6" />
+            </motion.button>
+            <motion.button
+              className="pointer-events-auto p-3 rounded-full bg-black/20 dark:bg-white/20 backdrop-blur-md text-white hover:bg-black/30 dark:hover:bg-white/30 transition-colors"
+              onClick={handleNext}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <ChevronRight className="w-6 h-6" />
+            </motion.button>
           </div>
 
-          {/* Bottom Controls */}
-          <div className="mt-4 sm:mt-6 md:mt-8 flex items-center justify-between">
-            {/* Slide Indicators */}
-            <div className="flex gap-1.5 sm:gap-2">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleSlideClick(index)}
-                  className={cn(
-                    "h-1.5 sm:h-2 rounded-full transition-all duration-500",
-                    index === current 
-                      ? "bg-gray-800 dark:bg-white w-6 sm:w-8" 
-                      : "bg-gray-300 dark:bg-gray-600 w-1.5 sm:w-2 hover:bg-gray-400 dark:hover:bg-gray-500",
-                  )}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-
-            {/* Play/Pause Button */}
-            <button
-              onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-              className="flex items-center gap-2 p-2 sm:px-4 sm:py-2 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 shadow-md"
-              aria-label={isAutoPlaying ? "Pause autoplay" : "Resume autoplay"}
-            >
-              {isAutoPlaying ? (
-                <>
-                  <Pause className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  <span className="text-xs sm:text-sm font-medium hidden sm:inline">Pause</span>
-                </>
-              ) : (
-                <>
-                  <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" />
-                  <span className="text-xs sm:text-sm font-medium hidden sm:inline">Play</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
+          {/* Play/Pause Button - Repositioned */}
+          <motion.button
+            className="pointer-events-auto absolute bottom-24 right-4 p-3 rounded-full bg-black/20 dark:bg-white/20 backdrop-blur-md text-white hover:bg-black/30 dark:hover:bg-white/30 transition-colors"
+            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            {isAutoPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+          </motion.button>
+        </motion.div>
       </div>
     </div>
   )
 }
-
-export default Carousel

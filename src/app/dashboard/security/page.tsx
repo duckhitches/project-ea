@@ -291,7 +291,7 @@ const SecurityPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6"
+            className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6"
           >
             <div className="flex items-center gap-3 mb-4">
               <Lock className="w-5 h-5 text-gray-400" />
@@ -326,7 +326,7 @@ const SecurityPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
-            className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-500 dark:border-gray-800 p-6"
+            className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6"
           >
             <form onSubmit={handlePasswordChange} className="space-y-6">
               <div className="flex items-center gap-3 mb-4 ">
@@ -449,7 +449,7 @@ const SecurityPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
-            className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6"
+            className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6"
           >
             <div className="flex items-center gap-3 mb-4">
               <Shield className="w-5 h-5 text-gray-400" />

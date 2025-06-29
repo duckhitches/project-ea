@@ -518,7 +518,7 @@ export default function About() {
           </motion.div>
 
           {/* Carousel Section */}
-          <div className="mb-20">
+          <div className="mb-20 ">
             <CarouselDemo />
           </div>
 
@@ -532,7 +532,7 @@ export default function About() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="trust-card"
               >
-                <Card className="h-full bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <Card className="h-full bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 border border-gray-200 dark:border-gray-900 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                   <CardContent className="p-6 sm:p-8 text-center">
                     <motion.div
                       whileHover={{ scale: 1.1, rotate: 5 }}

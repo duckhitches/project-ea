@@ -131,7 +131,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden mb-8"
+          className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl border border-gray-200 dark:border-gray-900 shadow-sm overflow-hidden mb-8"
         >
           <div className="p-6 sm:p-8">
             {/* Status Bar */}
@@ -145,7 +145,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
             </div>
 
             {/* Visualizer */}
-            <div className="relative aspect-[16/9] mb-8 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div className="relative aspect-[16/9] mb-8 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-900 overflow-hidden">
               {conversation.status === "connected" ? (
                 <AudioVisualizerCanvas isActive={true} />
               ) : (
@@ -215,7 +215,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden mb-8"
+            className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl border border-gray-200 dark:border-gray-900 shadow-sm overflow-hidden mb-8"
           >
             <div className="p-6 sm:p-8">
               <div className="text-center mb-6">
@@ -234,13 +234,13 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
                     type="file"
                     accept=".txt,.pdf"
                     onChange={handleResumeUpload}
-                    className="block w-full text-sm text-gray-600 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-gray-100 dark:file:bg-gray-700 file:text-gray-700 dark:file:text-gray-300 hover:file:bg-gray-200 dark:hover:file:bg-gray-600 transition-all duration-200 cursor-pointer"
+                    className="block w-full text-sm text-gray-600 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-gray-100 dark:file:bg-gray-900 file:text-gray-700 dark:file:text-gray-300 hover:file:bg-gray-200 dark:hover:file:bg-gray-600 transition-all duration-200 cursor-pointer"
                   />
                 </label>
 
                 {resumeText && (
                   <motion.div
-                    className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg"
+                    className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-900 rounded-lg"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                   >
@@ -248,7 +248,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
                       <FileText className="w-4 h-4 mr-2 text-gray-600 dark:text-gray-400" />
                       <span className="text-sm font-medium text-gray-900 dark:text-white">Resume Preview</span>
                     </div>
-                    <div className="max-h-32 overflow-y-auto text-xs text-gray-700 dark:text-gray-300 font-mono bg-white dark:bg-gray-900 p-3 rounded border border-gray-200 dark:border-gray-700">
+                    <div className="max-h-32 overflow-y-auto text-xs text-gray-700 dark:text-gray-300 font-mono bg-white dark:bg-gray-900 p-3 rounded border border-gray-200 dark:border-gray-900">
                       <pre className="whitespace-pre-wrap">
                         {resumeText.slice(0, 500)}
                         {resumeText.length > 500 ? "\n... (truncated)" : ""}
@@ -287,7 +287,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
           ].map((feature, index) => (
             <div
               key={index}
-              className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700"
+              className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-900"
             >
               <feature.icon className="w-5 h-5 text-gray-900 dark:text-white mb-2" />
               <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1">

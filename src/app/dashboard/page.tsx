@@ -182,24 +182,24 @@ const Dashboard = () => {
                 >
                   <button
                     onMouseEnter={() => setHoveredNav(idx)}
-                    onClick={() => handleTabChange(item.value)}
+                  onClick={() => handleTabChange(item.value)}
                     className="relative px-4 py-2 text-gray-600 dark:text-gray-300 block"
-                  >
+                >
                     {(activeTab === item.value || hoveredNav === idx) && (
-                      <motion.div
-                        layoutId="hovered"
-                        className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-gray-800"
+                    <motion.div
+                      layoutId="hovered"
+                      className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-gray-800"
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.8, opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                      />
-                    )}
-                    <span className="relative z-20 flex items-center gap-2">
-                      <item.icon className="w-4 h-4" />
-                      {item.name}
-                    </span>
-                  </button>
+                    />
+                  )}
+                  <span className="relative z-20 flex items-center gap-2">
+                    <item.icon className="w-4 h-4" />
+                    {item.name}
+                  </span>
+                </button>
                 </motion.div>
               )
             })}

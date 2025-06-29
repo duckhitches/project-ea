@@ -1,21 +1,36 @@
 'use client'
 
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
-import { ArrowDown, CheckCircle, Sparkles, Users, Zap, ExternalLink, Shield, Award, ArrowRight } from 'lucide-react'
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowDown, CheckCircle, Sparkles, Users, Zap, ExternalLink, Shield, Award, ArrowRight, ArrowUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import About from '../About'
 
 export const LandingPage = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [showScrollTop, setShowScrollTop] = useState(false)
   const router = useRouter()
 
   const scrollToAbout = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
   }
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <div className="min-h-screen max-w-7xl mx-auto bg-white dark:bg-black">
@@ -143,6 +158,23 @@ export const LandingPage = () => {
           <div className="mt-52"><About /></div>
         </div>
       </section>
+
+      {/* Go to Top Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={scrollToTop}
+            className="fixed bottom-6 left-6 z-50 flex items-center justify-center w-14 h-14 bg-pink-500 text-black dark:text-black rounded-full text-sm font-semibold hover:scale-105 transition-all duration-200 shadow-lg"
+          >
+            <span className="text-lg">
+                        <Image src="/top-arrow.svg" alt="Top Arrow" width={24} height={24} />
+                    </span>
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

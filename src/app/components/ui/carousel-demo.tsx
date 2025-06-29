@@ -63,7 +63,7 @@ export function CarouselDemo() {
   ]
 
   return (
-    <div className="relative overflow-hidden w-full h-full bg-gray-50 dark:bg-gray-900">
+    <div className="relative overflow-hidden w-full h-full bg-white dark:bg-black">
       <Carousel slides={slideData} />
     </div>
   )
