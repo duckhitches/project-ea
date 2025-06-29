@@ -222,7 +222,7 @@ export default function SecuritySettings() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full h-11 bg-black hover:bg-black text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full h-11 bg-black text-white font-medium rounded-lg transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <div className="flex items-center justify-center">

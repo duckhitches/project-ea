@@ -187,7 +187,7 @@ const HistoryPage = () => {
       onClick={onClick}
       disabled={loading}
       className={cn(
-        "relative overflow-hidden bg-black hover:bg-gray-900 text-white rounded-full transition-all duration-200",
+        "relative overflow-hidden bg-black dark:bg-white hover:bg-gray-900 dark:hover:bg-gray-900 text-white dark:text-black rounded-full transition-all duration-200",
         className
       )}
     >
@@ -209,10 +209,10 @@ const HistoryPage = () => {
         className="flex items-center justify-between mb-8"
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center">
-            <Clock className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-full bg-black  dark:bg-white flex items-center justify-center">
+            <Clock className="w-5 h-5 text-white dark:text-black" />
           </div>
-          <h1 className="text-2xl font-semibold text-gray-900">Activity History</h1>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Activity History</h1>
         </div>
         
         <LoadingButton
@@ -262,11 +262,11 @@ const HistoryPage = () => {
           className="space-y-6"
         >
           {/* Current Session */}
-          <Card className="overflow-hidden border-0 shadow-sm">
+          <Card className="overflow-hidden border-0 shadow-sm dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 dark:border-gray-700 dark:border-0">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <Activity className="w-5 h-5 text-gray-400" />
-                <h2 className="text-lg font-semibold text-gray-900">Current Session</h2>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Current Session</h2>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -293,12 +293,12 @@ const HistoryPage = () => {
           </Card>
 
           {/* Login History */}
-          <Card className="overflow-hidden border-0 shadow-sm">
+          <Card className="overflow-hidden border-0 shadow-sm dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 dark:border-gray-700 dark:border-0">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-gray-400" />
-                  <h2 className="text-lg font-semibold text-gray-900">Login History</h2>
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Login History</h2>
                 </div>
                 <Badge variant="outline" className="text-sm">
                   {loginHistory.length} sessions
@@ -306,7 +306,7 @@ const HistoryPage = () => {
               </div>
               
               {loginHistory.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-gray-500 ">
                   <LogIn className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                   <p>No login sessions recorded yet.</p>
                   <p className="text-sm">Your sessions will appear here after staying logged in for 5+ seconds.</p>
@@ -336,7 +336,7 @@ const HistoryPage = () => {
                       
                       <div className="flex items-center gap-2">
                         {session.logoutTime ? (
-                          <Badge variant="outline" className="text-xs">
+                          <Badge variant="outline" className="text-xs dark:bg-gray-800 dark:text-white">
                             Completed
                           </Badge>
                         ) : (
@@ -353,11 +353,11 @@ const HistoryPage = () => {
           </Card>
 
           {/* Activity Summary */}
-          <Card className="overflow-hidden border-0 shadow-sm">
+          <Card className="overflow-hidden border-0 shadow-sm dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 dark:border-gray-700 dark:border-0 ">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-6">
                 <Monitor className="w-5 h-5 text-gray-400" />
-                <h2 className="text-lg font-semibold text-gray-900">Activity Summary</h2>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Activity Summary</h2>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">

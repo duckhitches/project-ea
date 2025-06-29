@@ -113,7 +113,7 @@ export function Carousel({ slides }: CarouselProps) {
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8 lg:py-12 bg-white dark:bg-black">
         <div className="max-w-7xl mx-auto">
           {/* Container with navigation arrows */}
           <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
@@ -143,7 +143,7 @@ export function Carousel({ slides }: CarouselProps) {
                   }}
                   className="relative w-full"
                 >
-                  <div className="relative rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-900 to-gray-800">
+                  <div className="relative rounded-xl sm:rounded-2xl lg:rounded-3xl overflow-hidden shadow-2xl bg-white dark:bg-black dark:shadow-none dark:border dark:border-gray-800 dark:border-opacity-50 dark:rounded-xl">
                     {/* Responsive aspect ratio container */}
                     <div className="relative aspect-[4/5] sm:aspect-[16/12] md:aspect-[16/10] lg:aspect-[16/9]">
                       {/* Background Image */}

@@ -121,28 +121,41 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
       suppressHydrationWarning
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-lg font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-5 text-lg font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
         className,
       )}
     >
       {items.map((item, idx) => (
-        <Link
-          suppressHydrationWarning
-          onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+        <motion.div
           key={`link-${idx}`}
-          href={item.link}
+          className="relative"
+          animate={{
+            marginLeft: hovered === idx ? "8px" : "0px",
+            marginRight: hovered === idx ? "8px" : "0px",
+          }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
         >
-          {hovered === idx && (
-            <motion.div
-              suppressHydrationWarning
-              layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
-            />
-          )}
-          <span className="relative z-20">{item.name}</span>
-        </Link>
+          <Link
+            suppressHydrationWarning
+            onMouseEnter={() => setHovered(idx)}
+            onClick={onItemClick}
+            className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 block"
+            href={item.link}
+          >
+            {hovered === idx && (
+              <motion.div
+                suppressHydrationWarning
+                layoutId="hovered"
+                className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              />
+            )}
+            <span className="relative z-20">{item.name}</span>
+          </Link>
+        </motion.div>
       ))}
     </motion.div>
   );
@@ -241,7 +254,7 @@ export const NavbarLogo = () => {
     <a
       suppressHydrationWarning
       href="/"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-md font-normal text-black"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-md font-normal text-black dark:text-white"
     >
       <img
         suppressHydrationWarning

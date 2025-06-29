@@ -15,6 +15,7 @@ import {
   MobileNavMenu,
 } from './components/ui/resizable-navbar'
 import { LandingPage } from './components/ui/Landing-page'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -40,12 +41,13 @@ export default function Home() {
   ]
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-black">
       <Navbar>
         <NavBody>
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <NavbarButton variant="primary" href="/auth/login">Login</NavbarButton>
           </div>
         </NavBody>
@@ -53,10 +55,13 @@ export default function Home() {
         <MobileNav>
           <MobileNavHeader>
             <NavbarLogo />
-            <MobileNavToggle
-              isOpen={isMobileMenuOpen}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            />
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <MobileNavToggle
+                isOpen={isMobileMenuOpen}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              />
+            </div>
           </MobileNavHeader>
 
           <MobileNavMenu
@@ -90,18 +95,18 @@ export default function Home() {
       <LandingPage />
 
       {/* Enhanced CTA Section */}
-      <section className="relative py-20 sm:py-32 overflow-hidden bg-black">
+      <section className="relative py-20 sm:py-32 overflow-hidden bg-black dark:bg-white">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5"></div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div
             className="space-y-8"
           >
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium dark:text-black dark:bg-black/10">
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               Start Your Journey Today
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 dark:text-black">
               Ready to Transform Your{" "}
               <span className="relative inline-block">
                 <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-600 px-4 py-1 rounded-xlbackdrop-blur-sm">
@@ -110,7 +115,7 @@ export default function Home() {
               </span>
             </h2>
 
-            <p className="text-xl sm:text-2xl md:text-2xl lg:text-2xl xl:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl sm:text-2xl md:text-2xl lg:text-2xl xl:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed dark:text-black">
               Join thousands of successful candidates who have already improved their interview performance with our
               AI-powered platform.
             </p>
@@ -134,15 +139,15 @@ export default function Home() {
 
             {/* Trust Badges */}
             <div className="flex flex-wrap justify-center gap-8 mt-12">
-              <div className="flex items-center gap-2 text-gray-300">
+              <div className="flex items-center gap-2 text-gray-300 dark:text-black">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                 <span className="text-sm">Secure & Private</span>
               </div>
-              <div className="flex items-center gap-2 text-gray-300">
+              <div className="flex items-center gap-2 text-gray-300 dark:text-black">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><circle cx="17" cy="17" r="4" /></svg>
                 <span className="text-sm">10K+ Active Users</span>
               </div>
-              <div className="flex items-center gap-2 text-gray-300">
+              <div className="flex items-center gap-2 text-gray-300 dark:text-black">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7" /><polyline points="8.21 13.89 7.5 21 12 18.5 16.5 21 15.79 13.88" /></svg>
                 <span className="text-sm">94% Success Rate</span>
               </div>

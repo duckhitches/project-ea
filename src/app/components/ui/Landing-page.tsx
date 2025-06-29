@@ -18,7 +18,7 @@ export const LandingPage = () => {
   }
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto bg-white">
+    <div className="min-h-screen max-w-7xl mx-auto bg-white dark:bg-black">
       {/* Video Background */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <video
@@ -104,7 +104,7 @@ export const LandingPage = () => {
       </motion.div>
 
       {/* About Section */}
-      <section id="about" className="relative py-16 sm:py-20 md:py-24 bg-white">
+      <section id="about" className="relative py-16 sm:py-20 md:py-24 bg-white dark:bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <motion.div
@@ -118,7 +118,7 @@ export const LandingPage = () => {
                 <Sparkles className="w-4 h-4 mr-2" />
                 Our Story
               </div>
-              <p className="text-gray-600 text-2xl sm:text-2xl max-w-3xl mx-auto mt-6">
+              <p className="text-gray-600 text-2xl sm:text-2xl max-w-3xl mx-auto mt-6 dark:text-white">
                 We are a team of developers who are passionate about creating a platform that helps people prepare for interviews.
               </p>
               <motion.div

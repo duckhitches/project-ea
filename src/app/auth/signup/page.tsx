@@ -85,7 +85,7 @@ const Signup = () => {
   const strengthLabels = ["Very Weak", "Weak", "Fair", "Good", "Strong"]
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-white dark:bg-black transition-colors duration-300">
       {/* Left Side - Clean Visual */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
         {/* Animated background elements */}
@@ -114,7 +114,7 @@ const Signup = () => {
             >
               <h1 className="text-5xl xl:text-6xl font-light text-white leading-tight tracking-tight">
                 Join the
-                <span className="block text-3xl xl:text-4xl bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mt-2">
+                <span className="block text-3xl xl:text-4xl bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent mt-2">
                   AI Interview
                 </span>
               </h1>
@@ -152,7 +152,7 @@ const Signup = () => {
       </div>
 
       {/* Right Side - Signup Form */}
-      <div className="flex-1 bg-white lg:bg-gray-50 flex items-center justify-center p-6 sm:p-8 lg:p-12">
+      <div className="flex-1 bg-white dark:bg-black flex items-center justify-center p-6 sm:p-8 lg:p-12">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -163,7 +163,7 @@ const Signup = () => {
           <div className="lg:hidden mb-8">
             <Link 
               href="/" 
-              className="inline-flex items-center text-gray-500 hover:text-gray-700 transition-colors group"
+              className="inline-flex items-center text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors group"
             >
               <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
               <span className="text-md">Back</span>
@@ -171,12 +171,12 @@ const Signup = () => {
           </div>
 
           {/* Form Container */}
-          <div className="bg-white lg:bg-transparent lg:p-0 p-8 rounded-2xl lg:rounded-none shadow-xl lg:shadow-none">
+          <div className="bg-white dark:bg-black lg:bg-transparent lg:p-0 p-8 rounded-2xl lg:rounded-none shadow-xl lg:shadow-none">
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">
                 Create account
               </h2>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 Join thousands of successful candidates
               </p>
             </div>
@@ -186,7 +186,7 @@ const Signup = () => {
               <div className="space-y-2">
                 <Label 
                   htmlFor="name" 
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Full Name
                 </Label>
@@ -200,10 +200,10 @@ const Signup = () => {
                     onFocus={() => setFocusedField('name')}
                     onBlur={() => setFocusedField(null)}
                     className={cn(
-                      "h-12 px-4 bg-white border transition-all duration-200",
+                      "h-12 px-4 bg-white dark:bg-black border transition-all duration-200",
                       focusedField === 'name' 
-                        ? "border-gray-900 shadow-sm" 
-                        : "border-gray-200"
+                        ? "border-gray-900 dark:border-white shadow-sm" 
+                        : "border-gray-200 dark:border-gray-700"
                     )}
                     required
                   />
@@ -226,7 +226,7 @@ const Signup = () => {
               <div className="space-y-2">
                 <Label 
                   htmlFor="email" 
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Email
                 </Label>
@@ -240,10 +240,10 @@ const Signup = () => {
                     onFocus={() => setFocusedField('email')}
                     onBlur={() => setFocusedField(null)}
                     className={cn(
-                      "h-12 px-4 bg-white border transition-all duration-200",
+                      "h-12 px-4 bg-white dark:bg-black border transition-all duration-200",
                       focusedField === 'email' 
-                        ? "border-gray-900 shadow-sm" 
-                        : "border-gray-200"
+                        ? "border-gray-900 dark:border-white shadow-sm" 
+                        : "border-gray-200 dark:border-gray-700"
                     )}
                     required
                   />
@@ -266,7 +266,7 @@ const Signup = () => {
               <div className="space-y-2">
                 <Label 
                   htmlFor="password" 
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Password
                 </Label>
@@ -280,17 +280,17 @@ const Signup = () => {
                     onFocus={() => setFocusedField('password')}
                     onBlur={() => setFocusedField(null)}
                     className={cn(
-                      "h-12 px-4 pr-12 bg-white border transition-all duration-200",
+                      "h-12 px-4 pr-12 bg-white dark:bg-black border transition-all duration-200",
                       focusedField === 'password' 
-                        ? "border-gray-900 shadow-sm" 
-                        : "border-gray-200"
+                        ? "border-gray-900 dark:border-white shadow-sm" 
+                        : "border-gray-200 dark:border-gray-700"
                     )}
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -310,12 +310,12 @@ const Signup = () => {
                           key={level}
                           className={cn(
                             "h-1.5 flex-1 rounded-full transition-all duration-300",
-                            level <= passwordStrength ? strengthColors[passwordStrength - 1] : "bg-gray-200"
+                            level <= passwordStrength ? strengthColors[passwordStrength - 1] : "bg-gray-200 dark:bg-gray-700"
                           )}
                         />
                       ))}
                     </div>
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
                       Password strength: {strengthLabels[passwordStrength - 1] || "Very Weak"}
                     </p>
                   </motion.div>
@@ -331,8 +331,8 @@ const Signup = () => {
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Alert className="border-red-200 bg-red-50">
-                      <AlertDescription className="text-red-800 text-sm">
+                    <Alert className="border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
+                      <AlertDescription className="text-red-800 dark:text-red-200 text-sm">
                         {error}
                       </AlertDescription>
                     </Alert>
@@ -344,7 +344,7 @@ const Signup = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="relative w-full h-12 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg transition-all duration-300 overflow-hidden group"
+                className="relative w-full h-12 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-black font-medium rounded-lg transition-all duration-300 overflow-hidden group"
               >
                 <AnimatePresence mode="wait">
                   {loading ? (
@@ -360,7 +360,7 @@ const Signup = () => {
                         {[0, 1, 2].map((i) => (
                           <motion.div
                             key={i}
-                            className="w-2 h-2 bg-white rounded-full"
+                            className="w-2 h-2 bg-white dark:bg-black rounded-full"
                             animate={{
                               y: ["0%", "-50%", "0%"],
                             }}
@@ -392,10 +392,10 @@ const Signup = () => {
             {/* Divider */}
             <div className="relative my-8">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
+                <div className="w-full border-t border-gray-200 dark:border-gray-700" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white lg:bg-gray-50 text-gray-500">
+                <span className="px-4 bg-white dark:bg-black text-gray-500 dark:text-gray-400">
                   Or continue with
                 </span>
               </div>
@@ -407,31 +407,31 @@ const Signup = () => {
               onClick={handleGuestLogin}
               disabled={loading}
               variant="outline"
-              className="w-full h-12 border-gray-300 hover:border-gray-400 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition-all duration-200"
+              className="w-full h-12 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-all duration-200"
             >
               <User className="w-4 h-4 mr-2" />
               Continue as Guest
             </Button>
 
             {/* Sign in link */}
-            <p className="mt-8 text-center text-sm text-gray-600">
+            <p className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
               <Link 
                 href="/auth/login" 
-                className="font-medium text-gray-900 hover:text-gray-700 transition-colors"
+                className="font-medium text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
               >
                 Sign in
               </Link>
             </p>
 
             {/* Terms */}
-            <p className="mt-4 text-center text-xs text-gray-500 leading-relaxed">
+            <p className="mt-4 text-center text-xs text-gray-500 dark:text-gray-500 leading-relaxed">
               By creating an account, you agree to our{" "}
-              <Link href="/terms" className="text-gray-900 hover:underline">
+              <Link href="/terms" className="text-gray-900 dark:text-white hover:underline">
                 Terms of Service
               </Link>{" "}
               and{" "}
-              <Link href="/privacy" className="text-gray-900 hover:underline">
+              <Link href="/privacy" className="text-gray-900 dark:text-white hover:underline">
                 Privacy Policy
               </Link>
             </p>

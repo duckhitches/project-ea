@@ -253,10 +253,10 @@ const ProfilePage = () => {
   // Modified profile picture component
   const ProfilePicture = ({ src, name, isLoading }: { src: string; name: string; isLoading: boolean }) => (
     <div className="relative">
-      <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+      <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 flex items-center justify-center">
         {isLoading ? (
-          <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin" />
+          <div className="absolute inset-0 bg-black/10 dark:bg-white/10 flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-gray-900 dark:border-white border-t-transparent rounded-full animate-spin" />
           </div>
         ) : src ? (
           <img
@@ -269,14 +269,14 @@ const ProfilePage = () => {
             }}
           />
         ) : (
-          <span className="text-2xl font-semibold text-gray-400">
+          <span className="text-2xl font-semibold text-gray-400 dark:text-gray-500">
             {name?.[0]?.toUpperCase() || "U"}
           </span>
         )}
       </div>
       {!isGuest && (
-        <label className="absolute bottom-0 right-0 w-8 h-8 bg-black rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 transition-all duration-200 shadow-lg">
-          <Camera className="w-4 h-4 text-white" />
+        <label className="absolute bottom-0 right-0 w-8 h-8 bg-black dark:bg-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 dark:hover:bg-gray-100 transition-all duration-200 shadow-lg">
+          <Camera className="w-4 h-4 text-white dark:text-gray-900" />
           <input
             type="file"
             accept="image/*"
@@ -326,16 +326,16 @@ const ProfilePage = () => {
         className="flex items-center justify-between mb-8"
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center">
-            <UserIcon className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-full bg-black dark:bg-white flex items-center justify-center">
+            <UserIcon className="w-5 h-5 text-white dark:text-gray-900" />
           </div>
-          <h1 className="text-2xl font-semibold text-gray-900">Profile Settings</h1>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Profile Settings</h1>
         </div>
         {!isGuest && (
           <Button
             onClick={handleProfileUpdate}
             disabled={profileLoading}
-            className="relative overflow-hidden bg-black hover:bg-gray-900 text-white px-6 h-10 rounded-full transition-all duration-200"
+            className="relative overflow-hidden bg-black dark:bg-white hover:bg-gray-900 dark:hover:bg-gray-100 text-white dark:text-gray-900 px-6 h-10 rounded-full transition-all duration-200"
           >
             <AnimatePresence mode="wait">
               {profileLoading ? (
@@ -344,13 +344,13 @@ const ProfilePage = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 flex items-center justify-center bg-black"
+                  className="absolute inset-0 flex items-center justify-center bg-black dark:bg-white"
                 >
                   <div className="flex space-x-1">
                     {[0, 1, 2].map((i) => (
                       <motion.div
                         key={i}
-                        className="w-1.5 h-1.5 bg-white rounded-full"
+                        className="w-1.5 h-1.5 bg-white dark:bg-gray-900 rounded-full"
                         animate={{
                           y: ["0%", "-50%", "0%"],
                         }}
@@ -393,18 +393,18 @@ const ProfilePage = () => {
               className={cn(
                 "border rounded-lg shadow-sm",
                 messageType === "success" 
-                  ? "border-green-100 bg-green-50" 
-                  : "border-red-100 bg-red-50"
+                  ? "border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20" 
+                  : "border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20"
               )}
             >
               {messageType === "success" ? (
-                <CheckCircle className="w-4 h-4 text-green-500" />
+                <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
               ) : (
-                <AlertCircle className="w-4 h-4 text-red-500" />
+                <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400" />
               )}
               <AlertDescription className={cn(
                 "text-sm font-medium",
-                messageType === "success" ? "text-green-800" : "text-red-800"
+                messageType === "success" ? "text-green-800 dark:text-green-200" : "text-red-800 dark:text-red-200"
               )}>
                 {message}
               </AlertDescription>
@@ -420,9 +420,9 @@ const ProfilePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <Alert className="border-yellow-100 bg-yellow-50">
-            <AlertCircle className="w-4 h-4 text-yellow-500" />
-            <AlertDescription className="text-yellow-800">
+          <Alert className="border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+            <AlertCircle className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+            <AlertDescription className="text-gray-800 dark:text-gray-200">
               You are using a guest account. Sign up to save your profile information!
             </AlertDescription>
           </Alert>
@@ -432,21 +432,21 @@ const ProfilePage = () => {
       {/* Profile Picture Section */}
       <motion.div
         variants={pageVariants}
-        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 sm:p-6"
       >
-        <div className="flex items-center gap-6">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
           <ProfilePicture
             src={profileData.profilePicture}
             name={profileData.name}
             isLoading={profileLoading}
           />
-          <div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-1">
+          <div className="text-center sm:text-left min-w-0 flex-1">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-1 truncate">
               {profileData.name || "Your Name"}
             </h2>
-            <p className="text-gray-500 text-sm">{profileData.email}</p>
+            <p className="text-gray-500 dark:text-gray-400 text-sm truncate">{profileData.email}</p>
             {!isGuest && (
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                 Click the camera icon to update your profile picture
               </p>
             )}
@@ -457,60 +457,60 @@ const ProfilePage = () => {
       {/* Personal Information Form */}
       <motion.div
         variants={pageVariants}
-        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-6"
+        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-6"
       >
-        <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Personal Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Full Name</Label>
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</Label>
             <Input
               value={profileData.name}
               onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-              className="h-11 border-gray-200 focus:border-gray-900 focus:ring-0 rounded-lg"
+              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
               disabled={isGuest || profileLoading}
             />
           </div>
           
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Email</Label>
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</Label>
             <Input
               value={profileData.email}
               onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
-              className="h-11 border-gray-200 focus:border-gray-900 focus:ring-0 rounded-lg"
+              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
               disabled={isGuest || profileLoading}
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-700">Bio</Label>
+          <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Bio</Label>
           <Textarea
             value={profileData.bio}
             onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
-            className="min-h-[120px] border-gray-200 focus:border-gray-900 focus:ring-0 rounded-lg resize-none"
+            className="min-h-[120px] border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
             disabled={isGuest || profileLoading}
             maxLength={500}
           />
-          <p className="text-xs text-gray-500">{profileData.bio.length}/500 characters</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">{profileData.bio.length}/500 characters</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Location</Label>
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Location</Label>
             <Input
               value={profileData.location}
               onChange={(e) => setProfileData({ ...profileData, location: e.target.value })}
-              className="h-11 border-gray-200 focus:border-gray-900 focus:ring-0 rounded-lg"
+              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
               disabled={isGuest || profileLoading}
             />
           </div>
           
           <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">Website</Label>
+            <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">Website</Label>
             <Input
               value={profileData.website}
               onChange={(e) => setProfileData({ ...profileData, website: e.target.value })}
-              className="h-11 border-gray-200 focus:border-gray-900 focus:ring-0 rounded-lg"
+              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
               disabled={isGuest || profileLoading}
             />
           </div>
@@ -520,30 +520,30 @@ const ProfilePage = () => {
       {/* Account Information */}
       <motion.div
         variants={pageVariants}
-        className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6"
       >
-        <h3 className="text-lg font-semibold text-gray-900 mb-6">Account Information</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Account Information</h3>
         <div className="space-y-4">
-          <div className="flex items-center justify-between py-3 border-b border-gray-100">
-            <span className="text-sm text-gray-600">Account Type</span>
+          <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
+            <span className="text-sm text-gray-600 dark:text-gray-400">Account Type</span>
             <Badge variant="outline" className={cn(
               "font-medium",
-              isGuest ? "text-yellow-600" : "text-green-600"
+              isGuest ? "text-gray-600 dark:text-gray-400" : "text-gray-900 dark:text-white"
             )}>
               {isGuest ? "Guest Account" : "Full Member"}
             </Badge>
           </div>
           
-          <div className="flex items-center justify-between py-3 border-b border-gray-100">
-            <span className="text-sm text-gray-600">Member Since</span>
-            <span className="text-sm font-medium text-gray-900">
+          <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
+            <span className="text-sm text-gray-600 dark:text-gray-400">Member Since</span>
+            <span className="text-sm font-medium text-gray-900 dark:text-white">
               {new Date(user?.$createdAt || "").toLocaleDateString()}
             </span>
           </div>
           
           <div className="flex items-center justify-between py-3">
-            <span className="text-sm text-gray-600">User ID</span>
-            <code className="text-xs font-mono bg-gray-100 px-2 py-1 rounded">
+            <span className="text-sm text-gray-600 dark:text-gray-400">User ID</span>
+            <code className="text-xs font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-gray-900 dark:text-gray-300">
               {user?.$id?.slice(0, 8)}...
             </code>
           </div>

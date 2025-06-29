@@ -29,7 +29,7 @@ export default function Loading({ message = "Loading...", size = 'md' }: Loading
   };
 
   return (
-    <div className="min-h-screen bg-transparent backdrop-blur-sm flex items-center justify-center">
+    <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300 backdrop-blur-sm flex items-center justify-center">
       <motion.div
         className="flex flex-col items-center space-y-6"
         initial={{ opacity: 0, y: 20 }}
@@ -40,7 +40,7 @@ export default function Loading({ message = "Loading...", size = 'md' }: Loading
           {[...Array(9)].map((_, i) => (
             <motion.div
               key={i}
-              className={`${sizeConfig[size].cube} bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg`}
+              className={`${sizeConfig[size].cube} bg-gradient-to-br from-pink-500 to-purple-500 dark:from-blue-500 dark:to-purple-500 shadow-lg`}
               variants={cubeVariants}
               animate="animate"
               transition={{
@@ -61,11 +61,11 @@ export default function Loading({ message = "Loading...", size = 'md' }: Loading
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <p className={`${sizeConfig[size].text} text-gray-700 font-medium tracking-wide`}>
+            <p className={`${sizeConfig[size].text} text-gray-700 dark:text-gray-300 font-medium tracking-wide`}>
               {message}
             </p>
             <motion.div
-              className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 to-cyan-500"
+              className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300"
               animate={{
                 scaleX: [0, 1, 0],
                 opacity: [0, 1, 0],

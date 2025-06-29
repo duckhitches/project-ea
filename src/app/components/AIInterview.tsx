@@ -50,7 +50,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
     try {
       await navigator.mediaDevices.getUserMedia({ audio: true })
       await conversation.startSession({
-        agentId: "agent_01jxa7dek1eh78bqvhfmg10m34",
+        agentId: "agent_01jx4zw480f8evwgs0sk69gedf",
       })
     } catch (error) {
       console.error("Failed to start conversation:", error)
@@ -80,21 +80,21 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
 
   if (!isMounted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black transition-colors duration-300">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
       </div>
     )
   }
 
   const StatusBadge = ({ status }: { status: string }) => (
-    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-gray-200 shadow-sm">
+    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
       <div className={cn(
         "w-2 h-2 rounded-full animate-pulse",
         status === "connected" ? "bg-green-500" : 
         status === "connecting" ? "bg-yellow-500" : 
-        "bg-gray-400"
+        "bg-gray-400 dark:bg-gray-500"
       )} />
-      <span className="text-xs font-medium text-gray-700">
+      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
         {status === "connected" ? "Active Session" : 
          status === "connecting" ? "Connecting..." : 
          "Ready to Start"}
@@ -103,7 +103,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
       <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 lg:py-20">
         {/* Header */}
         <motion.div
@@ -111,16 +111,16 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <span className="inline-flex items-center px-3 py-1 rounded-full bg-gray-900 text-white text-xs font-medium mb-4">
+          <span className="inline-flex items-center px-3 py-1 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-medium mb-4">
             <Brain className="w-3.5 h-3.5 mr-1.5" />
             AI-Powered Practice Interview
           </span>
 
-          <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-4">
+          <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-white mb-4">
             Perfect Your Interview Skills
           </h1>
           
-          <p className="text-sm text-gray-600 max-w-lg mx-auto">
+          <p className="text-sm text-gray-600 dark:text-gray-400 max-w-lg mx-auto">
             Get real-time feedback and guidance from our AI interviewer. 
             {isGuest && " Try a 2-minute demo or sign up for full access."}
           </p>
@@ -131,25 +131,25 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mb-8"
+          className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden mb-8"
         >
           <div className="p-6 sm:p-8">
             {/* Status Bar */}
             <div className="flex items-center justify-between mb-8">
               <StatusBadge status={conversation.status} />
               {!isGuest && (
-                <span className="text-xs text-gray-500">
+                <span className="text-sm text-gray-500 dark:text-gray-400">
                   Session duration: 20 minutes
                 </span>
               )}
             </div>
 
             {/* Visualizer */}
-            <div className="relative aspect-[16/9] mb-8 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
+            <div className="relative aspect-[16/9] mb-8 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
               {conversation.status === "connected" ? (
                 <AudioVisualizerCanvas isActive={true} />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-gray-800">
                   <AudioVisualizerCanvas isActive={false} />
                 </div>
               )}
@@ -160,7 +160,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
               <Button
                 onClick={startConversation}
                 disabled={conversation.status === "connected" || conversation.status === "connecting"}
-                className="w-full sm:w-auto h-11 px-6 bg-black hover:bg-gray-900 text-white rounded-full disabled:opacity-50"
+                className="w-full sm:w-auto h-11 px-6 bg-black dark:bg-white hover:bg-gray-900 dark:hover:bg-gray-100 text-white dark:text-gray-900 rounded-full disabled:opacity-50"
               >
                 <Mic className="w-4 h-4 mr-2" />
                 {isGuest ? "Try Demo" : "Start Interview"}
@@ -169,7 +169,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
               <Button
                 onClick={stopConversation}
                 disabled={conversation.status !== "connected"}
-                className="w-full sm:w-auto h-11 px-6 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full disabled:opacity-50"
+                className="w-full sm:w-auto h-11 px-6 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-full disabled:opacity-50"
               >
                 <Square className="w-4 h-4 mr-2" />
                 End Session
@@ -177,30 +177,30 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
             </div>
 
             {/* Instructions */}
-            <div className="mt-8 pt-8 border-t border-gray-100">
-              <h3 className="text-sm font-medium text-gray-900 mb-4">Quick Instructions</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-600">
+            <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-700">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-4">Quick Instructions</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-600 dark:text-gray-400">
                 <div className="flex items-start gap-2">
-                  <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-medium text-gray-600">1</span>
+                  <div className="w-5 h-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-300">1</span>
                   </div>
                   <p>Click &quot;Start Interview&quot; and allow microphone access when prompted</p>
                 </div>
                 <div className="flex items-start gap-2">
-                  <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-medium text-gray-600">2</span>
+                  <div className="w-5 h-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-300">2</span>
                   </div>
                   <p>Speak clearly and naturally when responding to questions</p>
                 </div>
                 <div className="flex items-start gap-2">
-                  <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-medium text-gray-600">3</span>
+                  <div className="w-5 h-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-300">3</span>
                   </div>
                   <p>Wait for the AI to process your response before continuing</p>
                 </div>
                 <div className="flex items-start gap-2">
-                  <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-medium text-gray-600">4</span>
+                  <div className="w-5 h-5 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-300">4</span>
                   </div>
                   <p>Click &quot;End Session&quot; when you&apos;re finished or want to start over</p>
                 </div>
@@ -215,15 +215,15 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden mb-8"
+            className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden mb-8"
           >
             <div className="p-6 sm:p-8">
               <div className="text-center mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center justify-center">
-                  <Upload className="w-5 h-5 mr-2 text-gray-600" />
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center justify-center">
+                  <Upload className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
                   Upload Your Resume (Coming Soon)
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   Upload your resume for personalized interview questions (TXT format supported)
                 </p>
               </div>
@@ -234,21 +234,21 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
                     type="file"
                     accept=".txt,.pdf"
                     onChange={handleResumeUpload}
-                    className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 transition-all duration-200 cursor-pointer"
+                    className="block w-full text-sm text-gray-600 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-gray-100 dark:file:bg-gray-700 file:text-gray-700 dark:file:text-gray-300 hover:file:bg-gray-200 dark:hover:file:bg-gray-600 transition-all duration-200 cursor-pointer"
                   />
                 </label>
 
                 {resumeText && (
                   <motion.div
-                    className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg"
+                    className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                   >
                     <div className="flex items-center mb-2">
-                      <FileText className="w-4 h-4 mr-2 text-gray-600" />
-                      <span className="text-sm font-medium text-gray-900">Resume Preview</span>
+                      <FileText className="w-4 h-4 mr-2 text-gray-600 dark:text-gray-400" />
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">Resume Preview</span>
                     </div>
-                    <div className="max-h-32 overflow-y-auto text-xs text-gray-700 font-mono bg-white p-3 rounded border">
+                    <div className="max-h-32 overflow-y-auto text-xs text-gray-700 dark:text-gray-300 font-mono bg-white dark:bg-gray-900 p-3 rounded border border-gray-200 dark:border-gray-700">
                       <pre className="whitespace-pre-wrap">
                         {resumeText.slice(0, 500)}
                         {resumeText.length > 500 ? "\n... (truncated)" : ""}
@@ -287,13 +287,13 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
           ].map((feature, index) => (
             <div
               key={index}
-              className="bg-white p-4 rounded-lg border border-gray-200"
+              className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700"
             >
-              <feature.icon className="w-5 h-5 text-gray-900 mb-2" />
-              <h3 className="text-sm font-medium text-gray-900 mb-1">
+              <feature.icon className="w-5 h-5 text-gray-900 dark:text-white mb-2" />
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1">
                 {feature.title}
               </h3>
-              <p className="text-xs text-gray-600">{feature.desc}</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">{feature.desc}</p>
             </div>
           ))}
         </motion.div>
@@ -306,9 +306,9 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
             transition={{ delay: 0.3 }}
             className="mt-8 text-center"
           >
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
               Demo limited to 2 minutes. 
-              <Link href="/auth/signup" className="text-gray-900 font-medium ml-1">
+              <Link href="/auth/signup" className="text-gray-900 dark:text-white font-medium ml-1">
                 Sign up for full access →
               </Link>
             </p>

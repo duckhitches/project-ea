@@ -214,7 +214,7 @@ export default function About() {
   }
 
   return (
-    <div ref={containerRef} className="relative bg-white dark:bg-gray-900 overflow-hidden" id="About">
+    <div ref={containerRef} className="relative bg-white dark:bg-black overflow-hidden" id="About">
       
       {/* Hero Section */}
       <motion.section
@@ -222,7 +222,7 @@ export default function About() {
         style={{ y: heroY, opacity: heroOpacity }}
         
         id="About"
-        className="relative min-h-screen space-y-10 flex items-center justify-center bg-white dark:bg-gray-900"
+        className="relative min-h-screen space-y-10 flex items-center justify-center bg-white dark:bg-black"
       >
         {/* Background Pattern */}
         {/* <div className="absolute inset-0 opacity-10">
@@ -259,7 +259,7 @@ export default function About() {
       </motion.section>
 
       {/* Founders Section */}
-      <section id="founders" ref={foundersRef} className="py-20 sm:py-32 bg-white dark:bg-gray-900">
+      <section id="founders" ref={foundersRef} className="py-20 sm:py-32 bg-white dark:bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -268,7 +268,7 @@ export default function About() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16 sm:mb-20"
           >
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-gray-800 dark:text-black text-sm font-medium mb-6">
               <Users className="w-4 h-4 mr-2" />
               Meet the Founders
             </div>
@@ -291,7 +291,7 @@ export default function About() {
                 transition={{ duration: 0.8, delay: index * 0.2 }}
                 className="founder-card"
               >
-                <Card className="h-full bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                <Card className="h-full bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-950 border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
                   <CardContent className="p-8 sm:p-10">
                     <div className="flex flex-col items-center text-center mb-8">
                       <motion.div
@@ -370,7 +370,7 @@ export default function About() {
 
                     <Button
                       asChild
-                      className="w-full bg-black hover:bg-black text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-105 sm:text-lg md:text-xl lg:text-lg xl:text-xl"
+                      className="w-full bg-black hover:bg-black text-white dark:text-black dark:bg-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-105 sm:text-lg md:text-xl lg:text-lg xl:text-xl"
                     >
                       <a
                         href={founder.linkedin}
@@ -393,7 +393,7 @@ export default function About() {
       {/* Why We Built This Section */}
       <section
         ref={storyRef}
-        className="py-20 sm:py-32 bg-gray-50 dark:bg-gray-800"
+        className="py-20 sm:py-32 bg-gray-50 dark:bg-black"
 
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -405,7 +405,7 @@ export default function About() {
             className="text-center mb-16 sm:mb-20"
             id="features"
           >
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-gray-800 dark:text-black text-sm font-medium mb-6">
               <Rocket className="w-4 h-4 mr-2" />
               Our Story
             </div>
@@ -462,7 +462,7 @@ export default function About() {
                       transition={{ delay: index * 0.1 }}
                       className="flex items-start"
                     >
-                      <div className="w-2 h-2 bg-black rounded-full mt-3 mr-4 flex-shrink-0"></div>
+                      <div className="w-2 h-2 bg-black dark:bg-red-500 rounded-full mt-3 mr-4 flex-shrink-0"></div>
                       <span className="text-xl sm:text-xl text-gray-600 dark:text-gray-300">{problem}</span>
                     </motion.div>
                   ))}
@@ -493,7 +493,7 @@ export default function About() {
       </section>
 
       {/* Trust & Credibility Section */}
-      <section ref={trustRef} className="py-20 sm:py-32 bg-white dark:bg-gray-900">
+      <section ref={trustRef} className="py-20 sm:py-32 bg-white dark:bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -508,7 +508,7 @@ export default function About() {
             </div>
             <h2 className="text-4xl sm:text-4xl md:text-5xl font-semibold text-gray-900 dark:text-white mb-6">
               Proven Results That{" "}
-              <span className="bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-yellow-500 dark:to-orange-500 bg-clip-text text-transparent">
                 Speak for Themselves
               </span>
             </h2>
@@ -532,16 +532,16 @@ export default function About() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="trust-card"
               >
-                <Card className="h-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                <Card className="h-full bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                   <CardContent className="p-6 sm:p-8 text-center">
                     <motion.div
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ type: "spring", stiffness: 300 }}
-                      className="w-16 h-16 mx-auto mb-6 bg-black dark:bg-gray-700 rounded-2xl flex items-center justify-center"
+                      className="w-16 h-16 mx-auto mb-6 bg-black dark:bg-white rounded-2xl flex items-center justify-center"
                     >
                       <factor.icon className="w-8 h-8 text-white dark:text-gray-900" />
                     </motion.div>
-                    <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent dark:text-white mb-2">
+                    <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-500 mb-2">
                       {factor.stat}
                     </div>
                     <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3">

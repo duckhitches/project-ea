@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { ArrowLeft, Mail, MessageCircle, Linkedin, Clock, Code, Users } from "lucide-react"
 import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
 
 const developerTeam = [
   {
@@ -19,7 +20,7 @@ const developerTeam = [
     avatar: "/profileeshan.jpg?height=80&width=80",
     href: "mailto:shettennavareshan@gmail.com",
     experience: "2+ Years",
-    projects: "10+ Projects",
+    projects: "5+ Test Automations , 10+ Projects",
     rating: "4.6",
   },
   {
@@ -65,7 +66,6 @@ const contactMethods = [
     href: "mailto:justnord@gmail.com",
     icon: Mail,
     description: "Get in touch via email",
-    color: "from-blue-500 to-cyan-500",
     response: "Within 24 hours",
   },
   {
@@ -74,7 +74,6 @@ const contactMethods = [
     href: "https://linkedin.com/in/eshan-shettennavar/",
     icon: Linkedin,
     description: "Professional networking",
-    color: "from-blue-600 to-indigo-600",
     response: "Business inquiries",
   },
 ]
@@ -92,248 +91,275 @@ export default function Contact() {
   }, [isSuccess])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
-      {/* Enhanced Header */}
-      <div className="relative overflow-hidden bg-white border-b border-gray-200">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-6 sm:py-8 md:py-12">
+    <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-white transition-colors duration-300">
+      {/* Header Section */}
+      <div className="relative border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="py-12">
             {/* Back Link */}
-            <div className="flex items-center mb-6 sm:mb-8">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center mb-8"
+            >
               <Link
                 href="/"
-                className="inline-flex items-center text-gray-600 hover:text-gray-900 transition-all duration-200 group"
+                className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-all duration-200 group"
               >
-                <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white shadow-md group-hover:shadow-lg transition-all duration-200 mr-3">
-                  <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-0.5 transition-transform duration-200" />
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition-all duration-200 mr-3">
+                  <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform duration-200" />
                 </div>
-                <span className="text-sm sm:text-base font-medium">Go Back</span>
+                <span className="font-medium">Back to Home</span>
               </Link>
-            </div>
+            </motion.div>
 
             {/* Header Content */}
             <div className="text-center max-w-4xl mx-auto">
-              <div className="inline-flex items-center px-3 py-1 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-green-100 to-blue-100 text-green-800 text-xs sm:text-sm font-medium mb-4 sm:mb-6">
-                <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                We&apos;re here to help!{" "}
-              </div>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 mb-6"
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                We&apos;re here to help!
+              </motion.div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
-                Get in
-                <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  Touch Today
-                </span>
-              </h1>
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-4xl md:text-6xl font-bold mb-6"
+              >
+                Get in Touch Today
+              </motion.h1>
 
-              <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-gray-600 dark:text-gray-400 text-lg md:text-xl"
+              >
                 Have questions about our AI interview platform? Our expert team is ready to help you succeed.
-              </p>
+              </motion.p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
-        {/* Contact Methods */}
-        <div className="mb-12 sm:mb-16 md:mb-20">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+      {/* Contact Methods */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-20"
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Choose Your Preferred Way
             </h2>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 dark:text-gray-400">
               Multiple ways to reach us - pick what works best for you
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto">
-            {contactMethods.map((method) => {
-              const IconComponent = method.icon
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {contactMethods.map((method, index) => {
+              const IconComponent = method.icon;
               return (
-                <a
+                <motion.a
                   key={method.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
                   href={method.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+                  className="group relative bg-white dark:bg-black rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-800"
                 >
                   <div className="text-center">
-                    <div
-                      className={`inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-r ${method.color} mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-200`}
-                    >
-                      <IconComponent className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-black dark:bg-white mb-6 group-hover:scale-110 transition-transform duration-200">
+                      <IconComponent className="w-8 h-8 text-white dark:text-black" />
                     </div>
 
-                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{method.name}</h3>
+                    <h3 className="text-xl font-bold mb-2">{method.name}</h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">{method.description}</p>
+                    <div className="font-medium mb-2">{method.value}</div>
 
-                    <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4">{method.description}</p>
-
-                    <div className="text-xs sm:text-sm font-medium text-gray-900 mb-2">{method.value}</div>
-
-                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs text-gray-600">
+                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-sm">
                       <Clock className="w-3 h-3 mr-1" />
                       {method.response}
                     </div>
                   </div>
-                </a>
-              )
+                </motion.a>
+              );
             })}
           </div>
-        </div>
+        </motion.div>
 
         {/* Developer Team */}
-        <div className="mb-12 sm:mb-16 md:mb-20">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-20"
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Meet Our Expert Team
             </h2>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 dark:text-gray-400">
               Skilled professionals ready to bring your ideas to life
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {developerTeam.map((developer, index) => (
-              <div
+              <motion.div
                 key={developer.name}
-                className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white dark:bg-black rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-800"
               >
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
                   <div className="relative">
                     <img
                       src={developer.avatar || "/placeholder.svg"}
                       alt={developer.name}
-                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover bg-gray-200"
+                      className="w-24 h-24 rounded-2xl object-cover bg-gray-200 dark:bg-gray-700"
                     />
-                    <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    <div className="absolute -top-2 -right-2 bg-black dark:bg-white text-white dark:text-black text-xs font-bold px-2 py-1 rounded-full">
                       {developer.rating} ⭐
                     </div>
                   </div>
 
                   <div className="text-center sm:text-left flex-1">
-                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">{developer.name}</h3>
-                    <p className="text-sm sm:text-base text-blue-600 font-medium mb-2">{developer.role}</p>
+                    <h3 className="text-xl font-bold mb-1">{developer.name}</h3>
+                    <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">{developer.role}</p>
                     <div className="flex flex-wrap justify-center sm:justify-start gap-2 text-xs">
-                      <span className="bg-gray-100 px-2 py-1 rounded-full">{developer.experience}</span>
-                      <span className="bg-gray-100 px-2 py-1 rounded-full">{developer.projects}</span>
+                      <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">{developer.experience}</span>
+                      <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">{developer.projects}</span>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">{developer.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">{developer.description}</p>
 
                 <div className="mb-6">
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
                     <Code className="w-4 h-4" />
                     Core Expertise
                   </h4>
                   <div className="space-y-2">
                     {developer.skills.map((skill, i) => (
-                      <div key={i} className="flex items-center text-xs sm:text-sm bg-gray-50 rounded-lg px-3 py-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full mr-2 flex-shrink-0" />
-                        <span className="text-gray-700">{skill}</span>
+                      <div key={i} className="flex items-center text-sm bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2">
+                        <div className="w-2 h-2 bg-black dark:bg-white rounded-full mr-2 flex-shrink-0" />
+                        <span className="text-gray-700 dark:text-gray-300">{skill}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <a
+                <motion.a
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   href={developer.href}
-                  className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 sm:py-4 px-6 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl text-center"
+                  className="block w-full bg-black dark:bg-white text-white dark:text-black py-4 px-6 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-center"
                 >
                   Contact {developer.name.split(" ")[0]}
-                </a>
-              </div>
+                </motion.a>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* EA Team */}
-        <div>
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Executive Support Team
             </h2>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 dark:text-gray-400">
               Professional administrative support for all your business needs
             </p>
           </div>
 
           <div className="max-w-2xl mx-auto">
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg border border-gray-100">
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6">
+            <div className="bg-white dark:bg-black rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-800">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
                 <div className="relative">
                   <img
                     src={eaTeam.avatar || "/placeholder.svg"}
                     alt={eaTeam.name}
-                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover bg-gray-200"
+                    className="w-24 h-24 rounded-2xl object-cover bg-gray-200 dark:bg-gray-700"
                   />
-                  <div className="absolute -top-2 -right-2 bg-gradient-to-r from-green-400 to-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  <div className="absolute -top-2 -right-2 bg-black dark:bg-white text-white dark:text-black text-xs font-bold px-2 py-1 rounded-full">
                     {eaTeam.rating} ⭐
                   </div>
                 </div>
 
                 <div className="text-center sm:text-left flex-1">
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">{eaTeam.name}</h3>
-                  <p className="text-sm sm:text-base text-purple-600 font-medium mb-2">{eaTeam.role}</p>
+                  <h3 className="text-xl font-bold mb-1">{eaTeam.name}</h3>
+                  <p className="text-purple-600 dark:text-purple-400 font-medium mb-2">{eaTeam.role}</p>
                   <div className="flex flex-wrap justify-center sm:justify-start gap-2 text-xs">
-                    <span className="bg-gray-100 px-2 py-1 rounded-full">{eaTeam.teamSize}</span>
-                    <span className="bg-gray-100 px-2 py-1 rounded-full">{eaTeam.availability}</span>
+                    <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">{eaTeam.teamSize}</span>
+                    <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">{eaTeam.availability}</span>
                   </div>
                 </div>
               </div>
 
-              <p className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">{eaTeam.description}</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">{eaTeam.description}</p>
 
               <div className="mb-6">
-                <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
                   <Users className="w-4 h-4" />
                   Our Services
                 </h4>
                 <div className="space-y-2">
                   {eaTeam.services.map((service, i) => (
-                    <div key={i} className="flex items-center text-xs sm:text-sm bg-gray-50 rounded-lg px-3 py-2">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full mr-2 flex-shrink-0" />
-                      <span className="text-gray-700">{service}</span>
+                    <div key={i} className="flex items-center text-sm bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2">
+                      <div className="w-2 h-2 bg-black dark:bg-white rounded-full mr-2 flex-shrink-0" />
+                      <span className="text-gray-700 dark:text-gray-300">{service}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <a
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 href={eaTeam.href}
-                className="block w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 sm:py-4 px-6 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl text-center"
+                className="block w-full bg-black dark:bg-white text-white dark:text-black py-4 px-6 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-center"
               >
                 Contact EA Team
-              </a>
+              </motion.a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* CTA Section */}
-        <div className="mt-16 sm:mt-20 md:mt-24 text-center">
-          <div className="bg-black rounded-2xl sm:rounded-3xl p-8 sm:p-12 text-white">
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6">Ready to Start Your Project?</h3>
-            <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
-              Let&apos;s get started!{" "}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-24 text-center"
+        >
+          <div className="bg-black dark:bg-white text-white dark:text-black rounded-3xl p-12">
+            <h3 className="text-3xl font-bold mb-6">Ready to Start Your Project?</h3>
+            <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
+              Let&apos;s get started!
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="mailto:justnord@gmail.com"
-                className="bg-white text-black hover:bg-white py-3 sm:py-4 px-6 sm:px-8 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all duration-200 transform hover:scale-105"
-              >
-                Schedule a Call
-              </a>
-              {/* <a
-                href="https://linkedin.com/in/eshan-shettennavar/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 py-3 sm:py-4 px-6 sm:px-8 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base transition-all duration-200 transform hover:scale-105"
-              >
-                View Portfolio
-              </a> */}
-            </div>
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="mailto:justnord@gmail.com"
+              className="inline-flex bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900 py-4 px-8 rounded-2xl font-semibold transition-all duration-200"
+            >
+              Schedule a Call
+            </motion.a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

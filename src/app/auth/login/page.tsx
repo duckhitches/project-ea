@@ -93,7 +93,7 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-white dark:bg-black transition-colors duration-300">
       {/* Left Side - Clean Visual */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
         {/* Animated background elements */}
@@ -122,7 +122,7 @@ const Login = () => {
             >
               <h1 className="text-5xl xl:text-6xl font-light text-white leading-tight tracking-tight">
                 Welcome
-                <span className="block text-3xl xl:text-4xl bg-gradient-to-r from-yellow-500 to-orange-500 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mt-2">
+                <span className="block text-3xl xl:text-4xl bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent mt-2">
                   to AI Interview
                 </span>
               </h1>
@@ -160,7 +160,7 @@ const Login = () => {
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="flex-1 bg-white lg:bg-gray-50 flex items-center justify-center p-6 sm:p-8 lg:p-12">
+      <div className="flex-1 bg-white dark:bg-black flex items-center justify-center p-6 sm:p-8 lg:p-12">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -171,7 +171,7 @@ const Login = () => {
           <div className="lg:hidden mb-8">
             <Link 
               href="/" 
-              className="inline-flex items-center text-gray-500 hover:text-gray-700 transition-colors group"
+              className="inline-flex items-center text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors group"
             >
               <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
               <span className="text-sm">Back</span>
@@ -179,12 +179,12 @@ const Login = () => {
           </div>
 
           {/* Form Container */}
-          <div className="bg-white lg:bg-transparent lg:p-0 p-8 rounded-2xl lg:rounded-none shadow-xl lg:shadow-none">
+          <div className="bg-white dark:bg-black lg:bg-transparent lg:p-0 p-8 rounded-2xl lg:rounded-none shadow-xl lg:shadow-none">
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">
                 Sign in
               </h2>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                 Welcome back! Please enter your details.
               </p>
             </div>
@@ -194,7 +194,7 @@ const Login = () => {
               <div className="space-y-2">
                 <Label 
                   htmlFor="email" 
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
                   Email
                 </Label>
@@ -208,10 +208,10 @@ const Login = () => {
                     onFocus={() => setFocusedField('email')}
                     onBlur={() => setFocusedField(null)}
                     className={cn(
-                      "h-12 px-4 bg-white border transition-all duration-200",
+                      "h-12 px-4 bg-white dark:bg-black border transition-all duration-200",
                       focusedField === 'email' 
-                        ? "border-gray-900 shadow-sm" 
-                        : "border-gray-200"
+                        ? "border-gray-900 dark:border-white shadow-sm" 
+                        : "border-gray-200 dark:border-gray-700"
                     )}
                     required
                   />
@@ -232,36 +232,42 @@ const Login = () => {
 
               {/* Password Field */}
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label 
-                    htmlFor="password" 
-                    className="text-sm font-medium text-gray-700"
-                  >
-                    Password
-                  </Label>
-                  <Link 
-                    href="/auth/forgot-password" 
-                    className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-                  >
-                    Forgot password?
-                  </Link>
+                <Label 
+                  htmlFor="password" 
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
+                  Password
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onFocus={() => setFocusedField('password')}
+                    onBlur={() => setFocusedField(null)}
+                    className={cn(
+                      "h-12 px-4 bg-white dark:bg-black border transition-all duration-200",
+                      focusedField === 'password' 
+                        ? "border-gray-900 dark:border-white shadow-sm" 
+                        : "border-gray-200 dark:border-gray-700"
+                    )}
+                    required
+                  />
+                  <AnimatePresence>
+                    {password && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="absolute right-3 top-1/2 -translate-y-1/2"
+                      >
+                        <Check className="w-4 h-4 text-green-500" />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  onFocus={() => setFocusedField('password')}
-                  onBlur={() => setFocusedField(null)}
-                  className={cn(
-                    "h-12 px-4 bg-white border transition-all duration-200",
-                    focusedField === 'password' 
-                      ? "border-gray-900 shadow-sm" 
-                      : "border-gray-200"
-                  )}
-                  required
-                />
               </div>
 
               {/* Error Message */}
@@ -273,8 +279,8 @@ const Login = () => {
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Alert className="border-red-200 bg-red-50">
-                      <AlertDescription className="text-red-800 text-sm">
+                    <Alert className="border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20">
+                      <AlertDescription className="text-red-800 dark:text-red-200 text-sm">
                         {error}
                       </AlertDescription>
                     </Alert>
@@ -286,7 +292,7 @@ const Login = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="relative w-full h-12 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg transition-all duration-300 overflow-hidden group"
+                className="relative w-full h-12 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-black font-medium rounded-lg transition-all duration-300 overflow-hidden group"
               >
                 <AnimatePresence mode="wait">
                   {loading ? (
@@ -302,7 +308,7 @@ const Login = () => {
                         {[0, 1, 2].map((i) => (
                           <motion.div
                             key={i}
-                            className="w-2 h-2 bg-white rounded-full"
+                            className="w-2 h-2 bg-white dark:bg-black rounded-full"
                             animate={{
                               y: ["0%", "-50%", "0%"],
                             }}
@@ -334,10 +340,10 @@ const Login = () => {
             {/* Divider */}
             <div className="relative my-8">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
+                <div className="w-full border-t border-gray-200 dark:border-gray-700" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white lg:bg-gray-50 text-gray-500">
+                <span className="px-4 bg-white dark:bg-black text-gray-500 dark:text-gray-400">
                   Or continue with
                 </span>
               </div>
@@ -349,20 +355,32 @@ const Login = () => {
               onClick={handleGuestLogin}
               disabled={loading}
               variant="outline"
-              className="w-full h-12 border-gray-300 hover:border-gray-400 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition-all duration-200"
+              className="w-full h-12 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-all duration-200"
             >
               <User className="w-4 h-4 mr-2" />
               Continue as Guest
             </Button>
 
             {/* Sign up link */}
-            <p className="mt-8 text-center text-sm text-gray-600">
+            <p className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
               Don&apos;t have an account?{" "}
               <Link 
                 href="/auth/signup" 
-                className="font-medium text-gray-900 hover:text-gray-700 transition-colors"
+                className="font-medium text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
               >
                 Sign up
+              </Link>
+            </p>
+
+            {/* Terms */}
+            <p className="mt-4 text-center text-xs text-gray-500 dark:text-gray-500 leading-relaxed">
+              By signing in, you agree to our{" "}
+              <Link href="/terms" className="text-gray-900 dark:text-white hover:underline">
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" className="text-gray-900 dark:text-white hover:underline">
+                Privacy Policy
               </Link>
             </p>
           </div>
