@@ -67,10 +67,10 @@ export const LandingPage = () => {
               <div className="absolute -top-10 -left-10 w-20 h-20 bg-blue-500/10 rounded-full blur-xl" />
               <div className="absolute -bottom-10 -right-10 w-20 h-20 bg-purple-500/10 rounded-full blur-xl" />
 
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm text-blue-800 text-xs font-medium mb-6">
+              {/* <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm text-blue-800 text-xs font-medium mb-6">
                 <Sparkles className="w-3 h-3 mr-1" />
                 AI-Powered Interview Practice
-              </div>
+              </div> */}
 
               <div className="relative bg-white/20 backdrop-blur-sm rounded-2xl p-6 sm:p-8 md:p-10 shadow-xl mb-24">
                 <h1 className="mx-auto max-w-4xl text-center text-4xl font-bold text-balance text-black md:text-5xl lg:text-6xl xl:text-7xl">
@@ -129,10 +129,10 @@ export const LandingPage = () => {
               transition={{ duration: 0.8 }}
               className="space-y-4"
             >
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-gray-800 text-sm font-medium">
+              {/* <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-gray-800 text-sm font-medium">
                 <Sparkles className="w-4 h-4 mr-2" />
                 Our Story
-              </div>
+              </div> */}
               <p className="text-gray-600 text-2xl sm:text-2xl max-w-3xl mx-auto mt-6 dark:text-white">
                 We are a team of developers who are passionate about creating a platform that helps people prepare for interviews.
               </p>

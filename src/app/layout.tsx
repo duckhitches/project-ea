@@ -17,7 +17,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Project EA",
+  title: "NoQwit.ai - Part of the Boring Project",
   description: "AI-powered interview platform",
 };
 

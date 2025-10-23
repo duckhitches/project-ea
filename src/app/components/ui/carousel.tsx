@@ -183,14 +183,14 @@ export function Carousel({ slides }: CarouselProps) {
                       whileTap={{ scale: 0.95 }}
                     >
                       <Image
-                        src="/EA.ai.svg"
+                        src="/logo.svg"
                         alt="Logo"
                         width={24}
                         height={24}
                         className="opacity-90"
                       />
                     </motion.div>
-                    <div className="text-white/90 text-sm font-medium">EA.ai</div>
+                    <div className="text-white/90 text-sm font-medium">Part of the Boring Project</div>
                   </div>
                   
                   <motion.button 

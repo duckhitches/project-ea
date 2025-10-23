@@ -258,7 +258,7 @@ export const NavbarLogo = () => {
     >
       <img
         suppressHydrationWarning
-        src="/EA.ai.svg"
+        src="/logo.svg"
         alt="logo"
         width={100}
         height={100}

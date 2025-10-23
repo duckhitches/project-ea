@@ -101,10 +101,10 @@ export default function Home() {
           <div
             className="space-y-8"
           >
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium dark:text-black dark:bg-black/10">
+            {/* <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium dark:text-black dark:bg-black/10">
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               Start Your Journey Today
-            </div>
+            </div> */}
 
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 dark:text-black">
               Ready to Transform Your{" "}

@@ -42,7 +42,7 @@ const developerTeam = [
 ]
 
 const eaTeam = {
-  name: "EA Team",
+  name: "NoQwit.ai Team",
   role: "Executive Assistant",
   description: "Professional support team for business operations, scheduling, and administrative tasks.",
   services: [
@@ -52,7 +52,7 @@ const eaTeam = {
     "Administrative Operations",
     "Business Process Management",
   ],
-  avatar: "/EA.ai.svg?height=80&width=80",
+  avatar: "/logo.svg?height=80&width=80",
   href: "mailto:duckhitches@outlook.com",
   teamSize: "5 Members",
   availability: "24/7 Support",
@@ -227,9 +227,9 @@ export default function Contact() {
                       alt={developer.name}
                       className="w-24 h-24 rounded-2xl object-cover bg-gray-200 dark:bg-gray-700"
                     />
-                    <div className="absolute -top-2 -right-2 bg-black dark:bg-white text-white dark:text-black text-xs font-bold px-2 py-1 rounded-full">
+                    {/* <div className="absolute -top-2 -right-2 bg-black dark:bg-white text-white dark:text-black text-xs font-bold px-2 py-1 rounded-full">
                       {developer.rating} ⭐
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="text-center sm:text-left flex-1">
@@ -295,9 +295,9 @@ export default function Contact() {
                     alt={eaTeam.name}
                     className="w-24 h-24 rounded-2xl object-cover bg-gray-200 dark:bg-gray-700"
                   />
-                  <div className="absolute -top-2 -right-2 bg-black dark:bg-white text-white dark:text-black text-xs font-bold px-2 py-1 rounded-full">
+                  {/* <div className="absolute -top-2 -right-2 bg-black dark:bg-white text-white dark:text-black text-xs font-bold px-2 py-1 rounded-full">
                     {eaTeam.rating} ⭐
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="text-center sm:text-left flex-1">
@@ -333,7 +333,7 @@ export default function Contact() {
                 href={eaTeam.href}
                 className="block w-full bg-black dark:bg-white text-white dark:text-black py-4 px-6 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-center"
               >
-                Contact EA Team
+                Contact NoQwit.ai Team
               </motion.a>
             </div>
           </div>
