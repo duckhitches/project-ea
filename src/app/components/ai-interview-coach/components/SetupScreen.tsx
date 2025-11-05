@@ -123,7 +123,7 @@ const SetupScreen: React.FC<{
               >
                 <UploadIcon className="w-5 h-5" />
                 <span className="text-sm">
-                  {isParsing ? "Processing..." : fileName ? fileName : "Upload (PDF, TXT)"}
+                  {isParsing ? "Processing..." : fileName ? fileName : "Upload (.TXT only)"}
                 </span>
               </button>
 
@@ -137,7 +137,17 @@ const SetupScreen: React.FC<{
                 Clear
               </button>
             </div>
-
+            <div className="text-sm text-black/70">
+              <p>Need to convert a PDF resume to text?</p>
+              <a 
+                href="https://www.perplexity.ai/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-1.5 text-blue-400 hover:text-blue-300 transition-colors underline"
+              >
+                Try a PDF-to-text converter Using Perplexity AI
+              </a>
+            </div>
             {parseError && <p className="mt-2 text-sm text-black/80">Error: {parseError}</p>}
           </div>
 
