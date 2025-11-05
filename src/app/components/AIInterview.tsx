@@ -52,10 +52,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
       <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
         <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 lg:py-20">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-medium mb-4">
-              <Brain className="w-3.5 h-3.5 mr-1.5" />
-              AI-Powered Practice Interview
-            </span>
+            
             <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-white mb-4">Perfect Your Interview Skills</h1>
             <p className="text-sm text-gray-600 dark:text-gray-400 max-w-lg mx-auto">
               Get real-time feedback and guidance from our AI interviewer.
