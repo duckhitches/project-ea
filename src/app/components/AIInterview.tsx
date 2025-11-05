@@ -119,10 +119,7 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <span className="inline-flex items-center px-3 py-1 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-medium mb-4">
-            <Brain className="w-3.5 h-3.5 mr-1.5" />
-            AI-Powered Practice Interview
-          </span>
+          
 
           <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-white mb-4">
             Perfect Your Interview Skills
