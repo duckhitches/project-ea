@@ -57,11 +57,11 @@ const SetupScreen: React.FC<{
   };
 
   return (
-    <div className="min-h-full flex items-center justify-center p-6 sm:p-8 bg-white text-black">
+    <div className="min-h-full flex items-center justify-center p-6 sm:p-8 bg-white dark:bg-black text-black dark:text-white">
       <div className="w-full max-w-md sm:max-w-lg border border-black rounded-2xl p-6 sm:p-8">
         <header className="mb-5">
-          <h1 className="text-2xl font-semibold">Get Ready — Practice Interview</h1>
-          <p className="mt-2 text-sm text-black/70">
+         
+          <p className="mt-2 text-sm text-black/70 dark:text-white/70">
             Enter your details and optionally upload or paste your resume. Choose a mode and start the
             interview.
           </p>
@@ -118,7 +118,7 @@ const SetupScreen: React.FC<{
                 type="button"
                 onClick={handleUploadClick}
                 disabled={isParsing}
-                className="flex-1 flex items-center gap-3 px-4 py-2.5 border border-dashed border-black rounded-lg bg-white text-black hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-wait"
+                className="flex-1 flex items-center gap-3 px-4 py-2.5 border border-dashed border-black rounded-lg bg-white text-black hover:bg-black/5 dark:hover:bg-white focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-wait"
                 aria-label={isParsing ? "Processing resume" : "Upload resume"}
               >
                 <UploadIcon className="w-5 h-5" />
@@ -137,7 +137,7 @@ const SetupScreen: React.FC<{
                 Clear
               </button>
             </div>
-            <div className="text-sm text-black/70">
+            <div className="text-sm text-black/70 dark:text-white/70">
               <p>Need to convert a PDF resume to text?</p>
               <a 
                 href="https://www.perplexity.ai/" 
@@ -164,7 +164,7 @@ const SetupScreen: React.FC<{
               className="w-full min-h-[120px] px-4 py-2.5 border border-black rounded-lg bg-white text-black placeholder-black/40 focus:outline-none focus:ring-2 focus:ring-black font-mono resize-y"
               aria-label="Paste or review your resume text here"
             />
-            <div className="mt-2 flex items-center justify-between text-xs text-black/60">
+            <div className="mt-2 flex items-center justify-between text-xs text-black/60 dark:text-white/60">
               <span>{resumeText.length} characters</span>
               <span>{resumeText.split(/\s+/).filter(Boolean).length} words</span>
             </div>
@@ -173,7 +173,7 @@ const SetupScreen: React.FC<{
           {/* Mode segmented control */}
           <div className="flex items-center justify-center gap-4 pt-2">
             <span className="text-sm font-medium">Mode:</span>
-            <div className="inline-flex rounded-lg border border-black bg-white">
+            <div className="inline-flex rounded-lg border border-black bg-white dark:border-white">
               <button
                 type="button"
                 onClick={() => setMode(InterviewMode.CASUAL)}
@@ -205,7 +205,7 @@ const SetupScreen: React.FC<{
           <div>
             <button
               type="submit"
-              className="w-full px-5 py-2.5 bg-black text-white rounded-lg font-semibold hover:brightness-90 focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-5 py-2.5 bg-black text-white dark:text-black dark:bg-white rounded-lg font-semibold hover:brightness-90 focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!name || !role}
             >
               Start Interview

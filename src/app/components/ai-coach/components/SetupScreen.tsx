@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { InterviewMode } from '@/app/components/ai-coach/types';
-import { LinkIcon } from './Icons';
+import { InterviewMode } from '../types';
+import { LinkIcon } from '../components/Icons';
 
 
 const SetupScreen: React.FC<{

@@ -324,7 +324,7 @@ const HistoryPage = () => {
           className="space-y-6"
         >
           {/* Current Session */}
-          <Card className="overflow-hidden border-0 shadow-sm dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 dark:border-gray-900 dark:border-0">
+          <Card className="overflow-hidden border-0 shadow-sm dark:bg-black dark:border-gray-900 dark:border-0">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <Activity className="w-5 h-5 text-gray-400" />
@@ -355,7 +355,7 @@ const HistoryPage = () => {
           </Card>
 
           {/* Login History */}
-          <Card className="overflow-hidden border-0 shadow-sm dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 dark:border-gray-900 dark:border-0">
+          <Card className="overflow-hidden border-0 shadow-sm dark:bg-black dark:border-gray-900 dark:border-0">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
@@ -415,7 +415,7 @@ const HistoryPage = () => {
           </Card>
 
           {/* Activity Summary */}
-          <Card className="overflow-hidden border-0 shadow-sm dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 dark:border-gray-900 dark:border-0 ">
+          <Card className="overflow-hidden border-0 shadow-sm dark:bg-black dark:border-gray-900 dark:border-0 ">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-6">
                 <Monitor className="w-5 h-5 text-gray-400" />

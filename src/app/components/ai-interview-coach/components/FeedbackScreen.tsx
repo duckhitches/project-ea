@@ -25,9 +25,9 @@ const StatCard: React.FC<{ title: string; children: React.ReactNode; className?:
 
 const FeedbackScreen: React.FC<FeedbackScreenProps> = ({ feedback, mode, onRestart }) => {
   return (
-    <div className="min-h-full flex flex-col bg-white text-black p-6 md:p-8">
+    <div className="min-h-full flex flex-col bg-white dark:bg-black text-black dark:text-white p-6 md:p-8">
       <header className="max-w-4xl mx-auto w-full text-center mb-6">
-        <h2 className="text-2xl md:text-3xl font-semibold">Interview Report</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold text-black dark:text-white">Interview Report</h2>
         <p className="mt-2 text-sm text-black/70">A concise summary of your session and actionable next steps.</p>
       </header>
 
@@ -103,7 +103,7 @@ const FeedbackScreen: React.FC<FeedbackScreenProps> = ({ feedback, mode, onResta
 
           <div className="bg-white border border-black/10 rounded-lg p-6 flex flex-col items-center justify-center">
             <h3 className="text-lg font-semibold mb-2 text-black">Session Details</h3>
-            <p className="text-sm text-black/80">
+            <p className="text-sm text-black/80 dark:text-white/80 dark:text-black/80">
               Mode: <span className="font-medium">{mode}</span>
             </p>
           </div>
@@ -112,7 +112,7 @@ const FeedbackScreen: React.FC<FeedbackScreenProps> = ({ feedback, mode, onResta
 
       <footer className="max-w-5xl mx-auto w-full mt-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-sm text-black/70">
+          <div className="text-sm text-black/70 dark:text-white/70">
             <p>
               Want to run another session? Click <span className="font-medium">Start New Interview</span> to try a different
               mode or upload an updated resume.
@@ -122,7 +122,7 @@ const FeedbackScreen: React.FC<FeedbackScreenProps> = ({ feedback, mode, onResta
           <div className="flex gap-3">
             <button
               onClick={onRestart}
-              className="px-6 py-2.5 rounded-full bg-black text-white font-semibold hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-black"
+              className="px-6 py-2.5 rounded-full bg-black text-white dark:text-black dark:bg-white font-semibold hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-black"
             >
               Start New Interview
             </button>

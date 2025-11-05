@@ -284,7 +284,7 @@ const ProfilePage = () => {
   // Modified profile picture component
   const ProfilePicture = ({ src, name, isLoading }: { src: string; name: string; isLoading: boolean }) => (
     <div className="relative">
-      <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 flex items-center justify-center">
+      <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 dark:bg-black flex items-center justify-center">
         {isLoading ? (
           <div className="absolute inset-0 bg-black/10 dark:bg-white/10 flex items-center justify-center">
             <div className="w-8 h-8 border-2 border-gray-900 dark:border-white border-t-transparent rounded-full animate-spin" />
@@ -463,7 +463,7 @@ const ProfilePage = () => {
       {/* Profile Picture Section */}
       <motion.div
         variants={pageVariants}
-        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-4 sm:p-6"
+        className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-4 sm:p-6"
       >
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
           <ProfilePicture
@@ -488,7 +488,7 @@ const ProfilePage = () => {
       {/* Personal Information Form */}
       <motion.div
         variants={pageVariants}
-        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6 space-y-6"
+        className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6 space-y-6"
       >
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Personal Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -497,7 +497,7 @@ const ProfilePage = () => {
             <Input
               value={profileData.name}
               onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-950 text-gray-900 dark:text-white"
               disabled={isGuest || profileLoading}
             />
           </div>
@@ -507,7 +507,7 @@ const ProfilePage = () => {
             <Input
               value={profileData.email}
               onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
-              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-950 text-gray-900 dark:text-white"
               disabled={isGuest || profileLoading}
             />
           </div>
@@ -518,7 +518,7 @@ const ProfilePage = () => {
           <Textarea
             value={profileData.bio}
             onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
-            className="min-h-[120px] border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg resize-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            className="min-h-[120px] border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg resize-none bg-white dark:bg-gray-950 text-gray-900 dark:text-white"
             disabled={isGuest || profileLoading}
             maxLength={500}
           />
@@ -531,7 +531,7 @@ const ProfilePage = () => {
             <Input
               value={profileData.location}
               onChange={(e) => setProfileData({ ...profileData, location: e.target.value })}
-              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-950 text-gray-900 dark:text-white"
               disabled={isGuest || profileLoading}
             />
           </div>
@@ -541,7 +541,7 @@ const ProfilePage = () => {
             <Input
               value={profileData.website}
               onChange={(e) => setProfileData({ ...profileData, website: e.target.value })}
-              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="h-11 border-gray-200 dark:border-gray-600 focus:border-gray-900 dark:focus:border-white focus:ring-0 rounded-lg bg-white dark:bg-gray-950 text-gray-900 dark:text-white"
               disabled={isGuest || profileLoading}
             />
           </div>
@@ -551,7 +551,7 @@ const ProfilePage = () => {
       {/* Account Information */}
       <motion.div
         variants={pageVariants}
-        className="bg-white dark:bg-gradient-to-br dark:from-gray-950 dark:to-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6"
+        className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6"
       >
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Account Information</h3>
         <div className="space-y-4">
