@@ -1,32 +1,42 @@
 import { NextResponse } from 'next/server'
-import { account, databases, ID } from '@/lib/appwrite'
-import { Query } from 'appwrite'
+import { createServerClient } from '@/lib/supabase'
 
 export async function GET() {
   try {
-    // Get the current user's session
-    const session = await account.getSession('current')
-    const user = await account.get()
+    const supabase = createServerClient()
     
-    // Query login history from Appwrite database
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-      process.env.NEXT_PUBLIC_APPWRITE_LOGIN_HISTORY_COLLECTION_ID!,
-      [
-        Query.equal('userId', user.$id),
-        Query.orderDesc('timestamp'),
-        Query.limit(10)
-      ]
-    )
+    // Get the current user - Supabase reads auth from cookies automatically
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    // Get login history from Supabase
+    const { data: history, error } = await supabase
+      .from('login_history')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('timestamp', { ascending: false })
+      .limit(10)
+
+    if (error) {
+      throw error
+    }
 
     // Transform the data to match our interface
-    const history = response.documents.map(doc => ({
-      timestamp: doc.timestamp,
-      ipAddress: doc.ipAddress,
-      userAgent: doc.userAgent
+    const formattedHistory = (history || []).map(entry => ({
+      timestamp: entry.timestamp,
+      ipAddress: entry.ip_address,
+      userAgent: entry.user_agent,
+      device: entry.device_type,
+      location: entry.location
     }))
 
-    return NextResponse.json(history)
+    return NextResponse.json(formattedHistory)
   } catch (error) {
     console.error('Error fetching login history:', error)
     return NextResponse.json(
@@ -38,23 +48,41 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const user = await account.get()
+    const supabase = createServerClient()
+    
+    // Get the current user
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
     const { ipAddress, userAgent } = await request.json()
+    
+    // Detect device type
+    const deviceType = userAgent?.includes('Mobile') ? 'Mobile' : 'Desktop'
 
     // Create a new login history record
-    const response = await databases.createDocument(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-      process.env.NEXT_PUBLIC_APPWRITE_LOGIN_HISTORY_COLLECTION_ID!,
-      ID.unique(),
-      {
-        userId: user.$id,
+    const { data: historyEntry, error } = await supabase
+      .from('login_history')
+      .insert({
+        user_id: user.id,
         timestamp: new Date().toISOString(),
-        ipAddress,
-        userAgent
-      }
-    )
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        device_type: deviceType
+      })
+      .select()
+      .single()
 
-    return NextResponse.json({ success: true, data: response })
+    if (error) {
+      throw error
+    }
+
+    return NextResponse.json({ success: true, data: historyEntry })
   } catch (error) {
     console.error('Error recording login history:', error)
     return NextResponse.json(

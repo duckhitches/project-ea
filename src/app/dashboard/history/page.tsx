@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { account } from "@/lib/appwrite"
+import { supabase } from "@/lib/supabase"
 import { Clock, AlertCircle, Calendar, MapPin, Monitor, Activity, RefreshCw, ArrowRight, LogIn, LogOut } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -60,21 +60,44 @@ const HistoryPage = () => {
     // Wait 5 seconds before recording the session
     const timer = setTimeout(async () => {
       try {
-        // Get existing history from user prefs
-        const currentUser = await account.get()
-        const existingHistory = currentUser.prefs?.loginHistory || []
-        
-        // Add new session
-        const updatedHistory = [...existingHistory, newSession]
-        
-        // Update user preferences
-        await account.updatePrefs({
-          ...currentUser.prefs,
-          loginHistory: updatedHistory
-        })
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return
 
-        // Update local state
-        setLoginHistory(updatedHistory)
+        // Create login history entry in Supabase
+        const { data: historyEntry, error } = await supabase
+          .from('login_history')
+          .insert({
+            user_id: user.id,
+            timestamp: loginTime,
+            device_type: device,
+            location: 'Unknown'
+          })
+          .select()
+          .single()
+
+        if (error) {
+          console.error('Failed to save login session:', error)
+          return
+        }
+
+        // Fetch all login history for this user
+        const { data: allHistory } = await supabase
+          .from('login_history')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('timestamp', { ascending: false })
+
+        if (allHistory) {
+          const formattedHistory = allHistory.map((entry: any) => ({
+            id: entry.id,
+            loginTime: entry.timestamp,
+            logoutTime: entry.logout_time,
+            duration: entry.session_duration ? `${entry.session_duration} minutes` : undefined,
+            device: entry.device_type || 'Unknown',
+            location: entry.location
+          }))
+          setLoginHistory(formattedHistory)
+        }
       } catch (error) {
         console.error('Failed to save login session:', error)
       }
@@ -95,25 +118,38 @@ const HistoryPage = () => {
       const duration = new Date(logoutTime).getTime() - new Date(session.loginTime).getTime()
       const durationMinutes = Math.floor(duration / (1000 * 60))
 
-      const updatedSession = {
-        ...session,
-        logoutTime,
-        duration: `${durationMinutes} minutes`
+      // Update session in Supabase
+      const { error } = await supabase
+        .from('login_history')
+        .update({
+          logout_time: logoutTime,
+          session_duration: durationMinutes
+        })
+        .eq('id', session.id)
+
+      if (error) throw error
+
+      // Refresh login history
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { data: allHistory } = await supabase
+          .from('login_history')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('timestamp', { ascending: false })
+
+        if (allHistory) {
+          const formattedHistory = allHistory.map((entry: any) => ({
+            id: entry.id,
+            loginTime: entry.timestamp,
+            logoutTime: entry.logout_time,
+            duration: entry.session_duration ? `${entry.session_duration} minutes` : undefined,
+            device: entry.device_type || 'Unknown',
+            location: entry.location
+          }))
+          setLoginHistory(formattedHistory)
+        }
       }
-
-      // Update session in history
-      const currentUser = await account.get()
-      const existingHistory = currentUser.prefs?.loginHistory || []
-      const updatedHistory = existingHistory.map((s: LoginSession) => 
-        s.id === session.id ? updatedSession : s
-      )
-
-      await account.updatePrefs({
-        ...currentUser.prefs,
-        loginHistory: updatedHistory
-      })
-
-      setLoginHistory(updatedHistory)
     } catch (error) {
       console.error('Failed to update logout time:', error)
     }
@@ -135,12 +171,38 @@ const HistoryPage = () => {
         return
       }
 
-      const currentUser = await account.get()
-      setUser(currentUser)
+      const { data: { user }, error } = await supabase.auth.getUser()
+      if (error) throw error
       
-      // Load existing login history
-      const history = currentUser.prefs?.loginHistory || []
-      setLoginHistory(history)
+      if (user) {
+        setUser({
+          email: user.email || '',
+          name: user.user_metadata?.name || '',
+          lastLogin: user.last_sign_in_at || new Date().toISOString(),
+          $createdAt: user.created_at,
+          $id: user.id,
+          prefs: {}
+        })
+        
+        // Load existing login history from Supabase
+        const { data: history } = await supabase
+          .from('login_history')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('timestamp', { ascending: false })
+        
+        if (history) {
+          const formattedHistory = history.map((entry: any) => ({
+            id: entry.id,
+            loginTime: entry.timestamp,
+            logoutTime: entry.logout_time,
+            duration: entry.session_duration ? `${entry.session_duration} minutes` : undefined,
+            device: entry.device_type || 'Unknown',
+            location: entry.location
+          }))
+          setLoginHistory(formattedHistory)
+        }
+      }
     } catch (error) {
       console.error("Auth error:", error)
       router.push("/auth/login")

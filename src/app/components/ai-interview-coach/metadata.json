@@ -1,0 +1,7 @@
+{
+  "name": "AI Interview Coach",
+  "description": "An AI-powered interview coach that provides personalized questions, real-time interaction, and detailed feedback to help you ace your next job interview. Supports resume uploads, different difficulty modes, and voice I/O.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

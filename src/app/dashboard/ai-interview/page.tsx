@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { account } from "@/lib/appwrite"
+import { supabase } from "@/lib/supabase"
 import { Monitor, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { motion } from "framer-motion"
@@ -44,8 +44,19 @@ const AIInterviewPage = () => {
         }
 
         // Regular user session
-        const currentUser = await account.get()
-        setUser(currentUser)
+        const { data: { user: currentUser } } = await supabase.auth.getUser()
+        if (!currentUser) {
+          setUser(null)
+        } else {
+          setUser({
+            email: currentUser.email ?? "",
+            lastLogin: new Date().toISOString(),
+            name: (currentUser.user_metadata as any)?.name,
+            $id: currentUser.id,
+            $createdAt: currentUser.created_at ?? undefined,
+            prefs: (currentUser.user_metadata as any) || undefined,
+          })
+        }
       } catch (error) {
         console.error("Auth error:", error)
         router.push("/auth/login")

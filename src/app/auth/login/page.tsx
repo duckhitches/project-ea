@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import { account, ID } from "@/lib/appwrite"
+import { supabase } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, Mail, Lock, User, ArrowRight, Check } from "lucide-react"
@@ -28,17 +28,17 @@ const Login = () => {
     setLoading(true)
 
     try {
-      // First, delete all existing sessions
-      try {
-        await account.deleteSession("current")
-      } catch (error) {
-        console.log("No sessions to delete or error deleting sessions:", error)
+      // Sign in with Supabase
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+
+      if (signInError) {
+        throw signInError
       }
 
-      // Create new session
-      const session = await account.createEmailSession(email, password)
-
-      if (session) {
+      if (data.user) {
         // Record login history
         try {
           await fetch("/api/users/history", {
@@ -71,11 +71,11 @@ const Login = () => {
   const handleGuestLogin = async () => {
     setLoading(true)
     try {
-      // Delete any existing sessions
+      // Sign out any existing sessions
       try {
-        await account.deleteSession("current")
+        await supabase.auth.signOut()
       } catch (error) {
-        console.log("No sessions to delete or error deleting sessions:", error)
+        console.log("No sessions to sign out or error signing out:", error)
       }
 
       // Create a guest session in localStorage

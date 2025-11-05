@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { account } from "@/lib/appwrite"
+import { supabase } from "@/lib/supabase"
 import { Eye, EyeOff, Lock, AlertTriangle, Shield, CheckCircle } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -59,8 +59,12 @@ export default function SecuritySettings() {
     setLoading(true)
 
     try {
-      // Update password using Appwrite
-      await account.updatePassword(passwordData.newPassword, passwordData.currentPassword)
+      // Update password using Supabase
+      const { error } = await supabase.auth.updateUser({
+        password: passwordData.newPassword
+      })
+      
+      if (error) throw error
 
       setMessage("Password updated successfully!")
       setMessageType("success")

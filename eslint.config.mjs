@@ -1,3 +1,4 @@
+
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -11,6 +12,20 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    files: [
+      "src/app/components/ai-interview-coach/**/*.{ts,tsx}",
+      "src/app/components/ai-coach/**/*.{ts,tsx}",
+    ],
+    rules: {
+      // Allow apostrophes and similar characters in JSX text
+      "react/no-unescaped-entities": "off",
+      // We intentionally manage deps in effects with guards in realtime code
+      "react-hooks/exhaustive-deps": "off",
+      // Allow console logs during active interview sessions for telemetry/debugging
+      "no-console": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

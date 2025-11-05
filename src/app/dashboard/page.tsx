@@ -4,7 +4,7 @@ import type React from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Michroma } from "next/font/google"
 import { useState, useEffect } from "react"
-import { account } from "@/lib/appwrite"
+import { supabase } from "@/lib/supabase"
 import dynamic from "next/dynamic"
 import { UserIcon, Clock, Shield, Monitor, CheckCircle, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -86,8 +86,26 @@ const Dashboard = () => {
         }
 
         // Regular user session
-        const currentUser = await account.get()
-        setUser(currentUser)
+        const { data: { user }, error } = await supabase.auth.getUser()
+        if (error) throw error
+        
+        if (user) {
+          // Get user profile
+          const { data: profile } = await supabase
+            .from('user_profiles')
+            .select('*')
+            .eq('id', user.id)
+            .single()
+          
+          setUser({
+            email: user.email || '',
+            name: profile?.name || user.user_metadata?.name || '',
+            lastLogin: user.last_sign_in_at || new Date().toISOString(),
+            $createdAt: user.created_at,
+            $id: user.id,
+            prefs: profile || {}
+          })
+        }
       } catch (error) {
         console.error("Auth error:", error)
         router.push("/auth/login")
@@ -114,7 +132,7 @@ const Dashboard = () => {
         localStorage.removeItem("guestName")
       } else {
         // Regular user logout
-        await account.deleteSession("current")
+        await supabase.auth.signOut()
       }
       router.push("/auth/login")
     } catch (error) {

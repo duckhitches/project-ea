@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import { account, ID } from "@/lib/appwrite"
+import { supabase } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, Mail, Lock, User, ArrowRight, Check, Eye, EyeOff } from "lucide-react"
@@ -30,14 +30,37 @@ const Signup = () => {
     setLoading(true)
 
     try {
-      // Create the user account
-      await account.create(ID.unique(), email, password, name)
+      // Sign up with Supabase (includes automatic session creation)
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name: name,
+          },
+        },
+      })
 
-      // Create a session for the new user - using createEmailSession (the correct method name for your SDK version)
-      await account.createEmailSession(email, password)
+      if (signUpError) {
+        throw signUpError
+      }
 
-      // Redirect to dashboard
-      router.push("/dashboard")
+      if (data.user) {
+        // Update user profile with name
+        if (name) {
+          await supabase
+            .from('user_profiles')
+            .upsert({
+              id: data.user.id,
+              name: name,
+            })
+        }
+
+        // Redirect to dashboard
+        router.push("/dashboard")
+      } else {
+        throw new Error("Failed to create account")
+      }
     } catch (error: any) {
       console.error("Signup error:", error)
       setError(error.message || "An error occurred during signup")
@@ -49,11 +72,11 @@ const Signup = () => {
   const handleGuestLogin = async () => {
     setLoading(true)
     try {
-      // Delete any existing sessions
+      // Sign out any existing sessions
       try {
-        await account.deleteSession("current")
+        await supabase.auth.signOut()
       } catch (error) {
-        console.log("No sessions to delete or error deleting sessions:", error)
+        console.log("No sessions to sign out or error signing out:", error)
       }
 
       // Create a guest session in localStorage

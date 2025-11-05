@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { account } from "@/lib/appwrite"
+import { supabase } from "@/lib/supabase"
 import { Shield, AlertCircle, Lock, Key, Eye, EyeOff, CheckCircle, ArrowRight } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -63,8 +63,19 @@ const SecurityPage = () => {
         }
 
         // Regular user session
-        const currentUser = await account.get()
-        setUser(currentUser)
+        const { data: { user }, error } = await supabase.auth.getUser()
+        if (error) throw error
+        
+        if (user) {
+          setUser({
+            email: user.email || '',
+            name: user.user_metadata?.name || '',
+            lastLogin: user.last_sign_in_at || new Date().toISOString(),
+            $createdAt: user.created_at,
+            $id: user.id,
+            prefs: {}
+          })
+        }
       } catch (error) {
         console.error("Auth error:", error)
         router.push("/auth/login")
@@ -94,7 +105,12 @@ const SecurityPage = () => {
 
     setPasswordLoading(true)
     try {
-      await account.updatePassword(passwordData.newPassword, passwordData.currentPassword)
+      // Update password in Supabase
+      const { error } = await supabase.auth.updateUser({
+        password: passwordData.newPassword
+      })
+      
+      if (error) throw error
       
       setMessage("Password updated successfully!")
       setMessageType("success")

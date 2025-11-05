@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { account } from '@/lib/appwrite';
+import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
 export default function AuthCheck({ children }: { children: React.ReactNode }) {
@@ -12,8 +12,12 @@ export default function AuthCheck({ children }: { children: React.ReactNode }) {
     const checkAuth = async () => {
       try {
         // Try to get the current session
-        await account.get();
-        setIsLoading(false);
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error || !user) {
+          router.push('/auth/login');
+        } else {
+          setIsLoading(false);
+        }
       } catch (error) {
         // If there's no session, redirect to login
         router.push('/auth/login');

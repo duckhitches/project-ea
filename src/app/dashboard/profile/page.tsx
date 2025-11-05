@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { account } from "@/lib/appwrite"
+import { supabase } from "@/lib/supabase"
 import { UserIcon, Camera, Upload, CheckCircle, AlertCircle } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -123,20 +123,38 @@ const ProfilePage = () => {
         }
 
         // Regular user session
-        const currentUser = await account.get()
-        setUser(currentUser)
+        const { data: { user }, error } = await supabase.auth.getUser()
+        if (error) throw error
         
-        // Load profile picture from localStorage if available
-        const localProfilePic = localStorage.getItem(`profile_pic_${currentUser.$id}`)
-        
-        setProfileData({
-          name: currentUser.name || "",
-          email: currentUser.email || "",
-          bio: currentUser.prefs?.bio || "",
-          location: currentUser.prefs?.location || "",
-          website: currentUser.prefs?.website || "",
-          profilePicture: localProfilePic || currentUser.prefs?.profilePicture || "",
-        })
+        if (user) {
+          // Get user profile
+          const { data: profile } = await supabase
+            .from('user_profiles')
+            .select('*')
+            .eq('id', user.id)
+            .single()
+          
+          setUser({
+            email: user.email || '',
+            name: profile?.name || user.user_metadata?.name || '',
+            lastLogin: user.last_sign_in_at || new Date().toISOString(),
+            $createdAt: user.created_at,
+            $id: user.id,
+            prefs: profile || {}
+          })
+          
+          // Load profile picture from localStorage if available
+          const localProfilePic = localStorage.getItem(`profile_pic_${user.id}`)
+          
+          setProfileData({
+            name: profile?.name || user.user_metadata?.name || "",
+            email: user.email || "",
+            bio: profile?.bio || "",
+            location: profile?.location || "",
+            website: profile?.website || "",
+            profilePicture: localProfilePic || profile?.profile_picture || "",
+          })
+        }
       } catch (error) {
         console.error("Auth error:", error)
         router.push("/auth/login")
@@ -179,12 +197,15 @@ const ProfilePage = () => {
         localStorage.setItem(`profile_pic_${user.$id}`, compressedImage);
       }
 
-      // Update Appwrite prefs
-      const currentPrefs = user?.prefs || {};
-      await account.updatePrefs({
-        ...currentPrefs,
-        profilePicture: compressedImage
-      });
+      // Update Supabase profile
+      if (user?.$id) {
+        await supabase
+          .from('user_profiles')
+          .upsert({
+            id: user.$id,
+            profile_picture: compressedImage
+          })
+      }
 
       setMessage("Profile picture updated successfully!");
       setMessageType("success");
@@ -209,34 +230,44 @@ const ProfilePage = () => {
 
     setProfileLoading(true);
     try {
-      // Update name if changed
-      if (profileData.name !== user?.name) {
-        await account.updateName(profileData.name);
-      }
+      if (!user?.$id) throw new Error("User not found")
 
-      // Update email if changed
+      // Update email if changed (Supabase auth)
       if (profileData.email !== user?.email) {
-        await account.updateEmail(profileData.email, profileData.email);
+        const { error: emailError } = await supabase.auth.updateUser({
+          email: profileData.email
+        })
+        if (emailError) throw emailError
       }
 
-      // Get current preferences
-      const currentPrefs = user?.prefs || {};
+      // Update user profile in Supabase
+      const { data: updatedProfile, error: profileError } = await supabase
+        .from('user_profiles')
+        .upsert({
+          id: user.$id,
+          name: profileData.name,
+          bio: profileData.bio || "",
+          location: profileData.location || "",
+          website: profileData.website || "",
+          profile_picture: profileData.profilePicture || null
+        })
+        .select()
+        .single()
 
-      // Update preferences
-      const updatedPrefs: AppwritePrefs = {
-        ...currentPrefs,
-        bio: profileData.bio || "",
-        location: profileData.location || "",
-        website: profileData.website || "",
-        // Keep existing profile picture if not changed
-        profilePicture: profileData.profilePicture || currentPrefs.profilePicture
-      };
-
-      await account.updatePrefs(updatedPrefs);
+      if (profileError) throw profileError
 
       // Refresh user data
-      const updatedUser = await account.get();
-      setUser(updatedUser);
+      const { data: { user: updatedUser } } = await supabase.auth.getUser()
+      if (updatedUser) {
+        setUser({
+          email: updatedUser.email || '',
+          name: updatedProfile?.name || updatedUser.user_metadata?.name || '',
+          lastLogin: updatedUser.last_sign_in_at || new Date().toISOString(),
+          $createdAt: updatedUser.created_at,
+          $id: updatedUser.id,
+          prefs: updatedProfile || {}
+        })
+      }
 
       setMessage("Profile updated successfully!");
       setMessageType("success");

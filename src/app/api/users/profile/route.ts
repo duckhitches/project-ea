@@ -1,24 +1,47 @@
 import { NextResponse } from 'next/server'
-import { account } from '@/lib/appwrite'
+import { createServerClient } from '@/lib/supabase'
 
 export async function GET(request: Request) {
   try {
-    const sessionId = request.headers.get('x-session-id')
+    const supabase = createServerClient()
     
-    if (!sessionId) {
+    // Get the current user
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError || !user) {
       return NextResponse.json(
-        { error: 'Session ID is required' },
+        { error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    // Get the current user
-    const user = await account.get()
+    // Get user profile
+    const { data: profile, error: profileError } = await supabase
+      .from('user_profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single()
+
+    if (profileError && profileError.code !== 'PGRST116') {
+      // PGRST116 is "not found" which is okay for new users
+      console.error('Profile fetch error:', profileError)
+    }
+
+    // Get the most recent login history entry for lastLogin
+    const { data: lastLoginData } = await supabase
+      .from('login_history')
+      .select('timestamp')
+      .eq('user_id', user.id)
+      .order('timestamp', { ascending: false })
+      .limit(1)
+      .single()
 
     // Return user profile data
     return NextResponse.json({
       email: user.email,
-      lastLogin: new Date().toISOString(), // You might want to store this in a database
+      name: profile?.name || user.user_metadata?.name || '',
+      lastLogin: lastLoginData?.timestamp || user.last_sign_in_at || new Date().toISOString(),
+      profile: profile
     })
   } catch (error) {
     console.error('Profile API Error:', error)
