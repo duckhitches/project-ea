@@ -5,7 +5,7 @@ import { useState } from "react"
 import { supabase } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, Mail, Lock, User, ArrowRight, Check, Eye, EyeOff } from "lucide-react"
+import { ArrowLeft, User, ArrowRight, Check, Eye, EyeOff, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -13,12 +13,15 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { StickyBanner } from "@/components/ui/sticky-banner"
 
 const Signup = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
   const [error, setError] = useState("")
+  const [bannerMessage, setBannerMessage] = useState("")
+  const [signupSuccess, setSignupSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [focusedField, setFocusedField] = useState<string | null>(null)
@@ -56,8 +59,8 @@ const Signup = () => {
             })
         }
 
-        // Redirect to dashboard
-        router.push("/dashboard")
+        setSignupSuccess(true)
+        setBannerMessage("Account created! Check your inbox to complete email verification from Supabase.")
       } else {
         throw new Error("Failed to create account")
       }
@@ -108,7 +111,20 @@ const Signup = () => {
   const strengthLabels = ["Very Weak", "Weak", "Fair", "Good", "Strong"]
 
   return (
-    <div className="min-h-screen flex bg-white dark:bg-black transition-colors duration-300">
+    <div
+      className={cn(
+        "min-h-screen flex bg-white dark:bg-black transition-colors duration-300",
+        bannerMessage ? "pt-16" : ""
+      )}
+    >
+      {bannerMessage && (
+        <StickyBanner className="bg-emerald-500 text-white" hideOnScroll>
+          <div className="flex items-center gap-3 text-sm sm:text-base font-medium">
+            <CheckCircle className="w-4 h-4" />
+            <span>{bannerMessage}</span>
+          </div>
+        </StickyBanner>
+      )}
       {/* Left Side - Clean Visual */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
         {/* Animated background elements */}
@@ -366,7 +382,7 @@ const Signup = () => {
               {/* Submit Button */}
               <Button
                 type="submit"
-                disabled={loading}
+                disabled={loading || signupSuccess}
                 className="relative w-full h-12 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-black font-medium rounded-lg transition-all duration-300 overflow-hidden group"
               >
                 <AnimatePresence mode="wait">
@@ -425,26 +441,34 @@ const Signup = () => {
             </div>
 
             {/* Guest Login */}
-            <Button
-              type="button"
-              onClick={handleGuestLogin}
-              disabled={loading}
-              variant="outline"
-              className="w-full h-12 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-all duration-200"
-            >
+              <Button
+                type="button"
+                onClick={handleGuestLogin}
+                disabled={loading}
+                variant="outline"
+                className="w-full h-12 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-all duration-200"
+              >
               <User className="w-4 h-4 mr-2" />
               Continue as Guest
             </Button>
 
             {/* Sign in link */}
             <p className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
-              Already have an account?{" "}
-              <Link 
-                href="/auth/login" 
-                className="font-medium text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-              >
-                Sign in
-              </Link>
+              {signupSuccess ? (
+                <span>
+                  Ready when you are! Once your email is verified, <Link href="/auth/login" className="font-medium text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors">sign in</Link> to continue.
+                </span>
+              ) : (
+                <>
+                  Already have an account?{" "}
+                  <Link 
+                    href="/auth/login" 
+                    className="font-medium text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                  >
+                    Sign in
+                  </Link>
+                </>
+              )}
             </p>
 
             {/* Terms */}

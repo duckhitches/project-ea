@@ -54,7 +54,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               <h3 className="md:hidden block text-3xl sm:text-3xl mb-4 text-left font-semibold text-gray-900 dark:text-white">
                 {item.title}
               </h3>
-              <div className="bg-gray-50 dark:bg-gradient-to-r from-gray-950 to-gray-800 text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg text-gray-900 dark:text-white rounded-2xl p-6 shadow-lg">
+              <div className="bg-gray-50 dark:bg-black dark:border-gray-700 dark:shadow-[0px_0px_27px_0px_#2D2D2D] border border-gray-200 text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg text-gray-900 dark:text-white rounded-2xl p-6 shadow-lg">
                 {item.content}
               </div>
             </div>
