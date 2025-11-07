@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { InterviewState, Message } from "../types";
 import {
   StopIcon,
@@ -26,41 +26,12 @@ const formatTime = (totalSeconds: number) => {
 const InterviewScreen: React.FC<InterviewScreenProps> = ({
   state,
   messages,
-  liveTranscript,
+  liveTranscript: _liveTranscript,
   elapsedTime,
   endInterview,
   handleFeedback,
 }) => {
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [isTimerVisible, setIsTimerVisible] = useState(true);
-
-  const isNearBottom = () => {
-    const el = scrollAreaRef.current;
-    if (!el) return true;
-    const threshold = 80;
-    return el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
-  };
-
-  const scrollToBottom = (smooth: boolean) => {
-    const el = scrollAreaRef.current;
-    if (!el) return;
-    el.scrollTo({ top: el.scrollHeight, behavior: smooth ? 'smooth' : 'auto' });
-  };
-
-  useEffect(() => {
-    if (isNearBottom()) {
-      scrollToBottom(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messages]);
-
-  useEffect(() => {
-    if (isNearBottom()) {
-      scrollToBottom(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [liveTranscript]);
 
   const getStatusText = () => {
     switch (state) {
@@ -80,7 +51,7 @@ const InterviewScreen: React.FC<InterviewScreenProps> = ({
   const isConversationActive = state === InterviewState.IN_CONVERSATION;
 
   return (
-    <div className="flex flex-col h-full min-h-0 bg-white rounded-2xl border border-black shadow-sm overflow-hidden w-full max-w-md sm:max-w-lg mx-auto">
+    <div className="flex flex-col bg-white rounded-2xl border border-black shadow-sm overflow-hidden w-full max-w-md sm:max-w-lg h-[540px] sm:h-[600px] mx-auto">
       {/* Header */}
       <div className="flex-shrink-0 flex justify-between items-center px-4 sm:px-5 py-2.5 border-b border-black/10">
         <div className="w-10" /> {/* Spacer for symmetry */}
@@ -110,8 +81,8 @@ const InterviewScreen: React.FC<InterviewScreenProps> = ({
       </div>
 
       {/* Body */}
-      <div className="flex flex-col flex-grow p-4 sm:p-5 md:p-6 overflow-hidden min-h-0">
-        <div ref={scrollAreaRef} className="flex-grow overflow-y-auto mb-4 pr-1 sm:pr-2 pb-4 sm:pb-6 space-y-3 sm:space-y-4">
+      <div className="flex flex-col flex-grow p-4 sm:p-5 md:p-6 overflow-hidden">
+        <div className="flex-grow overflow-y-auto mb-4 pr-1 sm:pr-2 pb-4 sm:pb-6 space-y-3 sm:space-y-4">
           {messages.map((msg, index) => {
             const isAI = msg.sender === "AI";
             return (
@@ -171,16 +142,6 @@ const InterviewScreen: React.FC<InterviewScreenProps> = ({
             );
           })}
 
-          {/* live transcript (user speaking) */}
-          {liveTranscript && (
-            <div className="flex justify-end">
-              <div className="max-w-[85%] sm:max-w-[70%] p-3 sm:p-4 rounded-2xl bg-black/90 text-white/95 rounded-br-none">
-                <p className="italic text-sm sm:text-base">{liveTranscript}</p>
-              </div>
-            </div>
-          )}
-
-          <div ref={messagesEndRef} />
         </div>
 
         {/* Footer controls */}

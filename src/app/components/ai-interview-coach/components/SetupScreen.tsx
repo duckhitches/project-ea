@@ -78,7 +78,7 @@ const SetupScreen: React.FC<{
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g., Priya Kumar"
+              placeholder="e.g., Mike Oxwall"
               className="w-full px-4 py-2.5 border border-black rounded-lg bg-white text-black placeholder-black/40 focus:outline-none focus:ring-2 focus:ring-black"
               required
             />
@@ -94,7 +94,7 @@ const SetupScreen: React.FC<{
               type="text"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              placeholder="e.g., Frontend Engineer"
+              placeholder="e.g., Technical Support Engineer"
               className="w-full px-4 py-2.5 border border-black rounded-lg bg-white text-black placeholder-black/40 focus:outline-none focus:ring-2 focus:ring-black"
               required
             />

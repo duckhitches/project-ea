@@ -38,8 +38,8 @@ export function GlowingEffectDemoSecond() {
   <GridItem
     area="md:[grid-area:3/1/4/13] xl:[grid-area:2/8/3/13]"
     icon={<Search className="h-4 w-4 text-black dark:text-neutral-400" />}
-    title="Real-Time Feedback (Coming Soon)"
-    description="Soon, you’ll receive instant feedback on tone, clarity, and technical accuracy to refine your interview performance."
+    title="Real-Time Feedback"
+    description="You’ll receive instant feedback on tone, clarity, and technical accuracy to refine your interview performance."
   />
 
 </ul>

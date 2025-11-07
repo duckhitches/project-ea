@@ -42,9 +42,9 @@ const developerTeam = [
 ]
 
 const eaTeam = {
-  name: "NoQwit.ai Team",
-  role: "Executive Assistant",
-  description: "Professional support team for business operations, scheduling, and administrative tasks.",
+  name: "The Boring Project Team",
+  role: "CEO & Founder",
+  description: "The Boring Project is the parent company of NoQwit.ai. It is a professional support team for business operations, scheduling, and administrative tasks.",
   services: [
     "Executive Support & Scheduling",
     "Project Coordination",
@@ -52,9 +52,9 @@ const eaTeam = {
     "Administrative Operations",
     "Business Process Management",
   ],
-  avatar: "/logo.svg?height=80&width=80",
+  avatar: "/brand-logo.png?height=80&width=80",
   href: "mailto:duckhitches@outlook.com",
-  teamSize: "5 Members",
+  teamSize: "1 Member",
   availability: "24/7 Support",
   rating: "4.9",
 }
@@ -115,14 +115,7 @@ export default function Contact() {
 
             {/* Header Content */}
             <div className="text-center max-w-4xl mx-auto">
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 mb-6"
-              >
-                <MessageCircle className="w-4 h-4 mr-2" />
-                We&apos;re here to help!
-              </motion.div>
+             
 
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
@@ -333,7 +326,7 @@ export default function Contact() {
                 href={eaTeam.href}
                 className="block w-full bg-black dark:bg-white text-white dark:text-black py-4 px-6 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-center"
               >
-                Contact NoQwit.ai Team
+                Contact The Boring Project Team
               </motion.a>
             </div>
           </div>
@@ -346,14 +339,14 @@ export default function Contact() {
           className="mt-24 text-center"
         >
           <div className="bg-black dark:bg-white text-white dark:text-black rounded-3xl p-12">
-            <h3 className="text-3xl font-bold mb-6">Ready to Start Your Project?</h3>
+            <h3 className="text-3xl font-bold mb-6">Ready to Start Your Project with The Boring Project?</h3>
             <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
               Let&apos;s get started!
             </p>
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="mailto:justnord@gmail.com"
+              href="https://calendly.com/shettennavareshan/30min"
               className="inline-flex bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900 py-4 px-8 rounded-2xl font-semibold transition-all duration-200"
             >
               Schedule a Call

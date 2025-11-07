@@ -46,10 +46,18 @@ export const useInterview = () => {
 
   const cleanupAudio = useCallback(() => {
     if (audioResources.current) {
-      audioResources.current.scriptProcessor.disconnect();
-      audioResources.current.mediaStreamSource.disconnect();
-      audioResources.current.inputAudioContext.close();
-      audioResources.current.outputAudioContext.close();
+      try {
+        audioResources.current.scriptProcessor?.disconnect();
+      } catch (error) {
+        console.warn('Error disconnecting scriptProcessor:', error);
+      }
+      try {
+        audioResources.current.mediaStreamSource?.disconnect();
+      } catch (error) {
+        console.warn('Error disconnecting mediaStreamSource:', error);
+      }
+      audioResources.current.inputAudioContext?.close().catch(() => {});
+      audioResources.current.outputAudioContext?.close().catch(() => {});
       audioResources.current = null;
     }
     if (mediaStreamRef.current) {
@@ -181,7 +189,6 @@ Begin the interview now. Greet the candidate by name and ask your first question
              if (message.serverContent?.inputTranscription) {
                 const text = message.serverContent.inputTranscription.text ?? '';
                 currentInputTranscription = text;
-                setLiveTranscript(text);
              }
              if (message.serverContent?.outputTranscription) {
                 const text = message.serverContent.outputTranscription.text ?? '';

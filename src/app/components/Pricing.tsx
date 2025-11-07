@@ -88,14 +88,7 @@ export default function Pricing() {
 
             {/* Header Content */}
             <div className="text-center max-w-4xl mx-auto">
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white text-sm font-medium mb-6"
-              >
-                <Star className="w-4 h-4 mr-2" />
-                Special Launch Pricing
-              </motion.div>
+              
 
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
