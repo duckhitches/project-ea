@@ -73,10 +73,7 @@ const AIInterviewPage = () => {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center gap-3 mb-6">
-        <Monitor className="w-6 h-6 text-gray-900 dark:text-white" />
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">AI Interview</h2>
-      </div>
+      
 
       {isGuest && (
         <motion.div
