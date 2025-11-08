@@ -8,7 +8,7 @@ const foundersData = [
   {
     name: "Aryan S P",
     role: "AI/ML Specialist",
-    title: "Co-Founder & Chief Technology Officer",
+    title: "Co-Founder & Chief Executive Officer",
     description:
       "Expertise in AI/ML, AI Integration and LLM training. Passionate about creating intelligent systems that understand and respond to human needs.",
     skills: [
@@ -28,7 +28,7 @@ const foundersData = [
   {
     name: "Eshan Vijay Shettennavar",
     role: "Full Stack Developer",
-    title: "Co-Founder & Chief Executive Officer",
+    title: "Co-Founder & Chief Technology Officer",
     description:
       "Expertise in Full stack web development, UI/UX Design and DevOps. Crafting beautiful, scalable applications with AI-powered modern technologies.",
     skills: [
