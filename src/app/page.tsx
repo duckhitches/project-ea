@@ -73,7 +73,7 @@ export default function Home() {
                 key={`mobile-link-${idx}`}
                 href={item.link}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-gray-600 hover:text-gray-900"
+                className="relative text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-gray-300"
               >
                 <span className="block">{item.name}</span>
               </a>

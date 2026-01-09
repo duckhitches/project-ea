@@ -3,6 +3,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowDown, CheckCircle, Sparkles, Users, Zap, ExternalLink, Shield, Award, ArrowRight, ArrowUp } from 'lucide-react'
@@ -13,6 +14,7 @@ import About from '../About'
 export const LandingPage = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
 
   const scrollToAbout = () => {
@@ -20,15 +22,35 @@ export const LandingPage = () => {
   }
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    // Use multiple methods for better browser compatibility
+    if (window.scrollY > 0) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+    // Fallback for older browsers
+    if (document.documentElement.scrollTop > 0) {
+      document.documentElement.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+    if (document.body.scrollTop > 0) {
+      document.body.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 300)
+      // Check multiple scroll positions for better compatibility
+      const scrollY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0
+      setShowScrollTop(scrollY > 300)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    // Add scroll listener with passive option for better performance
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    // Check initial scroll position
+    handleScroll()
+    
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -159,22 +181,30 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* Go to Top Button */}
-      <AnimatePresence>
-        {showScrollTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={scrollToTop}
-            className="fixed bottom-6 left-6 z-50 flex items-center justify-center w-14 h-14 bg-pink-500 text-black dark:text-black rounded-full text-sm font-semibold hover:scale-105 transition-all duration-200 shadow-lg"
+      {/* Go to Top Button - Rendered via Portal to avoid stacking context issues */}
+      {mounted && createPortal(
+        showScrollTop && (
+          <button
+            onClick={(e) => {
+              e.preventDefault()
+              scrollToTop()
+            }}
+            className="fixed bottom-6 right-6 z-[9999] flex items-center justify-center w-14 h-14 bg-pink-500 text-black dark:text-black rounded-full text-sm font-semibold hover:scale-105 transition-all duration-200 shadow-lg cursor-pointer"
+            style={{ 
+              position: 'fixed',
+              zIndex: 9999,
+              isolation: 'isolate'
+            }}
+            aria-label="Scroll to top"
+            type="button"
           >
             <span className="text-lg">
-                        <Image src="/top-arrow.svg" alt="Top Arrow" width={24} height={24} />
-                    </span>
-          </motion.button>
-        )}
-      </AnimatePresence>
+              <Image src="/top-arrow.svg" alt="Top Arrow" width={24} height={24} />
+            </span>
+          </button>
+        ),
+        document.body
+      )}
     </div>
   )
 }
