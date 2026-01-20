@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from '@vercel/analytics/next';
 import { Michroma, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Footer } from "./components/ui/footer";
@@ -36,6 +37,7 @@ export default function RootLayout({
         <ThemeProvider>
           <main className="min-h-screen">{children}</main>
           <Footer />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
