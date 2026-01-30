@@ -1,177 +1,144 @@
-Alright. I’ll be strict but helpful here 😄
-I’ll give you a production-ready GitHub README that recruiters, founders, and contributors actually respect — not a toy README.
+# 🧠 NoQwit.ai (formerly EA.ai)
 
-Below is a complete README.md you can copy-paste and tweak names/links if needed.
-I’ll write it in a way that works for both NoQwit.ai and The Boring Project. You can duplicate it and slightly adjust the “Features” section per repo.
+> An AI-powered mock interview platform that helps users practice real-world interviews through adaptive questioning, voice interaction, and intelligent feedback.
 
-⸻
+---
 
-🧠 NoQwit.ai
+## 🏗️ System Design
 
-(formerly EA.ai)
+The application follows a modern **Serverless / Edge-first architecture** primarily powered by Next.js and Supabase.
 
-An AI-powered mock interview platform that helps users practice real-world interviews through adaptive questioning, voice interaction, and intelligent feedback.
+```mermaid
+graph TD
+    User["👤 User (Candidate)"]
+    
+    subgraph Client ["🖥️ Frontend (Next.js App Router)"]
+        UI["UI Components (Framer Motion, Tailwind)"]
+        Voice["Voice Input/Output (ElevenLabs / Web Speech API)"]
+    end
+    
+    subgraph Server ["⚡ Next.js API Routes (Serverless Functions)"]
+        APIGen["/api/generate-questions"]
+        APIAnalyze["/api/analyze-resume"]
+        APITTS["/api/tts"]
+        APIAuth["/auth/*"]
+    end
+    
+    subgraph Services ["☁️ Layout Services"]
+        Supabase[("🗄️ Supabase (PostgreSQL + Auth)")]
+        Gemini["🧠 Google Gemini AI (LLM)"]
+        ElevenLabs["🔊 ElevenLabs (Text-to-Speech)"]
+    end
 
-⸻
+    User -->|Interacts| UI
+    UI -->|Voice Input| Voice
+    UI -->|Requests| APIGen
+    UI -->|Requests| APIAnalyze
+    
+    APIGen -->|Prompt| Gemini
+    APIAnalyze -->|Context| Gemini
+    APITTS -->|Text| ElevenLabs
+    
+    APIAuth -->|Auth/Session| Supabase
+    APIGen -->|Store History| Supabase
+```
 
-🚀 Overview
+### Data Flow
+1. **User Auth**: All authentication is handled by Supabase Auth (migrated from Appwrite).
+2. **Interview Session**:
+   - User starts session -> specific resume/JD context is sent to **Gemini**.
+   - Gemini generates questions based on context.
+   - User speaks -> Browser Speech-to-Text converts to string.
+   - Answer is sent to Gemini for feedback + Next Question.
+   - AI Response text is sent to **ElevenLabs** (or browser TTS) for audio playback.
 
-NoQwit.ai is a full-stack AI interview simulation platform designed to replicate realistic interview scenarios.
-It adapts questions based on user responses and resume input, providing structured feedback at the end of each session.
+---
 
-This project focuses on:
-	•	Realistic interview flows
-	•	AI-driven adaptability
-	•	Clean, performance-first UI
-	•	Scalable architecture
+## ❓ Why's & What's
 
-⸻
+### **Why Next.js?**
+- **Unified Stack**: React for UI and API Routes for backend logic in one repository.
+- **Server Components**: We use RSC (React Server Components) for secure data fetching (like user profile) explicitly on the server.
+- **Performance**: Static generation for marketing pages, dynamic rendering for the dashboard.
 
-✨ Key Features
-	•	🎤 AI-Driven Interviewer
-	•	Adaptive questioning based on user responses
-	•	Supports casual and strict interview modes
-	•	📄 Resume-Aware Interviews
-	•	Optional resume upload
-	•	AI generates questions based on resume content
-	•	🧠 AI Feedback Engine
-	•	Strengths and improvement areas
-	•	Tone and communication analysis
-	•	Confidence score with actionable suggestions
-	•	🧩 Voice Interaction
-	•	Real-time speech input
-	•	AI voice responses for immersive interviews
-	•	🎨 Modern UI
-	•	Motion-driven interactions
-	•	Clean, accessible design
-	•	Responsive across devices
+### **Why Supabase?**
+- **Relational Data**: Unlike Appwrite (document-based), Supabase gives us a real PostgreSQL database, which is better for structured data like `interview_sessions` and `user_profiles`.
+- **Auth**: Built-in rugged authentication with RLS (Row Level Security) ensures users can only access their own data.
 
-⸻
+### **Why Gemini?**
+- **Multimodal**: Good at understanding context from resumes and job descriptions.
+- **Cost/Speed**: currently offers a great balance of latency and cost for real-time chat interfaces compared to GPT-4.
 
-🛠 Tech Stack
-	•	Framework: Next.js (App Router)
-	•	Language: TypeScript
-	•	Backend / DB: Supabase
-	•	AI: Gemini API
-	•	UI & Animations: Framer Motion
-	•	Auth & Storage: Supabase Auth + Storage
+---
 
-⸻
+## 📂 Folder Structure
 
-📂 Project Structure
+The project is contained within the `ea` directory.
 
-.
-├── app/                    # Next.js app router
-│   ├── (auth)/             # Authentication routes
-│   ├── dashboard/          # Main user dashboard
-│   ├── interview/          # Interview flow pages
-│   └── layout.tsx
-│
-├── components/
-│   ├── ui/                 # Reusable UI components
-│   ├── interview/          # Interview-specific components
-│   ├── feedback/           # Feedback screens & cards
-│   └── setup/              # Interview setup screens
-│
-├── lib/
-│   ├── ai/                 # Gemini API helpers
-│   ├── supabase/           # Supabase client & utilities
-│   └── utils/              # Shared helpers
-│
-├── hooks/                  # Custom React hooks
-├── types/                  # Global TypeScript types
-├── public/                 # Static assets
-│
-├── styles/                 # Global styles
-├── .env.example            # Environment variable template
-├── README.md
-└── package.json
+```text
+/
+├── MIGRATION_COMPLETE.md    # Docs on the Appwrite -> Supabase migration
+├── ea/                      # MAIN APPLICATION CODE
+│   ├── src/
+│   │   ├── app/             # Next.js App Router (Pages & API)
+│   │   │   ├── api/         # Backend endpoints (Gemini, TTS, etc.)
+│   │   │   ├── components/  # Page-specific components
+│   │   │   ├── dashboard/   # User Dashboard pages
+│   │   │   └── interview/   # Active interview session pages
+│   │   ├── components/      # Shared UI components (Buttons, Inputs)
+│   │   ├── lib/             # Utilities (Supabase client, Helpers)
+│   │   └── backend/         # [LEGACY] Potential old python backend
+│   ├── controllers/         # [LEGACY] Unused Express controllers
+│   ├── routes/              # [LEGACY] Unused Express routes
+│   └── public/              # Static assets
+└── package.json             # Root workspace config
+```
 
+---
 
-⸻
+## 🛠️ Maintenance & Known Issues (For Devs)
 
-⚙️ Getting Started
+This project has evolved and contains some legacy artifacts that new developers can help clean up.
 
-1. Clone the repository
+### 1. Legacy Express Backend
+- **Location**: `ea/controllers/` and `ea/routes/`
+- **Issue**: These files (`userController.js`, `userRoutes.js`) use Express logic (`module.exports`, `res.status`). However, there is no `server.js` actively running them. The app now uses Next.js API routes (`ea/src/app/api`).
+- **Fix**: Verify no logic is missing from the Next.js API routes, then **delete** these folders.
 
-git clone https://github.com/your-username/noqwit.ai.git
-cd noqwit.ai
+### 2. Python Artifacts
+- **Location**: `ea/backend/` and `ea/__pycache__/`
+- **Issue**: Presence of `__pycache__` suggests a Python backend was once used or tested.
+- **Fix**: If the Python backend is no longer part of the stack (which seems true as `package.json` scripts don't reference it), these should be removed to avoid confusion.
 
-2. Install dependencies
+### 3. Root vs. `ea` Package.json
+- **Issue**: There is a `package.json` in the root AND in `ea/`.
+- **Fix**: The root `package.json` script `"start": "node ea/server.js"` will likely fail because `ea/server.js` does not exist. Development should focus on `ea/package.json`.
+- **Recommendation**: Update root scripts to proxy into `ea` correctly (e.g., `"dev": "cd ea && npm run dev"`).
 
-npm install
+---
 
-3. Set up environment variables
+## 🚀 Getting Started
 
-Create a .env.local file using .env.example:
+1. **Navigate to the core app**:
+   ```bash
+   cd ea
+   ```
 
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-GEMINI_API_KEY=
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-4. Run the development server
+3. **Environment Setup**:
+   Create `.env.local` in `ea/` directory with:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=...
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+   GEMINI_API_KEY=...
+   ELEVENLABS_API_KEY=...
+   ```
 
-npm run dev
-
-Open http://localhost:3000 in your browser.
-
-⸻
-
-🧪 Development Notes
-	•	AI prompts are modular and easy to extend
-	•	Resume analysis is optional and handled gracefully
-	•	Voice features require browser microphone access
-	•	Designed to scale for additional interview roles and industries
-
-⸻
-
-🧩 Roadmap
-	•	Multi-role interview templates
-	•	Session history & analytics
-	•	Interview replay with transcript
-	•	Improved scoring models
-	•	Enterprise-ready interview workflows
-
-⸻
-
-🤝 Contributing
-
-Contributions are welcome and encouraged.
-
-How to contribute:
-	1.	Fork the repository
-	2.	Create a feature branch
-
-git checkout -b feature/your-feature-name
-
-
-	3.	Commit your changes clearly
-	4.	Open a pull request with a proper description
-
-Contribution Guidelines:
-	•	Keep code clean and readable
-	•	Follow existing component structure
-	•	Write meaningful commit messages
-	•	No breaking changes without discussion
-
-⸻
-
-📰 Updates
-
-All future updates, improvements, and fixes will be announced in the News section of the dashboard.
-
-⸻
-
-📬 Contact
-
-If you’d like to collaborate, discuss ideas, or provide feedback:
-
-Eshan
-LinkedIn: [https://linkedin.com/in/eshan-shettennavar]
-GitHub: [https://github.com/duckhitches]
-
-⸻
-
-📜 License
-
-This project is open-source under the MIT License.
+4. **Run Dev Server**:
+   ```bash
+   npm run dev
+   ```
