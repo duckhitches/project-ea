@@ -29,7 +29,7 @@ export default function Loading({ message = "Loading...", size = 'md' }: Loading
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300 backdrop-blur-sm flex items-center justify-center">
+    <div className="min-h-screen bg-transparent transition-colors duration-300 backdrop-blur-sm flex items-center justify-center">
       <motion.div
         className="flex flex-col items-center space-y-6"
         initial={{ opacity: 0, y: 20 }}

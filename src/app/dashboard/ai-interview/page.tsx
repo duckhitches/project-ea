@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase"
 import { Monitor, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { motion } from "framer-motion"
-import AIInterview from "@/app/components/AIInterview"
+import AIInterview from "@/components/ai-interview-coach/AIInterview"
 import Loading from "../loading"
 
 interface UserProfile {
@@ -81,8 +81,8 @@ const AIInterviewPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Alert className="border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
-            <AlertCircle className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+          <Alert className="border-gray-200 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-md">
+            <AlertCircle className="h-4 w-4 text-gray-600 dark:text-gray-300" />
             <AlertDescription className="text-gray-800 dark:text-gray-200">
               You&apos;re using a guest account. Sign up for full access to personalized interview features and unlimited sessions!
             </AlertDescription>

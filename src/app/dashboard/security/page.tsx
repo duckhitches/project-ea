@@ -307,7 +307,7 @@ const SecurityPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6"
+            className="bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-sm p-6"
           >
             <div className="flex items-center gap-3 mb-4">
               <Lock className="w-5 h-5 text-gray-400" />
@@ -316,22 +316,22 @@ const SecurityPage = () => {
             <p className="text-sm text-gray-600 dark:text-white mb-6">Your account security status and recommendations</p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700">Email Verification</span>
-                  <Badge className="bg-green-50 text-green-700 border-green-200">Verified</Badge>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Email Verification</span>
+                  <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20">Verified</Badge>
                 </div>
               </div>
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700">Password Strength</span>
-                  <Badge className="bg-blue-50 text-blue-700 border-blue-200">Strong</Badge>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Password Strength</span>
+                  <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20">Strong</Badge>
                 </div>
               </div>
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700">2FA Status</span>
-                  <Badge className="bg-yellow-50 text-yellow-700 border-yellow-200">Not Enabled</Badge>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">2FA Status</span>
+                  <Badge className="bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20">Not Enabled</Badge>
                 </div>
               </div>
             </div>
@@ -342,7 +342,7 @@ const SecurityPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
-            className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6"
+            className="bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-sm p-6"
           >
             <form onSubmit={handlePasswordChange} className="space-y-6">
               <div className="flex items-center gap-3 mb-4 ">
@@ -465,7 +465,7 @@ const SecurityPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
-            className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6"
+            className="bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-sm p-6"
           >
             <div className="flex items-center gap-3 mb-4">
               <Shield className="w-5 h-5 text-gray-400" />
@@ -473,31 +473,31 @@ const SecurityPage = () => {
             </div>
             
             <div className="space-y-4">
-              <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
+              <div className="flex items-start gap-3 p-4 bg-blue-500/10 rounded-lg">
                 <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-black">Enable Two-Factor Authentication</h3>
-                  <p className="text-sm text-gray-600 dark:text-black mt-1">
+                  <h3 className="font-medium text-black dark:text-white">Enable Two-Factor Authentication</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     Add an extra layer of security to your account with 2FA.
                   </p>
                 </div>
               </div>
               
-              <div className="flex items-start gap-3 p-4 bg-green-50 rounded-lg">
+              <div className="flex items-start gap-3 p-4 bg-green-500/10 rounded-lg">
                 <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-black">Use a Strong Password</h3>
-                  <p className="text-sm text-gray-600 dark:text-black mt-1">
+                  <h3 className="font-medium text-black dark:text-white">Use a Strong Password</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     Include uppercase, lowercase, numbers, and special characters.
                   </p>
                 </div>
               </div>
               
-              <div className="flex items-start gap-3 p-4 bg-purple-50 rounded-lg">
+              <div className="flex items-start gap-3 p-4 bg-purple-500/10 rounded-lg">
                 <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-black">Regular Security Reviews</h3>
-                  <p className="text-sm text-gray-600 dark:text-black mt-1">
+                  <h3 className="font-medium text-black dark:text-white">Regular Security Reviews</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     Review your account activity and update security settings regularly.
                   </p>
                 </div>

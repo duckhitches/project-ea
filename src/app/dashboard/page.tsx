@@ -3,23 +3,15 @@
 import type React from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Michroma } from "next/font/google"
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { supabase } from "@/lib/supabase"
 import dynamic from "next/dynamic"
 import { UserIcon, Clock, Shield, Monitor, CheckCircle, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { motion } from "framer-motion"
-import {
-  Navbar,
-  NavBody,
-  MobileNav,
-  NavbarLogo,
-  NavbarButton,
-  MobileNavHeader,
-  MobileNavToggle,
-  MobileNavMenu,
-} from "../components/ui/resizable-navbar"
+import StaggeredMenu from "@/components/StaggeredMenu"
 import ThemeToggle from "@/components/ui/ThemeToggle"
+import Image from "next/image"
 
 // Dynamically import components
 const ProfilePage = dynamic(() => import("./profile/page"), { ssr: false })
@@ -38,7 +30,11 @@ const DashboardContent = dynamic(() => Promise.resolve(Dashboard), {
 })
 
 export default function DashboardPage() {
-  return <DashboardContent />
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 dark:border-white"></div></div>}>
+      <DashboardContent />
+    </Suspense>
+  )
 }
 
 interface UserProfile {
@@ -56,8 +52,7 @@ const Dashboard = () => {
   const [isGuest, setIsGuest] = useState(false)
   const [message, setMessage] = useState("")
   const [messageType, setMessageType] = useState<"success" | "error" | "">("")
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [hoveredNav, setHoveredNav] = useState<number | null>(null)
+
   const router = useRouter()
   const searchParams = useSearchParams()
   
@@ -151,18 +146,11 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center transition-colors duration-300">
+      <div className="min-h-screen bg-transparent flex items-center justify-center transition-colors duration-300">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
       </div>
     )
   }
-
-  const navItems = [
-    { name: "Profile", value: "profile", icon: UserIcon },
-    { name: "History", value: "history", icon: Clock },
-    { name: "AI Interview", value: "ai", icon: Monitor },
-    { name: "Security", value: "security", icon: Shield },
-  ]
 
   const renderActiveTab = () => {
     switch (activeTab) {
@@ -179,96 +167,44 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300">
-      <Navbar>
-        <NavBody>
-          <NavbarLogo />
-          <div 
-            className="absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-md font-medium text-gray-600 dark:text-gray-400 transition duration-200 hover:text-gray-800 dark:hover:text-gray-200 lg:flex lg:space-x-2"
-            onMouseLeave={() => setHoveredNav(null)}
-          >
-            {navItems.map((item, idx) => {
-              return (
-                <motion.div
-                  key={item.value}
-                  className="relative"
-                  animate={{
-                    marginLeft: hoveredNav === idx ? "8px" : "0px",
-                    marginRight: hoveredNav === idx ? "8px" : "0px",
-                  }}
-                  transition={{ duration: 0.2, ease: "easeInOut" }}
-                >
-                  <button
-                    onMouseEnter={() => setHoveredNav(idx)}
-                  onClick={() => handleTabChange(item.value)}
-                    className="relative px-4 py-2 text-gray-600 dark:text-gray-300 block"
-                >
-                    {(activeTab === item.value || hoveredNav === idx) && (
-                    <motion.div
-                      layoutId="hovered"
-                      className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-gray-800"
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                    />
-                  )}
-                  <span className="relative z-20 flex items-center gap-2">
-                    <item.icon className="w-4 h-4" />
-                    {item.name}
-                  </span>
-                </button>
-                </motion.div>
-              )
-            })}
-          </div>
-          <div className="flex items-center gap-4">
-            <NavbarButton variant="primary" onClick={handleLogout}>
-              Sign Out
-            </NavbarButton>
-          </div>
-        </NavBody>
-        {/* Mobile Nav */}
-        <MobileNav>
-          <MobileNavHeader>
-            <NavbarLogo />
-            <div className="flex items-center gap-3">
-              <MobileNavToggle isOpen={isMobileMenuOpen} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
-            </div>
-          </MobileNavHeader>
-          <MobileNavMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)}>
-            {navItems.map((item) => {
-              return (
-                <button
-                  key={item.value}
-                  onClick={() => {
-                    handleTabChange(item.value)
-                    setIsMobileMenuOpen(false)
-                  }}
-                  className="relative text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 w-full text-left py-2 flex items-center gap-2"
-                >
-                  <item.icon className="w-4 h-4" />
-                  {item.name}
-                </button>
-              )
-            })}
-            <NavbarButton
-              onClick={() => {
-                setIsMobileMenuOpen(false)
-                handleLogout()
-              }}
-              variant="primary"
-              className="w-full"
-            >
-              Sign Out
-            </NavbarButton>
-          </MobileNavMenu>
-        </MobileNav>
-      </Navbar>
-
+    <div className="min-h-screen bg-transparent transition-colors duration-300">
+      <StaggeredMenu
+        items={[
+          {
+            label: "Profile",
+            ariaLabel: "Profile",
+            onClick: () => handleTabChange("profile"),
+          },
+          {
+            label: "History",
+            ariaLabel: "History",
+            onClick: () => handleTabChange("history"),
+          },
+          {
+            label: "AI Interview",
+            ariaLabel: "AI Interview",
+            onClick: () => handleTabChange("ai"),
+          },
+          {
+            label: "Security",
+            ariaLabel: "Security",
+            onClick: () => handleTabChange("security"),
+          },
+          {
+            label: "Sign Out",
+            ariaLabel: "Sign Out",
+            onClick: handleLogout,
+          }
+        ]}
+        logoContent={<div className="flex items-center gap-3"><Image src="/brand-logo.png" width={40} height={40} className="w-10 h-10 rounded-full bg-black p-2 object-contain" alt="Logo" /><span className="text-sm md:text-xl font-boldonse tracking-tighter text-pink-500">The Boring Interview</span></div>}
+        colors={["#0f0518", "#1a0b2e", "#260d40", "#D02752"]}
+        menuButtonColor="#ec4899" 
+        openMenuButtonColor="#ffffff"
+        accentColor="#ec4899"
+      />
       {/* Message Alert */}
       {message && (
-        <div className="max-w-4xl mx-auto px-4 pt-4">
+        <div className="max-w-4xl mx-auto px-4 pt-28">
           <Alert className={messageType === "success" ? "border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20" : "border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20"}>
             {messageType === "success" ? (
               <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
@@ -283,7 +219,7 @@ const Dashboard = () => {
       )}
 
       {/* Tab Content */}
-      <main className="max-w-4xl mx-auto py-6 px-4">
+      <main className={`max-w-4xl mx-auto px-4 pb-20 ${message ? 'pt-6' : 'pt-28'}`}>
         {renderActiveTab()}
       </main>
 

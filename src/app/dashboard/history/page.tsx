@@ -324,29 +324,29 @@ const HistoryPage = () => {
           className="space-y-6"
         >
           {/* Current Session */}
-          <Card className="overflow-hidden border-0 shadow-sm dark:bg-black dark:border-gray-900 dark:border-0">
+          <Card className="overflow-hidden border-0 shadow-sm bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 text-black dark:text-white">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
-                <Activity className="w-5 h-5 text-gray-400" />
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Current Session</h2>
+                <Activity className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                <h2 className="text-lg font-semibold">Current Session</h2>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-sm text-gray-500 mb-1">User</div>
-                  <div className="font-medium text-gray-900">{user?.name || user?.email}</div>
+                <div className="bg-white/10 dark:bg-white/5 rounded-lg p-4 backdrop-blur-md border border-white/10">
+                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">User</div>
+                  <div className="font-medium text-black dark:text-white">{user?.name || user?.email}</div>
                 </div>
                 
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-sm text-gray-500 mb-1">Status</div>
-                  <Badge className="bg-green-50 text-green-700 border-green-200">
+                <div className="bg-white/10 dark:bg-white/5 rounded-lg p-4 backdrop-blur-md border border-white/10">
+                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Status</div>
+                  <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20">
                     Active Now
                   </Badge>
                 </div>
                 
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="text-sm text-gray-500 mb-1">Session Started</div>
-                  <div className="font-medium text-gray-900">
+                <div className="bg-white/10 dark:bg-white/5 rounded-lg p-4 backdrop-blur-md border border-white/10">
+                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Session Started</div>
+                  <div className="font-medium text-black dark:text-white">
                     {currentSession ? formatDate(currentSession.loginTime) : "N/A"}
                   </div>
                 </div>
@@ -355,21 +355,21 @@ const HistoryPage = () => {
           </Card>
 
           {/* Login History */}
-          <Card className="overflow-hidden border-0 shadow-sm dark:bg-black dark:border-gray-900 dark:border-0">
+          <Card className="overflow-hidden border-0 shadow-sm bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 text-black dark:text-white">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-gray-400" />
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Login History</h2>
+                  <Calendar className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                  <h2 className="text-lg font-semibold">Login History</h2>
                 </div>
-                <Badge variant="outline" className="text-sm">
+                <Badge variant="outline" className="text-sm border-white/20">
                   {loginHistory.length} sessions
                 </Badge>
               </div>
               
               {loginHistory.length === 0 ? (
-                <div className="text-center py-8 text-gray-500 ">
-                  <LogIn className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                  <LogIn className="w-12 h-12 mx-auto mb-4 opacity-50" />
                   <p>No login sessions recorded yet.</p>
                   <p className="text-sm">Your sessions will appear here after staying logged in for 5+ seconds.</p>
                 </div>
@@ -380,17 +380,17 @@ const HistoryPage = () => {
                       key={session.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-between p-4 bg-white/10 dark:bg-white/5 rounded-lg hover:bg-white/20 dark:hover:bg-white/10 transition-colors backdrop-blur-md border border-white/10"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center">
-                          <LogIn className="w-4 h-4 text-white" />
+                        <div className="w-8 h-8 rounded-full bg-black dark:bg-white/20 flex items-center justify-center text-white">
+                          <LogIn className="w-4 h-4" />
                         </div>
                         <div>
-                          <div className="font-medium text-gray-900">
+                          <div className="font-medium text-black dark:text-white">
                             {formatDate(session.loginTime)}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-gray-600 dark:text-gray-400">
                             {session.device} • {getSessionDuration(session)}
                           </div>
                         </div>
@@ -398,11 +398,11 @@ const HistoryPage = () => {
                       
                       <div className="flex items-center gap-2">
                         {session.logoutTime ? (
-                          <Badge variant="outline" className="text-xs dark:bg-gray-800 dark:text-white">
+                          <Badge variant="outline" className="text-xs border-white/20 text-gray-600 dark:text-gray-300">
                             Completed
                           </Badge>
                         ) : (
-                          <Badge className="bg-green-50 text-green-700 border-green-200 text-xs">
+                          <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20 text-xs">
                             Active
                           </Badge>
                         )}
@@ -415,40 +415,40 @@ const HistoryPage = () => {
           </Card>
 
           {/* Activity Summary */}
-          <Card className="overflow-hidden border-0 shadow-sm dark:bg-black dark:border-gray-900 dark:border-0 ">
+          <Card className="overflow-hidden border-0 shadow-sm bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 text-black dark:text-white">
             <div className="p-6">
               <div className="flex items-center gap-3 mb-6">
-                <Monitor className="w-5 h-5 text-gray-400" />
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Activity Summary</h2>
+                <Monitor className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                <h2 className="text-lg font-semibold text-black dark:text-white">Activity Summary</h2>
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-gray-900">
+                <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
+                  <div className="text-2xl font-bold text-black dark:text-white">
                     {currentSession ? 1 : 0}
                   </div>
-                  <div className="text-sm text-gray-600">Active Sessions</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Active Sessions</div>
                 </div>
                 
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-gray-900">
+                <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
+                  <div className="text-2xl font-bold text-black dark:text-white">
                     {user?.$createdAt ? Math.floor((Date.now() - new Date(user.$createdAt).getTime()) / (1000 * 60 * 60 * 24)) : 0}
                   </div>
-                  <div className="text-sm text-gray-600">Days as Member</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Days as Member</div>
                 </div>
                 
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-gray-900">{loginHistory.length}</div>
-                  <div className="text-sm text-gray-600">Total Sessions</div>
+                <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
+                  <div className="text-2xl font-bold text-black dark:text-white">{loginHistory.length}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Total Sessions</div>
                 </div>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <MapPin className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm font-medium text-gray-700">Account Created</span>
+                  <MapPin className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                  <span className="text-sm font-medium text-black dark:text-white">Account Created</span>
                 </div>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   {user?.$createdAt ? new Date(user.$createdAt).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',

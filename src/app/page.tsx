@@ -2,101 +2,52 @@
 
 import React from 'react'
 import { useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import {
-  Navbar,
-  NavBody,
-  NavItems,
-  MobileNav,
-  NavbarLogo,
-  NavbarButton,
-  MobileNavHeader,
-  MobileNavToggle,
-  MobileNavMenu,
-} from './components/ui/resizable-navbar'
-import { LandingPage } from './components/ui/Landing-page'
+import StaggeredMenu from '@/components/StaggeredMenu'
 import ThemeToggle from '@/components/ui/ThemeToggle'
+import { LandingPage } from './components/ui/Landing-page'
 
 export default function Home() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const router = useRouter()
 
-  const navItems = [
-    {
-      name: "Features",
-      link: "#features",
-    },
-    {
-      name: "Pricing",
-      link: "/Pricing",
-    },
-    {
-      name: "Contact",
-      link: "/Contact",
-    },
-    {
-      name: "Go to Dashboard",
-      link: "/dashboard",
-    },
-  ]
+
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black">
-      <Navbar>
-        <NavBody>
-          <NavbarLogo />
-          <NavItems items={navItems} />
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-            <NavbarButton variant="primary" href="/auth/login">Login</NavbarButton>
-          </div>
-        </NavBody>
-
-        <MobileNav>
-          <MobileNavHeader>
-            <NavbarLogo />
-            <div className="flex items-center gap-3">
-              <ThemeToggle />
-              <MobileNavToggle
-                isOpen={isMobileMenuOpen}
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              />
-            </div>
-          </MobileNavHeader>
-
-          <MobileNavMenu
-            isOpen={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-          >
-            {navItems.map((item, idx) => (
-              <a
-                key={`mobile-link-${idx}`}
-                href={item.link}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-gray-600 hover:text-gray-900 dark:text-white dark:hover:text-gray-300"
-              >
-                <span className="block">{item.name}</span>
-              </a>
-            ))}
-            <div className="flex w-full flex-col gap-4">
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                href="/auth/login"
-                className="w-full"
-              >
-                Login
-              </NavbarButton>
-            </div>
-          </MobileNavMenu>
-        </MobileNav>
-      </Navbar>
+    <div className="min-h-screen">
+      <div className='flex justify-center mb-10'>
+      <StaggeredMenu
+        items={[
+          { label: "Features", ariaLabel: "Features", link: "#features" },
+          { label: "Pricing", ariaLabel: "Pricing", link: "/pricing" },
+          { label: "Contact", ariaLabel: "Contact", link: "/contact" },
+          { label: "Dashboard", ariaLabel: "Dashboard", link: "/dashboard" },
+          { label: "Login", ariaLabel: "Login", link: "/auth/login" },
+          { label: "Sign Up", ariaLabel: "Sign Up", link: "/auth/signup" }
+        ]}
+        socialItems={[
+          
+          { label: "LinkedIn", link: "https://linkedin.com/in/eshan-shettennavar/" },
+          { label: "GitHub", link: "https://github.com/duckhitches" }
+        ]}
+        logoContent={<div className="flex items-center gap-3"><Image src="/brand-logo.png" width={40} height={40} className="w-10 h-10 rounded-full bg-black p-2 object-contain" alt="Logo" /><span className="text-sm md:text-xl font-boldonse tracking-tighter text-pink-500">The Boring Interview</span></div>}
+        colors={["#0f0518", "#1a0b2e", "#260d40", "#D02752"]}
+        menuButtonColor="#ec4899" 
+        openMenuButtonColor="#ffffff"
+        accentColor="#ec4899"
+      />
+      </div>
+      
+      {/* Theme Toggle - Fixed position */}
+      <div className="fixed bottom-6 left-6 z-10">
+        <ThemeToggle />
+      </div>
 
       <LandingPage />
 
       {/* Enhanced CTA Section */}
       <section className="relative py-20 sm:py-32 overflow-hidden bg-black dark:bg-white">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5"></div>
+        <div className="absolute inset-0 bg-[url('/next.svg')] opacity-5 bg-cover"></div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div
             className="space-y-8"
@@ -129,7 +80,7 @@ export default function Home() {
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               </a>
               <a
-                href="/Contact"
+                href="/contact"
                 className="border-2 text-black bg-white hover:text-white hover:bg-black hover:border-white px-8 py-6 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center"
               >
                 Contact Us

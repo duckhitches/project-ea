@@ -16,6 +16,12 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-montserrat)", "sans-serif"],
+        michroma: ["var(--font-michroma)", "sans-serif"],
+        cabin: ["var(--font-cabin)", "sans-serif"],
+        boldonse: ["var(--font-boldonse)", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

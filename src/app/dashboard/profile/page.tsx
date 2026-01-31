@@ -463,7 +463,7 @@ const ProfilePage = () => {
       {/* Profile Picture Section */}
       <motion.div
         variants={pageVariants}
-        className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-4 sm:p-6"
+        className="bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-sm p-4 sm:p-6"
       >
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
           <ProfilePicture
@@ -488,7 +488,7 @@ const ProfilePage = () => {
       {/* Personal Information Form */}
       <motion.div
         variants={pageVariants}
-        className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6 space-y-6"
+        className="bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-sm p-6 space-y-6"
       >
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Personal Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -551,7 +551,7 @@ const ProfilePage = () => {
       {/* Account Information */}
       <motion.div
         variants={pageVariants}
-        className="bg-white dark:bg-black rounded-2xl shadow-sm border border-gray-100 dark:border-gray-900 p-6"
+        className="bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-sm p-6"
       >
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Account Information</h3>
         <div className="space-y-4">

@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { IconHeart } from "@tabler/icons-react";
+import Image from "next/image";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -75,7 +75,7 @@ export function Footer() {
         <div className="mt-12 border-t border-neutral-200 pt-8 dark:border-neutral-800" suppressHydrationWarning>
           <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0" suppressHydrationWarning>
             <p className="text-sm text-neutral-600 dark:text-neutral-400" suppressHydrationWarning>
-              © {currentYear} The Boring Interviewx. All rights reserved.
+              © {currentYear} The Boring Interview(NoQwit.ai). All rights reserved.
             </p>
             <div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400" suppressHydrationWarning>
               <span>Created with</span>
