@@ -18,7 +18,7 @@ export default function Home() {
       <div className='flex justify-center mb-10'>
       <StaggeredMenu
         items={[
-          { label: "Features", ariaLabel: "Features", link: "#features" },
+          { label: "Features", ariaLabel: "Features", link: "/#features" },
           { label: "Pricing", ariaLabel: "Pricing", link: "/pricing" },
           { label: "Contact", ariaLabel: "Contact", link: "/contact" },
           { label: "Dashboard", ariaLabel: "Dashboard", link: "/dashboard" },
