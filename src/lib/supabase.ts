@@ -1,20 +1,31 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { createBrowserClient } from '@supabase/ssr'
 
-// Supabase configuration
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables')
+function getSupabaseConfig() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error('Missing Supabase environment variables')
+  }
+  return { supabaseUrl, supabaseAnonKey }
 }
 
-// Client-side Supabase client (for browser)
-export const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey)
+let _supabase: SupabaseClient | null = null
+
+// Client-side Supabase client (for browser) - created lazily so build can run without env
+export const supabase = new Proxy({} as SupabaseClient, {
+  get(_, prop) {
+    if (!_supabase) {
+      const { supabaseUrl, supabaseAnonKey } = getSupabaseConfig()
+      _supabase = createBrowserClient(supabaseUrl, supabaseAnonKey)
+    }
+    return (_supabase as any)[prop]
+  },
+})
 
 // Server-side Supabase client (for API routes and Server Components)
-// Uses standard createClient for server-side operations
 export const createServerClient = () => {
+  const { supabaseUrl, supabaseAnonKey } = getSupabaseConfig()
   return createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       persistSession: false,
@@ -26,12 +37,13 @@ export const createServerClient = () => {
 // Admin client (for server-side operations with service role key)
 // Only use this in secure server-side contexts
 export const createAdminClient = () => {
+  const { supabaseUrl } = getSupabaseConfig()
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-  
+
   if (!serviceRoleKey) {
     throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable')
   }
-  
+
   return createClient(supabaseUrl, serviceRoleKey, {
     auth: {
       autoRefreshToken: false,

@@ -14,8 +14,7 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     files: [
-      "src/app/components/ai-interview-coach/**/*.{ts,tsx}",
-      "src/app/components/ai-coach/**/*.{ts,tsx}",
+      "src/components/ai-interview-coach/**/*.{ts,tsx}",
     ],
     rules: {
       // Allow apostrophes and similar characters in JSX text
