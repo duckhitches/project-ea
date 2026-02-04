@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2025 Eshan Vijay Shettennavar
+ * 
+ * This file is licensed under the MIT License.
+ * See LICENSE-MIT.txt in the root directory for details.
+ */
+
 "use client";
 
 import { motion, useTransform } from "framer-motion";
