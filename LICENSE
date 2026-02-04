@@ -1,0 +1,23 @@
+Dual Licensing Notice
+
+This project uses a dual-licensing strategy. Different parts of the codebase
+are licensed under different licenses:
+
+1. BUSINESS SOURCE LICENSE 1.1 (Restrictive)
+   - Applies to: Backend API routes, AI services, core business logic,
+     and backend infrastructure
+   - See LICENSE-BUSL-1.1.txt for full terms
+   - NOT permitted for commercial SaaS reuse without permission
+   - Change Date: February 4, 2029
+   - Change License: Apache License 2.0
+
+2. MIT LICENSE (Open Source)
+   - Applies to: UI components, landing page sections, utility functions,
+     and reusable design components
+   - See LICENSE-MIT.txt for full terms
+   - Free for reuse and modification
+
+For details on which files fall under which license, see the LICENSE section
+in README.md.
+
+Copyright (c) 2025 Eshan Vijay Shettennavar
