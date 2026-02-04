@@ -35,29 +35,36 @@ export default function SecurityPage() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      // Regular user session (Prioritize real authentication)
-      const { data: { user } } = await supabase.auth.getUser()
-      
-      if (user) {
-        // If we have a real user, ensure guest mode is cleared
-        localStorage.removeItem("guestSession")
-        localStorage.removeItem("guestName")
-        setIsGuest(false)
-        setUser(user)
-        setLoading(false)
-        return
-      }
+      try {
+        // 1. Check for guest session first
+        const guestSession = localStorage.getItem("guestSession")
+        if (guestSession === "true") {
+          setIsGuest(true)
+          setLoading(false)
+          return
+        }
 
-      // Only check for guest session if no real user is found
-      const guestSession = localStorage.getItem("guestSession")
-      if (guestSession === "true") {
-        setIsGuest(true)
-        setLoading(false)
-        return
-      }
+        // 2. Try real authentication
+        const { data: { user }, error } = await supabase.auth.getUser()
+        
+        if (user) {
+          // If we have a real user, ensure guest mode is cleared
+          localStorage.removeItem("guestSession")
+          localStorage.removeItem("guestName")
+          setIsGuest(false)
+          setUser(user)
+          setLoading(false)
+          return
+        }
 
-      router.push("/auth/login")
-      setLoading(false)
+        // 3. No session found
+        router.push("/auth/login")
+      } catch (error) {
+        console.error("Auth error:", error)
+        router.push("/auth/login")
+      } finally {
+        setLoading(false)
+      }
     }
     fetchUser()
   }, [router])

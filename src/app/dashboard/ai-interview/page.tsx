@@ -28,7 +28,22 @@ const AIInterviewPage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // Regular user session (Prioritize real authentication)
+        // 1. Check for guest session first (Local and reliable)
+        const guestSession = localStorage.getItem("guestSession")
+        if (guestSession === "true") {
+          setIsGuest(true)
+          setUser({
+            name: localStorage.getItem("guestName") || "Guest User",
+            email: "guest@example.com",
+            $createdAt: new Date().toISOString(),
+            $id: "guest",
+            lastLogin: new Date().toISOString()
+          })
+          setLoading(false)
+          return
+        }
+
+        // 2. Regular user session (Prioritize real authentication)
         const { data: { user: currentUser } } = await supabase.auth.getUser()
         
         if (currentUser) {
@@ -49,25 +64,14 @@ const AIInterviewPage = () => {
           return
         }
 
-        // Only check for guest session if no real user is found
-        const guestSession = localStorage.getItem("guestSession")
-        if (guestSession === "true") {
-          setIsGuest(true)
-          setUser({
-            name: "Guest User",
-            email: "guest@example.com",
-            $createdAt: new Date().toISOString(),
-            $id: "guest",
-            lastLogin: new Date().toISOString()
-          })
-          setLoading(false)
-          return
-        }
-
-        // No session found
-        setUser(null)
+        // 3. No session found (neither guest nor authenticated)
+        router.push("/auth/login")
       } catch (error) {
         console.error("Auth error:", error)
+        // If guest session wasn't found at the start, and supabase failed,
+        // we should probably redirect to login.
+        // However, if we are ALREADY in guest mode, this catch shouldn't have been hit 
+        // because we return early.
         router.push("/auth/login")
       } finally {
         setLoading(false)

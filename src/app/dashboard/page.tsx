@@ -29,6 +29,19 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        // 1. Check for guest session first
+        const guestSession = localStorage.getItem("guestSession")
+        if (guestSession === "true") {
+          setUser({
+            user_metadata: {
+              name: localStorage.getItem("guestName") || "Guest User"
+            }
+          })
+          setLoading(false)
+          return
+        }
+
+        // 2. Try real authentication
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
           setUser(user)
@@ -40,7 +53,7 @@ export default function DashboardPage() {
           })
         }
       } catch (e) {
-        console.error(e)
+        console.error("Dashboard auth error:", e)
       } finally {
         setLoading(false)
       }

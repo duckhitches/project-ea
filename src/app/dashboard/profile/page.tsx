@@ -96,8 +96,32 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // Regular user session (Prioritize real authentication)
+        // 1. Check for guest session first
+        const guestSession = localStorage.getItem("guestSession")
+        if (guestSession === "true") {
+          setIsGuest(true)
+          setUser({
+            name: localStorage.getItem("guestName") || "Guest User",
+            email: "guest@example.com",
+            $createdAt: new Date().toISOString(),
+            $id: "guest",
+            lastLogin: new Date().toISOString()
+          })
+          setProfileData({
+            name: localStorage.getItem("guestName") || "Guest User",
+            email: "guest@example.com",
+            bio: "",
+            location: "",
+            website: "",
+            profilePicture: "",
+          })
+          setLoading(false)
+          return
+        }
+
+        // 2. Try real authentication
         const { data: { user }, error } = await supabase.auth.getUser()
+        if (error) throw error
         
         if (user) {
           // If we have a real user, ensure guest mode is cleared
@@ -136,28 +160,8 @@ const ProfilePage = () => {
           return
         }
 
-        // Only check for guest session if no real user is found
-        const guestSession = localStorage.getItem("guestSession")
-        if (guestSession === "true") {
-          setIsGuest(true)
-          setUser({
-            name: "Guest User",
-            email: "guest@example.com",
-            $createdAt: new Date().toISOString(),
-            $id: "guest",
-            lastLogin: new Date().toISOString()
-          })
-          setProfileData({
-            name: "Guest User",
-            email: "guest@example.com",
-            bio: "",
-            location: "",
-            website: "",
-            profilePicture: "",
-          })
-          setLoading(false)
-          return
-        }
+        // 3. No session found
+        router.push("/auth/login")
       } catch (error) {
         console.error("Auth error:", error)
         router.push("/auth/login")
