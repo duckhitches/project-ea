@@ -21,7 +21,7 @@ export default function Home() {
           { label: "Features", ariaLabel: "Features", link: "/#features" },
           { label: "Pricing", ariaLabel: "Pricing", link: "/pricing" },
           { label: "Contact", ariaLabel: "Contact", link: "/contact" },
-          { label: "Dashboard", ariaLabel: "Dashboard", link: "/dashboard" },
+          // { label: "Dashboard", ariaLabel: "Dashboard", link: "/dashboard" },
           { label: "Login", ariaLabel: "Login", link: "/auth/login" },
           { label: "Sign Up", ariaLabel: "Sign Up", link: "/auth/signup" }
         ]}
