@@ -12,6 +12,7 @@ import FoundersSection from "./FoundersSection";
 import FeaturesSection from "./FeaturesSection";
 import StorySection from "./StorySection";
 import TrustSection from "./TrustSection";
+import { Loading } from "../ui/Loading";
 
 
 // Register GSAP plugins
@@ -97,11 +98,7 @@ export default function About() {
   }, [mounted]);
 
   if (!mounted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
+    return <Loading message="INITIALIZING_ABOUT_MODULE" />;
   }
 
   return (

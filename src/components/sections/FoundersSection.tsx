@@ -43,7 +43,7 @@ const foundersData = [
     linkedin: "https://www.linkedin.com/in/eshan-shettennavar/",
     experience: "2+ Years",
     projects: "5+ Projects",
-    achievements: ["Full Stack Expert", "Cloud Architecture", "Published gamified web app"],
+    achievements: ["Full Stack Expert", "AI Integration", "Published The Boring Project"],
   },
 ];
 
@@ -58,12 +58,12 @@ export default function FoundersSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16 sm:mb-20"
         >
-          <h2 className="text-4xl flex flex-col items-center justify-center sm:text-4xl md:text-5xl font-semibold text-gray-900 dark:text-white mb-6">
+          <h2 className="text-4xl flex flex-col items-center justify-center sm:text-5xl md:text-6xl font-boldonse text-gray-900 dark:text-white mb-6 uppercase tracking-tighter">
             The Minds Behind{" "}
-            <PointerHighlight pointerClassName="text-blue-500 dark:text-purple-500">Innovation</PointerHighlight>
+            <span className="bg-pink-500 text-white px-2 py-0 mt-2 transform -rotate-2 inline-block border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">Innovation</span>
           </h2>
-          <p className="text-2xl sm:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Two passionate technologists united by a vision to transform how people prepare for interviews
+          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto font-mono border-t-2 border-black dark:border-white pt-6">
+            {'//'} Two passionate technologists united by a vision to transform how people prepare for interviews
           </p>
         </motion.div>
 

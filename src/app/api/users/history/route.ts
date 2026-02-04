@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server'
-import { createServerClient } from '@/lib/supabase'
+import { createServerClient, isSupabaseConfigured } from '@/lib/supabase'
 
 export async function GET() {
+  if (!isSupabaseConfigured()) {
+    return NextResponse.json(
+      { error: 'Service unavailable' },
+      { status: 503 }
+    )
+  }
   try {
     const supabase = createServerClient()
     
@@ -47,6 +53,12 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!isSupabaseConfigured()) {
+    return NextResponse.json(
+      { error: 'Service unavailable' },
+      { status: 503 }
+    )
+  }
   try {
     const supabase = createServerClient()
     

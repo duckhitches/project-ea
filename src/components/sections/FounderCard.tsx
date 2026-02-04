@@ -33,27 +33,27 @@ export default function FounderCard({ founder }: { founder: any }) {
     >
       <></>
       <Card
-        className={`overflow-hidden rounded-3xl border-0 shadow-xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 transition-all duration-700 ${
-          expanded ? "max-h-[700px]" : "max-h-[300px]"
+        className={`overflow-hidden rounded-none border-2 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] bg-white dark:bg-black transition-all duration-700 ${
+          expanded ? "max-h-[1000px]" : "max-h-[400px]"
         }`}
       >
         <CardContent className="p-8 flex flex-col items-center text-center relative">
           {/* Arrow Indicator */}
           <motion.div
-            className="absolute top-4 right-4 w-8 h-8 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center shadow-md"
+            className="absolute top-4 right-4 w-10 h-10 bg-white dark:bg-black border-2 border-black dark:border-white flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] group-hover:bg-pink-500 group-hover:border-pink-500 group-hover:text-white transition-colors duration-300"
             animate={{ rotate: expanded ? 180 : 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <ChevronDown className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+            <ChevronDown className="w-6 h-6 text-black dark:text-white group-hover:text-white" />
           </motion.div>
 
           {/* Top Section — Always visible */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
-            className="relative mb-4"
+            className="relative mb-6"
           >
-            <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden shadow-xl relative">
+            <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-none border-2 border-black dark:border-white overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] relative ransition-all duration-300 group-hover:border-pink-500">
               <Image
                 src={founder.image || "/logo.svg"}
                 alt={founder.name}
@@ -64,10 +64,10 @@ export default function FounderCard({ founder }: { founder: any }) {
             </div>
           </motion.div>
 
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+          <h3 className="text-3xl font-boldonse text-black dark:text-white mb-2 uppercase tracking-wide group-hover:text-pink-500 transition-colors">
             {founder.name}
           </h3>
-          <p className="text-md font-medium text-blue-600 dark:text-blue-400">
+          <p className="text-sm font-mono font-bold text-white bg-black dark:text-black dark:bg-white px-3 py-1 inline-block mb-4 border border-black dark:border-white group-hover:bg-pink-500 group-hover:border-pink-500 group-hover:text-white transition-colors">
             {founder.title}
           </p>
           
@@ -77,9 +77,9 @@ export default function FounderCard({ founder }: { founder: any }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="text-xs text-gray-500 dark:text-gray-400 mt-2"
+              className="text-xs text-pink-500 mt-2 font-mono uppercase tracking-widest"
             >
-              {/* Click to learn more */}
+              [ Click to Expand ]
             </motion.p>
           )}
 
@@ -91,10 +91,11 @@ export default function FounderCard({ founder }: { founder: any }) {
                 animate={{ opacity: 1, height: "auto", y: 0 }}
                 exit={{ opacity: 0, height: 0, y: -10 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="mt-6 w-full"
+                className="mt-6 w-full text-left"
               >
+                <div className="w-full h-px bg-black dark:bg-white mb-6"></div>
                 <motion.p
-                  className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed sm:text-lg"
+                  className="text-black dark:text-white mb-8 leading-relaxed text-base font-mono"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
@@ -103,23 +104,23 @@ export default function FounderCard({ founder }: { founder: any }) {
                 </motion.p>
 
                 <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center justify-center">
-                    <Award className="w-5 h-5 mr-2 text-yellow-600" />
-                    Key Achievements
+                  <h4 className="text-lg font-boldonse text-black dark:text-white mb-4 flex items-center border-b-2 border-black dark:border-white pb-2 w-fit">
+                    <Award className="w-5 h-5 mr-3 text-pink-500" />
+                    KEY_ACHIEVEMENTS
                   </h4>
-                  <div className="flex flex-wrap justify-center gap-2">
+                  <div className="flex flex-wrap gap-3">
                     {founder.achievements.map(
                       (achievement: string, index: number) => (
                         <motion.span
                           key={index}
                           whileHover={{
                             scale: 1.05,
-                            background:
-                              "linear-gradient(to right, #60a5fa, #a78bfa, #ec4899)",
-                            color: "#fff",
+                            x: 2,
+                            y: -2,
+                            boxShadow: "4px 4px 0px 0px rgba(236, 72, 153, 1)"
                           }}
                           transition={{ type: "spring", stiffness: 250 }}
-                          className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium"
+                          className="bg-pink-500/5 text-black dark:text-white border-2 border-black dark:border-white px-3 py-2 text-xs font-mono font-bold uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] hover:border-pink-500 hover:text-pink-500 transition-colors"
                         >
                           {achievement}
                         </motion.span>
@@ -137,10 +138,7 @@ export default function FounderCard({ founder }: { founder: any }) {
         </CardContent>
       </Card>
 
-      {/* Gradient overlay hover effect */}
-      <motion.div
-        className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-blue-500/10 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-all duration-500"
-      />
+      {/* Hover effect background - removed for brutalism, keeping it clean */}
     </motion.div>
   );
 }

@@ -14,14 +14,14 @@ export default function FeaturesSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16 sm:mb-20"
         >
-          <h2 className="text-4xl sm:text-4xl md:text-5xl font-semibold text-gray-900 dark:text-white mb-6">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-boldonse text-gray-900 dark:text-white mb-6 uppercase tracking-tighter">
             Our{" "}
-            <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            <span className="text-white bg-pink-500 px-2 inline-block transform skew-x-12 border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
               Features
             </span>
           </h2>
-          <p className="text-2xl sm:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Discover what makes our platform unique and powerful
+          <p className="text-lg sm:text-xl text-black dark:text-white max-w-3xl mx-auto font-mono">
+           [ Discover what makes our platform unique and powerful ]
           </p>
         </motion.div>
         

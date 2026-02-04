@@ -4,14 +4,12 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
-import { Clock, AlertCircle, Calendar, MapPin, Monitor, Activity, RefreshCw, ArrowRight, LogIn, LogOut } from "lucide-react"
-import { Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { AlertCircle, Calendar, Monitor, Activity, RefreshCw, ArrowRight } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import Loading from "../loading"
+import { Loading } from "@/components/ui/Loading"
 
 interface UserProfile {
   email: string
@@ -158,23 +156,15 @@ const HistoryPage = () => {
   const fetchUser = async () => {
     setRefreshing(true)
     try {
-      const guestSession = localStorage.getItem("guestSession")
-      if (guestSession === "true") {
-        setIsGuest(true)
-        setUser({
-          name: "Guest User",
-          email: "guest@example.com",
-          $createdAt: new Date().toISOString(),
-          $id: "guest",
-          lastLogin: new Date().toISOString()
-        })
-        return
-      }
-
       const { data: { user }, error } = await supabase.auth.getUser()
       if (error) throw error
       
       if (user) {
+        // If we have a real user, ensure guest mode is cleared
+        localStorage.removeItem("guestSession")
+        localStorage.removeItem("guestName")
+        setIsGuest(false)
+
         setUser({
           email: user.email || '',
           name: user.user_metadata?.name || '',
@@ -202,6 +192,21 @@ const HistoryPage = () => {
           }))
           setLoginHistory(formattedHistory)
         }
+        return
+      }
+
+      // Only check for guest session if no real user is found
+      const guestSession = localStorage.getItem("guestSession")
+      if (guestSession === "true") {
+        setIsGuest(true)
+        setUser({
+          name: "Guest User",
+          email: "guest@example.com",
+          $createdAt: new Date().toISOString(),
+          $id: "guest",
+          lastLogin: new Date().toISOString()
+        })
+        return
       }
     } catch (error) {
       console.error("Auth error:", error)
@@ -244,12 +249,13 @@ const HistoryPage = () => {
     return <Loading message="Loading your activity history..." />
   }
 
+  // Brutalist Loading Button
   const LoadingButton = ({ children, loading, onClick, className }: any) => (
     <Button
       onClick={onClick}
       disabled={loading}
       className={cn(
-        "relative overflow-hidden bg-black dark:bg-white hover:bg-gray-900 dark:hover:bg-gray-900 text-white dark:text-black rounded-full transition-all duration-200",
+        "relative overflow-hidden bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-none border-2 border-transparent transition-all duration-200 font-bold uppercase tracking-wider h-10 px-6",
         className
       )}
     >
@@ -262,25 +268,67 @@ const HistoryPage = () => {
     </Button>
   )
 
+  const LogEntry = ({ session, index }: { session: any, index: number }) => (
+    <div className="group border-b border-zinc-100 dark:border-zinc-900 font-mono text-xs sm:text-sm hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors">
+      <div className="grid grid-cols-12 gap-2 p-3 items-center">
+        {/* Timestamp */}
+        <div className="col-span-12 sm:col-span-4 lg:col-span-3 text-zinc-400 dark:text-zinc-500 font-bold">
+           <span className="text-pink-600 dark:text-pink-500 mr-2">[{index.toString().padStart(3, '0')}]</span>
+           {formatDate(session.loginTime)}
+        </div>
+
+        {/* Device & Location */}
+        <div className="col-span-6 sm:col-span-4 lg:col-span-4 text-zinc-600 dark:text-zinc-300 uppercase truncate">
+           <span className="text-zinc-400 dark:text-zinc-600 mr-2 font-bold">SYS::</span>{session.device}
+        </div>
+
+        {/* Duration */}
+        <div className="col-span-6 sm:col-span-2 lg:col-span-3 text-zinc-400 dark:text-zinc-500 text-right sm:text-left">
+           {session.logoutTime ? (
+             <span>{getSessionDuration(session)}</span>
+           ) : (
+             <span className="text-emerald-600 dark:text-emerald-500 animate-pulse font-bold">--:--:--</span>
+           )}
+        </div>
+
+        {/* Status */}
+        <div className="col-span-12 sm:col-span-2 text-right">
+           {!session.logoutTime ? (
+             <span className="bg-emerald-600 dark:bg-emerald-500 text-white dark:text-black px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider">
+               LIVE
+             </span>
+           ) : (
+             <span className="text-zinc-300 dark:text-zinc-700 text-[10px] uppercase tracking-wider font-bold">
+               TERMINATED
+             </span>
+           )}
+        </div>
+      </div>
+    </div>
+  )
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
+    <div className="min-h-screen p-4 md:p-8 space-y-8 font-mono text-zinc-600 dark:text-zinc-300 max-w-6xl mx-auto">
+      
       {/* Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between mb-8"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-black  dark:bg-white flex items-center justify-center">
-            <Clock className="w-5 h-5 text-white dark:text-black" />
-          </div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Activity History</h1>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-zinc-200 dark:border-zinc-800 pb-6 transition-colors">
+        <div>
+           <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 bg-emerald-500 animate-pulse" />
+              <span className="text-xs text-emerald-600 dark:text-emerald-500 uppercase tracking-widest font-bold">System Audit Log</span>
+           </div>
+           <h1 className="text-4xl md:text-5xl font-boldonse text-zinc-900 dark:text-white uppercase tracking-tight">
+              Activity <span className="text-zinc-400 dark:text-zinc-600">History</span>
+           </h1>
+           <p className="text-zinc-500 mt-2 max-w-xl">
+             Comprehensive log of all authentication events and active sessions.
+           </p>
         </div>
         
         <LoadingButton
           loading={refreshing}
           onClick={fetchUser}
-          className="px-4 py-2 text-sm"
+          className="shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:shadow-[4px_4px_0px_0px_rgba(16,185,129,1)]"
         >
           <motion.div
             animate={{ rotate: refreshing ? 360 : 0 }}
@@ -292,175 +340,113 @@ const HistoryPage = () => {
           >
             <RefreshCw className="w-4 h-4" />
           </motion.div>
-          Refresh Data
+          Sync Logs
         </LoadingButton>
-      </motion.div>
+      </div>
 
       {isGuest ? (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <Alert className="bg-amber-50 border border-amber-100 rounded-xl">
-            <AlertCircle className="h-4 w-4 text-amber-600" />
-            <AlertDescription className="text-amber-800">
-              Login history is only available for registered users.
-            </AlertDescription>
-          </Alert>
-          <div className="mt-4 text-center">
-            <LoadingButton
-              onClick={() => router.push('/auth/signup')}
-              className="px-6 py-2"
-            >
-              Sign up now
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </LoadingButton>
-          </div>
-        </motion.div>
+        <div className="border border-amber-500/20 dark:border-amber-500/30 bg-amber-500/5 p-6 flex flex-col items-center justify-center text-center space-y-4 min-h-[300px] transition-colors">
+           <AlertCircle className="w-12 h-12 text-amber-600 dark:text-amber-500 mb-2" />
+           <h3 className="text-amber-600 dark:text-amber-500 font-boldonse text-2xl uppercase tracking-widest">Access Restricted</h3>
+           <p className="text-amber-700/80 dark:text-amber-500/80 font-mono text-sm max-w-md">
+             Audit logs are classified information. Guest clearance level is insufficient for viewing historical data.
+           </p>
+           <Button
+             onClick={() => router.push('/auth/signup')}
+             className="mt-4 bg-amber-600 dark:bg-amber-500 hover:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-black rounded-none font-bold uppercase tracking-wider h-12 px-8 shadow-md"
+           >
+             Initialize Account
+             <ArrowRight className="w-4 h-4 ml-2" />
+           </Button>
+        </div>
       ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="space-y-6"
-        >
-          {/* Current Session */}
-          <Card className="overflow-hidden border-0 shadow-sm bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 text-black dark:text-white">
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <Activity className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                <h2 className="text-lg font-semibold">Current Session</h2>
+        <div className="space-y-12">
+           
+           {/* Stats Grid */}
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 relative overflow-hidden group hover:border-emerald-500/50 transition-colors shadow-sm">
+                 <div className="absolute top-0 right-0 p-2 opacity-5 dark:opacity-20 group-hover:opacity-10 dark:group-hover:opacity-50 transition-opacity">
+                    <Activity className="w-16 h-16 text-emerald-500" />
+                 </div>
+                 <div className="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2 font-bold">Active Sessions</div>
+                 <div className="text-4xl font-boldonse text-zinc-900 dark:text-white transition-colors">{currentSession ? 1 : 0}</div>
+                 <div className="mt-4 flex items-center gap-2 text-[10px] text-emerald-600 dark:text-emerald-500 uppercase font-bold">
+                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
+                    System Online
+                 </div>
               </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="bg-white/10 dark:bg-white/5 rounded-lg p-4 backdrop-blur-md border border-white/10">
-                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">User</div>
-                  <div className="font-medium text-black dark:text-white">{user?.name || user?.email}</div>
-                </div>
-                
-                <div className="bg-white/10 dark:bg-white/5 rounded-lg p-4 backdrop-blur-md border border-white/10">
-                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Status</div>
-                  <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20">
-                    Active Now
-                  </Badge>
-                </div>
-                
-                <div className="bg-white/10 dark:bg-white/5 rounded-lg p-4 backdrop-blur-md border border-white/10">
-                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">Session Started</div>
-                  <div className="font-medium text-black dark:text-white">
-                    {currentSession ? formatDate(currentSession.loginTime) : "N/A"}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Card>
 
-          {/* Login History */}
-          <Card className="overflow-hidden border-0 shadow-sm bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 text-black dark:text-white">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                  <h2 className="text-lg font-semibold">Login History</h2>
-                </div>
-                <Badge variant="outline" className="text-sm border-white/20">
-                  {loginHistory.length} sessions
-                </Badge>
-              </div>
-              
-              {loginHistory.length === 0 ? (
-                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                  <LogIn className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>No login sessions recorded yet.</p>
-                  <p className="text-sm">Your sessions will appear here after staying logged in for 5+ seconds.</p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {loginHistory.slice().reverse().map((session) => (
-                    <motion.div
-                      key={session.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="flex items-center justify-between p-4 bg-white/10 dark:bg-white/5 rounded-lg hover:bg-white/20 dark:hover:bg-white/10 transition-colors backdrop-blur-md border border-white/10"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-black dark:bg-white/20 flex items-center justify-center text-white">
-                          <LogIn className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <div className="font-medium text-black dark:text-white">
-                            {formatDate(session.loginTime)}
-                          </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            {session.device} • {getSessionDuration(session)}
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center gap-2">
-                        {session.logoutTime ? (
-                          <Badge variant="outline" className="text-xs border-white/20 text-gray-600 dark:text-gray-300">
-                            Completed
-                          </Badge>
-                        ) : (
-                          <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20 text-xs">
-                            Active
-                          </Badge>
-                        )}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </Card>
-
-          {/* Activity Summary */}
-          <Card className="overflow-hidden border-0 shadow-sm bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 text-black dark:text-white">
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <Monitor className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                <h2 className="text-lg font-semibold text-black dark:text-white">Activity Summary</h2>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-black dark:text-white">
-                    {currentSession ? 1 : 0}
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Active Sessions</div>
-                </div>
-                
-                <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-black dark:text-white">
+              <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 relative overflow-hidden group hover:border-pink-500/50 transition-colors shadow-sm">
+                 <div className="absolute top-0 right-0 p-2 opacity-5 dark:opacity-20 group-hover:opacity-10 dark:group-hover:opacity-50 transition-opacity">
+                    <Calendar className="w-16 h-16 text-pink-500" />
+                 </div>
+                 <div className="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2 font-bold">Retention Period</div>
+                 <div className="text-4xl font-boldonse text-zinc-900 dark:text-white transition-colors">
                     {user?.$createdAt ? Math.floor((Date.now() - new Date(user.$createdAt).getTime()) / (1000 * 60 * 60 * 24)) : 0}
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Days as Member</div>
-                </div>
-                
-                <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-black dark:text-white">{loginHistory.length}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Total Sessions</div>
-                </div>
+                    <span className="text-lg text-zinc-400 dark:text-zinc-600 ml-1">DAYS</span>
+                 </div>
+                 <div className="mt-4 text-[10px] text-zinc-400 dark:text-zinc-600 uppercase border-t border-zinc-100 dark:border-zinc-900 pt-2 transition-colors">
+                    Since: {user?.$createdAt ? new Date(user.$createdAt).toLocaleDateString() : "N/A"}
+                 </div>
               </div>
 
-              <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <MapPin className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                  <span className="text-sm font-medium text-black dark:text-white">Account Created</span>
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {user?.$createdAt ? new Date(user.$createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  }) : "N/A"}
-                </p>
+              <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 relative overflow-hidden group hover:border-zinc-400 dark:hover:border-white/50 transition-colors shadow-sm">
+                 <div className="absolute top-0 right-0 p-2 opacity-5 dark:opacity-20 group-hover:opacity-10 dark:group-hover:opacity-50 transition-opacity">
+                    <Monitor className="w-16 h-16 text-zinc-900 dark:text-white" />
+                 </div>
+                 <div className="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2 font-bold">Total Events</div>
+                 <div className="text-4xl font-boldonse text-zinc-900 dark:text-white transition-colors">{loginHistory.length}</div>
+                 <div className="mt-4 text-[10px] text-zinc-400 dark:text-zinc-600 uppercase border-t border-zinc-100 dark:border-zinc-900 pt-2 transition-colors">
+                    Log Integrity: Verified
+                 </div>
               </div>
-            </div>
-          </Card>
-        </motion.div>
+           </div>
+
+           {/* Log Terminal */}
+           <div className="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black shadow-2xl transition-colors">
+              {/* Terminal Header */}
+              <div className="bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 p-2 flex items-center justify-between transition-colors">
+                 <div className="flex items-center gap-2 px-2">
+                    <div className="w-3 h-3 rounded-full bg-zinc-200 dark:bg-zinc-700" />
+                    <div className="w-3 h-3 rounded-full bg-zinc-200 dark:bg-zinc-700" />
+                    <div className="w-3 h-3 rounded-full bg-zinc-200 dark:bg-zinc-700" />
+                 </div>
+                 <div className="text-[10px] sm:text-xs font-mono text-zinc-400 dark:text-zinc-500 uppercase font-bold">
+                    /var/log/auth.log • {user?.email}
+                 </div>
+              </div>
+
+              {/* Log Content */}
+              <div className="p-0">
+                 {/* Table Header */}
+                 <div className="grid grid-cols-12 gap-2 p-3 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/50 text-[10px] uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-bold transition-colors">
+                    <div className="col-span-12 sm:col-span-4 lg:col-span-3">Timestamp</div>
+                    <div className="col-span-6 sm:col-span-4 lg:col-span-4 truncate">Device Hash</div>
+                    <div className="col-span-6 sm:col-span-2 lg:col-span-3 text-right sm:text-left">Duration</div>
+                    <div className="col-span-12 sm:col-span-2 text-right">State</div>
+                 </div>
+
+                 {loginHistory.length === 0 ? (
+                    <div className="p-12 text-center text-zinc-400 dark:text-zinc-600 font-mono text-sm">
+                       <p>{'>'} NO_LOGS_FOUND</p>
+                       <p className="mt-2 text-xs opacity-50">Waiting for system events...</p>
+                    </div>
+                 ) : (
+                    <div className="max-h-[500px] overflow-y-auto custom-scrollbar">
+                       {loginHistory.slice().reverse().map((session, i) => (
+                          <LogEntry key={session.id} session={session} index={loginHistory.length - i} />
+                       ))}
+                    </div>
+                 )}
+              </div>
+              
+              {/* Terminal Footer */}
+              <div className="bg-zinc-50 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 p-2 px-4 text-[10px] font-mono text-zinc-400 dark:text-zinc-500 flex justify-between transition-colors">
+                 <span className="font-bold">END_OF_FILE</span>
+                 <span className="animate-pulse">_</span>
+              </div>
+           </div>
+        </div>
       )}
     </div>
   )

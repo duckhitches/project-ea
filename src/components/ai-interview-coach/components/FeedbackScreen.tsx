@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Feedback, InterviewMode } from "../types";
 
-/** API quota error: code 429 - "You exceeded your current quota, please check your plan and billing details" */
+/** API quota error: code 429 */
 const QUOTA_ERROR = {
   code: 429,
-  message: "You exceeded your current quota, please check your plan and billing details",
+  message: "API_QUOTA_EXCEEDED :: CHECK_BILLING",
 };
 
 interface FeedbackScreenProps {
   feedback: Feedback;
   mode: InterviewMode;
   onRestart: () => void;
-  /** When true, shows a popup with the quota exceeded message (code 429) */
   quotaExceededError?: boolean;
 }
 
@@ -21,13 +20,12 @@ const StatCard: React.FC<{ title: string; children: React.ReactNode; className?:
   className = "",
 }) => (
   <section
-    aria-labelledby={title.replace(/\s+/g, "-").toLowerCase()}
-    className={`bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-lg p-6 ${className}`}
+    className={`border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-4 ${className}`}
   >
-    <h3 id={title.replace(/\s+/g, "-").toLowerCase()} className="text-lg font-semibold text-black dark:text-white mb-3">
-      {title}
+    <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4 border-b border-zinc-100 dark:border-zinc-900 pb-2">
+      {">"} {title}
     </h3>
-    <div className="text-sm text-black/80 dark:text-white/80">{children}</div>
+    <div className="text-sm text-zinc-900 dark:text-zinc-300 font-mono">{children}</div>
   </section>
 );
 
@@ -39,146 +37,152 @@ const FeedbackScreen: React.FC<FeedbackScreenProps> = ({ feedback, mode, onResta
   }, [quotaExceededError]);
 
   return (
-    <div className="min-h-full flex flex-col bg-transparent text-black dark:text-white p-6 md:p-8 relative">
-      {/* Quota exceeded (429) popup */}
+    <div className="flex flex-col text-zinc-600 dark:text-zinc-300 font-mono relative">
+      {/* Quota exceeded popup */}
       {showQuotaPopup && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
-          aria-modal="true"
-          role="alertdialog"
-          aria-labelledby="quota-popup-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
         >
-          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-red-200 dark:border-red-900/50 max-w-md w-full p-6">
+          <div className="bg-white dark:bg-zinc-900 border border-red-500 max-w-md w-full p-6 shadow-2xl">
             <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-                <span className="text-red-600 dark:text-red-400 font-bold text-sm">429</span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 id="quota-popup-title" className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-                  Quota exceeded
+              <div className="w-8 h-8 flex items-center justify-center border border-red-500 text-red-500 font-bold">!</div>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-zinc-900 dark:text-white uppercase mb-1">
+                  CRITICAL_ERROR
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-sm text-red-600 dark:text-red-400 font-mono uppercase">
                   {QUOTA_ERROR.message}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
-                  Code: {QUOTA_ERROR.code}
+                <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-2">
+                  CODE: {QUOTA_ERROR.code}
                 </p>
               </div>
             </div>
             <div className="mt-6 flex justify-end">
               <button
                 onClick={() => setShowQuotaPopup(false)}
-                className="px-4 py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                className="px-4 py-2 bg-red-600 text-white font-bold uppercase text-xs hover:bg-red-500"
               >
-                Dismiss
+                Dismiss_Alert
               </button>
             </div>
           </div>
         </div>
       )}
 
-      <header className="max-w-4xl mx-auto w-full text-center mb-6">
-        <h2 className="text-2xl md:text-3xl font-semibold text-black dark:text-white">Interview Report</h2>
-        <p className="mt-2 text-sm text-black/70">A concise summary of your session and actionable next steps.</p>
-      </header>
+      <main className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        
+        {/* Score Card - Takes up 4 columns on large screens */}
+        <div className="md:col-span-4 space-y-6">
+            <div className="border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black p-6 flex flex-col items-center justify-center text-center aspect-square shadow-xl">
+               <div className="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2">Confidence_Interval</div>
+               <div className="text-6xl font-boldonse text-zinc-900 dark:text-white">{feedback.score ?? 0}</div>
+               <div className="w-full bg-zinc-100 dark:bg-zinc-900 h-1 mt-4 relative overflow-hidden">
+                  <div style={{width: `${feedback.score ?? 0}%`}} className="absolute inset-y-0 left-0 bg-emerald-500" />
+               </div>
+            </div>
+            
+            <div className="border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 p-4">
+                <div className="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2">Session_Metadata</div>
+                <div className="space-y-1">
+                   <div className="flex justify-between text-xs font-bold">
+                     <span className="text-zinc-400 dark:text-zinc-600">MODE:</span>
+                     <span className="text-zinc-900 dark:text-white uppercase">{mode}</span>
+                   </div>
+                   <div className="flex justify-between text-xs font-bold">
+                     <span className="text-zinc-400 dark:text-zinc-600">STATUS:</span>
+                     <span className="text-emerald-600 dark:text-emerald-500 uppercase">ANALYSIS_COMPLETE</span>
+                   </div>
+                </div>
+            </div>
+        </div>
 
-      <main className="max-w-5xl mx-auto w-full flex-1">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <StatCard title="Strengths">
+        {/* Details Grid - Takes up 8 columns */}
+        <div className="md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+           <StatCard title="Key_Strengths" className="md:col-span-1">
             {feedback.strengths && feedback.strengths.length ? (
-              <ul className="list-disc list-inside space-y-2 text-black/80 dark:text-white/80">
+              <ul className="space-y-2">
                 {feedback.strengths.map((s, i) => (
-                  <li key={i}>{s}</li>
+                  <li key={i} className="flex gap-2">
+                    <span className="text-emerald-600 dark:text-emerald-500 font-bold">+</span>
+                    <span>{s}</span>
+                  </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-black/70 dark:text-white/70">No strengths detected — try focusing on giving concrete examples.</p>
+              <p className="text-zinc-400 dark:text-zinc-600 italic">No significant strengths isolated.</p>
             )}
           </StatCard>
 
-          <StatCard title="Areas for Improvement">
+          <StatCard title="Areas_For_Optimization" className="md:col-span-1">
             {feedback.improvements && feedback.improvements.length ? (
-              <ul className="list-disc list-inside space-y-2 text-black/80 dark:text-white/80">
+              <ul className="space-y-2">
                 {feedback.improvements.map((imp, i) => (
-                  <li key={i}>{imp}</li>
+                  <li key={i} className="flex gap-2">
+                    <span className="text-pink-600 dark:text-pink-500 font-bold">!</span>
+                    <span>{imp}</span>
+                  </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-black/70 dark:text-white/70">No specific improvements suggested.</p>
+              <p className="text-zinc-400 dark:text-zinc-600 italic">No critical faults detected.</p>
             )}
           </StatCard>
 
-          <StatCard title="Tone Analysis">
+          <StatCard title="Action_Plan_V1" className="md:col-span-2 bg-zinc-900 dark:bg-gradient-to-br from-zinc-900 to-black text-white">
+            {feedback.plan ? (
+               <div className="prose prose-invert prose-p:text-sm prose-p:font-mono max-w-none">
+                 {feedback.plan.split('\n').map((line, i) => (
+                    <div key={i} className="mb-1">{line}</div>
+                 ))}
+               </div>
+            ) : (
+              <p className="text-zinc-400 italic">Generate new dataset for plan creation.</p>
+            )}
+          </StatCard>
+        </div>
+
+        {/* Tone & Pronunciation - Full Width */}
+        <div className="md:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+           <StatCard title="Tone_Analysis">
             {feedback.toneAnalysis && feedback.toneAnalysis.length ? (
-              <ul className="list-disc list-inside space-y-2 text-black/80 dark:text-white/80">
+              <ul className="space-y-2">
                 {feedback.toneAnalysis.map((t, i) => (
-                  <li key={i}>{t}</li>
+                  <li key={i} className="flex gap-2 text-xs uppercase tracking-wide">
+                    <span className="text-zinc-400 dark:text-zinc-600">::</span>
+                    <span>{t}</span>
+                  </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-black/70 dark:text-white/70">Tone looks even — no major issues detected.</p>
+              <p className="text-zinc-400 dark:text-zinc-600 italic">Audio variance within nominal parameters.</p>
             )}
           </StatCard>
 
-          <StatCard title="Pronunciation Guidance">
+          <StatCard title="Linguistic_Correction">
             {feedback.pronunciationTips && feedback.pronunciationTips.length ? (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {feedback.pronunciationTips.map((tip, i) => (
-                  <div key={i} className="text-black/85 dark:text-white/85">
-                    <p className="font-medium">{tip.term}</p>
-                    <p className="text-sm italic text-black/60 dark:text-white/60 mt-1">{tip.guidance}</p>
+                  <div key={i} className="border-l border-zinc-200 dark:border-zinc-700 pl-3">
+                    <p className="font-bold text-zinc-900 dark:text-white uppercase text-xs">{tip.term}</p>
+                    <p className="text-xs text-zinc-500 mt-0.5">{tip.guidance}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-black/70 dark:text-white/70">No pronunciation issues detected.</p>
+              <p className="text-zinc-400 dark:text-zinc-600 italic">Phonetic accuracy: 100%.</p>
             )}
           </StatCard>
-
-          <section className="bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-lg p-6 md:col-span-2">
-            <h3 className="text-lg font-semibold mb-3 text-black dark:text-white">Actionable Practice Plan</h3>
-            <div className="text-sm text-black/80 dark:text-white/80">
-              {feedback.plan ? (
-                <p>{feedback.plan}</p>
-              ) : (
-                <p className="text-black/70 dark:text-white/70">No plan available. Try re-running the interview or enable detailed feedback.</p>
-              )}
-            </div>
-          </section>
-
-          <div className="bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-lg p-6 flex flex-col items-center justify-center">
-            <h3 className="text-lg font-semibold mb-2 text-black dark:text-white">Confidence Score</h3>
-            <p className="text-4xl font-bold text-black/90 dark:text-white/90">{feedback.score ?? 0}</p>
-            <span className="text-sm text-black/60 dark:text-white/60 mt-1">out of 100</span>
-          </div>
-
-          <div className="bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-lg p-6 flex flex-col items-center justify-center">
-            <h3 className="text-lg font-semibold mb-2 text-black dark:text-white">Session Details</h3>
-            <p className="text-sm text-black/80 dark:text-white/80 dark:text-black/80">
-              Mode: <span className="font-medium">{mode}</span>
-            </p>
-          </div>
         </div>
       </main>
 
-      <footer className="max-w-5xl mx-auto w-full mt-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-sm text-black/70 dark:text-white/70">
-            <p>
-              Want to run another session? Click <span className="font-medium">Start New Interview</span> to try a different
-              mode or upload an updated resume.
-            </p>
-          </div>
-
-          <div className="flex gap-3">
+      <footer className="mt-8 flex justify-end">
             <button
               onClick={onRestart}
-              className="px-6 py-2.5 rounded-full bg-black text-white dark:text-black dark:bg-white font-semibold hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-black"
+              className="px-8 py-4 bg-zinc-900 dark:bg-white hover:bg-zinc-800 dark:hover:bg-zinc-200 text-white dark:text-black font-bold uppercase tracking-widest text-sm transition-colors shadow-xl"
             >
-              Start New Interview
+              Re-Initialize Simulation
             </button>
-          </div>
-        </div>
       </footer>
     </div>
   );

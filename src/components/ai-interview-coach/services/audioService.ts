@@ -1,7 +1,7 @@
 // --- Audio Encoding/Decoding Utilities for Gemini Live API ---
 
 // Encodes a Uint8Array into a base64 string.
-function encode(bytes: Uint8Array): string {
+export function encode(bytes: Uint8Array): string {
   let binary = '';
   const len = bytes.byteLength;
   for (let i = 0; i < len; i++) {

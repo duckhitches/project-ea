@@ -4,510 +4,268 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
-import { Shield, AlertCircle, Lock, Key, Eye, EyeOff, CheckCircle, ArrowRight } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Shield, AlertCircle, Lock, Key, Eye, EyeOff, CheckCircle, ArrowRight, Terminal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
-import Loading from "../loading"
+import { Loading } from "@/components/ui/Loading"
+import { Skeleton } from "@/components/ui/skeleton"
 
-interface UserProfile {
-  email: string
-  lastLogin: string
-  name?: string
-  $createdAt?: string
-  $id?: string
-  prefs?: any
-}
-
-const SecurityPage = () => {
-  const [user, setUser] = useState<UserProfile | null>(null)
+export default function SecurityPage() {
+  const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [isGuest, setIsGuest] = useState(false)
-  const [message, setMessage] = useState("")
-  const [messageType, setMessageType] = useState<"success" | "error" | "">("")
-  const [passwordLoading, setPasswordLoading] = useState(false)
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
-  const [showNewPassword, setShowNewPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const router = useRouter()
-
-  // Password change form state
+  
+  // Password Form State
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   })
+  const [passwordLoading, setPasswordLoading] = useState(false)
+  const [message, setMessage] = useState("")
+  const [messageType, setMessageType] = useState<"success" | "error" | "">("")
+  const [showCurrent, setShowCurrent] = useState(false)
+  const [showNew, setShowNew] = useState(false)
+
+  const router = useRouter()
 
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        // Check if it's a guest session first
-        const guestSession = localStorage.getItem("guestSession")
-        if (guestSession === "true") {
-          setIsGuest(true)
-          setUser({
-            name: "Guest User",
-            email: "guest@example.com",
-            $createdAt: new Date().toISOString(),
-            $id: "guest",
-            lastLogin: new Date().toISOString()
-          })
-          setLoading(false)
-          return
-        }
-
-        // Regular user session
-        const { data: { user }, error } = await supabase.auth.getUser()
-        if (error) throw error
-        
-        if (user) {
-          setUser({
-            email: user.email || '',
-            name: user.user_metadata?.name || '',
-            lastLogin: user.last_sign_in_at || new Date().toISOString(),
-            $createdAt: user.created_at,
-            $id: user.id,
-            prefs: {}
-          })
-        }
-      } catch (error) {
-        console.error("Auth error:", error)
-        router.push("/auth/login")
-      } finally {
+      // Regular user session (Prioritize real authentication)
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (user) {
+        // If we have a real user, ensure guest mode is cleared
+        localStorage.removeItem("guestSession")
+        localStorage.removeItem("guestName")
+        setIsGuest(false)
+        setUser(user)
         setLoading(false)
+        return
       }
+
+      // Only check for guest session if no real user is found
+      const guestSession = localStorage.getItem("guestSession")
+      if (guestSession === "true") {
+        setIsGuest(true)
+        setLoading(false)
+        return
+      }
+
+      router.push("/auth/login")
+      setLoading(false)
     }
     fetchUser()
   }, [router])
 
-  const handlePasswordChange = async (e: React.FormEvent) => {
+  const handlePasswordUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+    setMessage("")
+    setMessageType("")
+
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setMessage("New passwords do not match")
+      setMessage("Passwords do not match")
       setMessageType("error")
-      clearMessage()
       return
     }
 
-    if (passwordData.newPassword.length < 8) {
-      setMessage("New password must be at least 8 characters long")
+    if (passwordData.newPassword.length < 6) {
+      setMessage("Password must be at least 6 characters")
       setMessageType("error")
-      clearMessage()
       return
     }
 
     setPasswordLoading(true)
     try {
-      // Update password in Supabase
-      const { error } = await supabase.auth.updateUser({
-        password: passwordData.newPassword
-      })
-      
+      const { error } = await supabase.auth.updateUser({ password: passwordData.newPassword })
       if (error) throw error
-      
-      setMessage("Password updated successfully!")
+      setMessage("Credentials updated successfully.")
       setMessageType("success")
-      setPasswordData({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      })
-      clearMessage()
-    } catch (error: any) {
-      console.error("Password update error:", error)
-      let errorMessage = "Error updating password"
-
-      if (error.code === 400) {
-        errorMessage = "Current password is incorrect"
-      } else if (error.code === 401) {
-        errorMessage = "Authentication required"
-      } else if (error.message) {
-        errorMessage = error.message
-      }
-
-      setMessage(errorMessage)
+      setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" })
+    } catch (e: any) {
+      setMessage(e.message || "Update failed")
       setMessageType("error")
-      clearMessage()
     } finally {
       setPasswordLoading(false)
     }
   }
 
-  const clearMessage = () => {
-    setTimeout(() => {
-      setMessage("")
-      setMessageType("")
-    }, 5000)
+  const getStrength = (pass: string) => {
+    let s = 0
+    if (pass.length > 5) s++
+    if (pass.length > 8) s++
+    if (/[A-Z]/.test(pass)) s++
+    if (/[0-9]/.test(pass)) s++
+    if (/[^A-Za-z0-9]/.test(pass)) s++
+    return s
   }
 
-  // Password strength indicator
-  const getPasswordStrength = (password: string) => {
-    let strength = 0
-    if (password.length >= 8) strength++
-    if (/[A-Z]/.test(password)) strength++
-    if (/[a-z]/.test(password)) strength++
-    if (/[0-9]/.test(password)) strength++
-    if (/[^A-Za-z0-9]/.test(password)) strength++
-    return strength
-  }
+  const strength = getStrength(passwordData.newPassword)
 
-  const passwordStrength = getPasswordStrength(passwordData.newPassword)
-
-  // Loading Button Component
-  const LoadingButton = ({ 
-    children, 
-    loading, 
-    onClick, 
-    className,
-    type = "button"
-  }: {
-    children: React.ReactNode
-    loading: boolean
-    onClick?: () => void
-    className?: string
-    type?: "button" | "submit" | "reset"
-  }) => (
-    <Button
-      type={type}
-      onClick={onClick}
-      disabled={loading}
-      className={cn(
-        "relative overflow-hidden bg-black dark:bg-white hover:bg-gray-900 dark:hover:bg-gray-900 text-white dark:text-black rounded-full transition-all duration-200",
-        className
-      )}
-    >
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <motion.div
-            key="loading"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 flex items-center justify-center bg-black"
-          >
-            <div className="flex space-x-1">
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  className="w-1.5 h-1.5 bg-white rounded-full"
-                  animate={{
-                    y: ["0%", "-50%", "0%"],
-                  }}
-                  transition={{
-                    duration: 0.6,
-                    repeat: Infinity,
-                    delay: i * 0.1,
-                  }}
-                />
-              ))}
-            </div>
-          </motion.div>
-        ) : (
-          <motion.span
-            key="idle"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex items-center gap-2"
-          >
-            {children}
-          </motion.span>
-        )}
-      </AnimatePresence>
-    </Button>
-  )
-
-  // Loading component
   if (loading) {
-    return <Loading message="Loading security settings..." />
+     return <Loading message="FETCHING_SECURITY_PROTOCOLS" fullScreen={false} />
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="max-w-4xl mx-auto px-4 py-8 space-y-8"
-    >
+    <div className="space-y-8 max-w-4xl font-mono text-zinc-600 dark:text-zinc-300">
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-6 transition-colors">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-black dark:bg-white flex items-center justify-center">
-            <Shield className="w-5 h-5 text-white dark:text-black" />
+          <div className="bg-emerald-500/10 p-2 rounded-sm border border-emerald-500/20">
+             <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-500" />
           </div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Security Settings</h1>
+          <h1 className="text-2xl font-boldonse uppercase tracking-widest text-zinc-900 dark:text-white transition-colors">
+            Security Console
+          </h1>
         </div>
+        <p className="text-zinc-400 dark:text-zinc-500 font-mono text-xs pl-[3.25rem]">
+          Manage access credentials and encryption protocols.
+        </p>
       </div>
-
-      {/* Alerts */}
-      <AnimatePresence>
-        {message && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Alert 
-              className={cn(
-                "border rounded-lg shadow-sm",
-                messageType === "success" 
-                  ? "border-green-100 bg-green-50" 
-                  : "border-red-100 bg-red-50"
-              )}
-            >
-              {messageType === "success" ? (
-                <CheckCircle className="w-4 h-4 text-green-500" />
-              ) : (
-                <AlertCircle className="w-4 h-4 text-red-500" />
-              )}
-              <AlertDescription className={cn(
-                "text-sm font-medium",
-                messageType === "success" ? "text-green-800" : "text-red-800"
-              )}>
-                {message}
-              </AlertDescription>
-            </Alert>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {isGuest ? (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+           initial={{ opacity: 0, scale: 0.98 }}
+           animate={{ opacity: 1, scale: 1 }}
+           className="bg-red-500/5 border-2 border-red-500/20 dark:border-red-500/30 p-8 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group transition-colors"
         >
-          <Alert className="bg-amber-50 border border-amber-100 rounded-xl">
-            <AlertCircle className="h-4 w-4 text-amber-600" />
-            <AlertDescription className="text-amber-800">
-              Security settings are only available for registered users.
-            </AlertDescription>
-          </Alert>
-          <div className="mt-4 text-center">
-            <LoadingButton
-              onClick={() => router.push('/auth/signup')}
-              loading={false}
-              className="px-6 py-2"
-            >
-              Create an account
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </LoadingButton>
+          {/* Scanline Effect */}
+          <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.05)_50%)] dark:bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.2)_50%)] bg-[size:100%_4px] opacity-10 pointer-events-none" />
+          
+          {/* Corner Accents */}
+          <div className="absolute top-0 left-0 w-2 h-2 bg-red-500" />
+          <div className="absolute top-0 right-0 w-2 h-2 bg-red-500" />
+          <div className="absolute bottom-0 left-0 w-2 h-2 bg-red-500" />
+          <div className="absolute bottom-0 right-0 w-2 h-2 bg-red-500" />
+
+          <div className="flex items-start gap-4 flex-1 relative z-10">
+            <div className="p-3 bg-red-500/10 border border-red-500/10 dark:border-red-500/20 group-hover:bg-red-500/20 transition-colors duration-500">
+              <Terminal className="h-6 w-6 text-red-600 dark:text-red-500" />
+            </div>
+            <div className="space-y-1">
+              <h3 className="text-red-600 dark:text-red-500 font-boldonse uppercase tracking-widest text-sm flex items-center gap-2">
+                <span className="animate-pulse">{'>>'}</span> Security Protocol Restricted
+              </h3>
+              <p className="text-red-700/70 dark:text-red-500/70 font-mono text-xs max-w-2xl leading-relaxed">
+                Guest accounts are restricted from modifying system security parameters. 
+                Initialize a full account to establish permanent credentials and biometric access.
+              </p>
+            </div>
           </div>
+
+          <Button
+            onClick={() => router.push('/auth/signup')}
+            className="group/btn relative bg-red-600 dark:bg-red-500 hover:bg-red-500 dark:hover:bg-red-400 text-white dark:text-black rounded-none border-2 border-zinc-900 dark:border-black font-bold uppercase tracking-wider h-12 px-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-[0px] active:translate-y-[0px] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+          >
+            <span>Initialize Account</span>
+            <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+          </Button>
         </motion.div>
       ) : (
-        <div className="space-y-6">
-          {/* Security Overview Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-sm p-6"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <Lock className="w-5 h-5 text-gray-400" />
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Account Security Overview</h2>
+        <>
+            {/* Status Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-bold">
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-none flex flex-col gap-2 shadow-sm transition-colors">
+                    <span className="text-[10px] font-mono uppercase text-zinc-400 dark:text-zinc-500">Encryption Status</span>
+                    <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-500 font-mono text-sm uppercase">
+                        <CheckCircle className="w-4 h-4" />
+                        AES-256 Active
+                    </div>
+                </div>
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-none flex flex-col gap-2 shadow-sm transition-colors">
+                    <span className="text-[10px] font-mono uppercase text-zinc-400 dark:text-zinc-500">Email Verification</span>
+                    <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-500 font-mono text-sm uppercase">
+                        <CheckCircle className="w-4 h-4" />
+                        Verified
+                    </div>
+                </div>
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-none flex flex-col gap-2 shadow-sm transition-colors">
+                    <span className="text-[10px] font-mono uppercase text-zinc-400 dark:text-zinc-500">Two-Factor Auth</span>
+                     <div className="flex items-center gap-2 text-amber-600 dark:text-amber-500 font-mono text-sm uppercase">
+                        <AlertCircle className="w-4 h-4" />
+                        Disabled
+                    </div>
+                </div>
             </div>
-            <p className="text-sm text-gray-600 dark:text-white mb-6">Your account security status and recommendations</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Email Verification</span>
-                  <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20">Verified</Badge>
-                </div>
-              </div>
-              <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Password Strength</span>
-                  <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20">Strong</Badge>
-                </div>
-              </div>
-              <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/10 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">2FA Status</span>
-                  <Badge className="bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20">Not Enabled</Badge>
-                </div>
-              </div>
-            </div>
-          </motion.div>
 
-          {/* Password Change Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 }}
-            className="bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-sm p-6"
-          >
-            <form onSubmit={handlePasswordChange} className="space-y-6">
-              <div className="flex items-center gap-3 mb-4 ">
-                <Key className="w-5 h-5 text-gray-400 " />
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Change Password</h2>
-              </div>
-              
-              {/* Current Password */}
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700 dark:text-white">Current Password</Label>
-                <div className="relative">
-                  <Input
-                    type={showCurrentPassword ? "text" : "password"}
-                    value={passwordData.currentPassword}
-                    onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
-                    className="h-11 border-gray-200 focus:border-gray-900 focus:ring-0 rounded-lg pr-10 dark:bg-black dark:border-gray-700"
-                    placeholder="Enter your current password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-white "
-                  >
-                    {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
+            {/* Password Update Form */}
+            <div className="bg-white dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 rounded-none p-6 lg:p-8 shadow-sm transition-colors">
+                 <div className="mb-8">
+                    <h3 className="text-lg font-boldonse uppercase bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 dark:from-white to-zinc-500 transition-colors">Credential Update</h3>
+                    <p className="text-xs font-mono text-zinc-400 dark:text-zinc-500 mt-1">Modify your system access password.</p>
+                 </div>
 
-              {/* New Password */}
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700 dark:text-white">New Password</Label>
-                <div className="relative">
-                  <Input
-                    type={showNewPassword ? "text" : "password"}
-                    value={passwordData.newPassword}
-                    onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-                    className="h-11 border-gray-200 focus:border-gray-900 focus:ring-0 rounded-lg pr-10 dark:bg-black dark:border-gray-700 dark:text-white"
-                    placeholder="Enter your new password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowNewPassword(!showNewPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-white "
-                  >
-                    {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
+                 <form onSubmit={handlePasswordUpdate} className="space-y-6 max-w-lg">
+                    {/* New Password */}
+                    <div className="space-y-2">
+                        <Label className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-bold">New Password</Label>
+                        <div className="relative">
+                            <Input 
+                                type={showNew ? "text" : "password"}
+                                value={passwordData.newPassword}
+                                onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
+                                className="bg-zinc-50 dark:bg-black border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white font-mono placeholder:text-zinc-300 dark:placeholder:text-zinc-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 transition-colors h-11 rounded-none"
+                                placeholder="ENTER_NEW_PASSWORD"
+                            />
+                             <button
+                                type="button"
+                                onClick={() => setShowNew(!showNew)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                            >
+                                {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                        </div>
+                         {/* Strength Bar */}
+                         <div className="flex gap-1 h-0.5 mt-2">
+                            {[1,2,3,4,5].map(i => (
+                                <div key={i} className={cn("flex-1 transition-colors duration-300", 
+                                    i <= strength ? "bg-emerald-500" : "bg-zinc-200 dark:bg-zinc-800"
+                                )} />
+                            ))}
+                        </div>
+                    </div>
 
-              {/* Confirm Password */}
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700 dark:text-white">Confirm New Password</Label>
-                <div className="relative">
-                  <Input
-                    type={showConfirmPassword ? "text" : "password"}
-                    value={passwordData.confirmPassword}
-                    onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
-                    className="h-11 border-gray-200 focus:border-gray-900 focus:ring-0 rounded-lg pr-10 dark:bg-black dark:border-gray-700 dark:text-white"
-                    placeholder="Confirm your new password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-white "
-                  >
-                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
+                    {/* Confirm Password */}
+                    <div className="space-y-2">
+                         <Label className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 dark:text-zinc-500 font-bold">Confirm Password</Label>
+                        <Input 
+                            type="password"
+                            value={passwordData.confirmPassword}
+                            onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
+                            className="bg-zinc-50 dark:bg-black border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-white font-mono placeholder:text-zinc-300 dark:placeholder:text-zinc-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20 transition-colors h-11 rounded-none"
+                            placeholder="CONFIRM_PASSWORD"
+                        />
+                    </div>
 
-              {/* Password Strength Indicator */}
-              {passwordData.newPassword && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  className="space-y-2"
-                >
-                  <div className="flex space-x-1">
-                    {[1, 2, 3, 4, 5].map((level) => (
-                      <div
-                        key={level}
-                        className={cn(
-                          "h-1 flex-1 rounded-full transition-all duration-300",
-                          level <= passwordStrength
-                            ? level <= 2
-                              ? "bg-red-500"
-                              : level <= 4
-                              ? "bg-yellow-500"
-                              : "bg-green-500"
-                            : "bg-gray-200"
+                     {/* Message */}
+                     <AnimatePresence>
+                        {message && (
+                            <motion.div initial={{opacity:0, height:0}} animate={{opacity:1, height:"auto"}} exit={{opacity:0, height:0}}>
+                                 <Alert variant={messageType === "success" ? "default" : "destructive"} className={cn("font-mono text-xs border rounded-none transition-colors", messageType === "success" ? "border-emerald-500 text-emerald-700 dark:text-emerald-500 bg-emerald-500/5 dark:bg-emerald-500/10" : "border-red-500 text-red-700 dark:text-red-500 bg-red-500/5 dark:bg-red-500/10")}>
+                                    <AlertDescription className="font-bold">
+                                        {messageType === "success" ? "SUCCESS: " : "ERROR: "} {message}
+                                    </AlertDescription>
+                                 </Alert>
+                            </motion.div>
                         )}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-xs text-gray-600">
-                    Password strength:{" "}
-                    {passwordStrength <= 2
-                      ? "Weak"
-                      : passwordStrength <= 4
-                      ? "Good"
-                      : "Strong"}
-                  </p>
-                </motion.div>
-              )}
+                     </AnimatePresence>
 
-              {/* Submit Button */}
-              <LoadingButton
-                type="submit"
-                loading={passwordLoading}
-                className="w-full md:w-auto px-6 py-2"
-              >
-                <Key className="w-4 h-4 mr-2 " />
-                Update Password
-              </LoadingButton>
-            </form>
-          </motion.div>
-
-          {/* Security Recommendations Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-            className="bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-2xl shadow-sm p-6"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <Shield className="w-5 h-5 text-gray-400" />
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Security Recommendations</h2>
+                    <div className="pt-4">
+                         <Button 
+                            disabled={passwordLoading}
+                            className="bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 font-mono text-xs font-bold uppercase tracking-wider rounded-none h-11 px-8 w-full sm:w-auto shadow-md transition-all"
+                        >
+                            {passwordLoading ? "PROCESSING..." : "UPDATE CREDENTIALS"}
+                         </Button>
+                    </div>
+                 </form>
             </div>
-            
-            <div className="space-y-4">
-              <div className="flex items-start gap-3 p-4 bg-blue-500/10 rounded-lg">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                <div>
-                  <h3 className="font-medium text-black dark:text-white">Enable Two-Factor Authentication</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    Add an extra layer of security to your account with 2FA.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3 p-4 bg-green-500/10 rounded-lg">
-                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                <div>
-                  <h3 className="font-medium text-black dark:text-white">Use a Strong Password</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    Include uppercase, lowercase, numbers, and special characters.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-3 p-4 bg-purple-500/10 rounded-lg">
-                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
-                <div>
-                  <h3 className="font-medium text-black dark:text-white">Regular Security Reviews</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    Review your account activity and update security settings regularly.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+        </>
       )}
-    </motion.div>
+    </div>
   )
-}
-
-export default SecurityPage 
+} 

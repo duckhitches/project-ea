@@ -1,231 +1,152 @@
 "use client"
 
 import type React from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { Michroma } from "next/font/google"
-import { useState, useEffect, Suspense } from "react"
+import { useState, useEffect } from "react"
 import { supabase } from "@/lib/supabase"
-import dynamic from "next/dynamic"
-import { UserIcon, Clock, Shield, Monitor, CheckCircle, AlertCircle } from "lucide-react"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { motion } from "framer-motion"
-import StaggeredMenu from "@/components/StaggeredMenu"
-import ThemeToggle from "@/components/ui/ThemeToggle"
-import Image from "next/image"
-
-// Dynamically import components
-const ProfilePage = dynamic(() => import("./profile/page"), { ssr: false })
-const HistoryPage = dynamic(() => import("./history/page"), { ssr: false })
-const SecurityPage = dynamic(() => import("./security/page"), { ssr: false })
-const AIInterviewPage = dynamic(() => import("./ai-interview/page"), { ssr: false })
-
-const michroma = Michroma({
-  weight: "400",
-  subsets: ["latin"],
-})
-
-// Disable SSR for this component
-const DashboardContent = dynamic(() => Promise.resolve(Dashboard), {
-  ssr: false,
-})
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { 
+  Monitor, 
+  History, 
+  ArrowRight, 
+  TrendingUp, 
+  Clock, 
+  Calendar 
+} from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function DashboardPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 dark:border-white"></div></div>}>
-      <DashboardContent />
-    </Suspense>
-  )
-}
-
-interface UserProfile {
-  email: string
-  lastLogin: string
-  name?: string
-  $createdAt?: string
-  $id?: string
-  prefs?: any
-}
-
-const Dashboard = () => {
-  const [user, setUser] = useState<UserProfile | null>(null)
+  const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const [isGuest, setIsGuest] = useState(false)
-  const [message, setMessage] = useState("")
-  const [messageType, setMessageType] = useState<"success" | "error" | "">("")
-
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  
-  // Get active tab from URL or default to AI Interview
-  const [activeTab, setActiveTab] = useState(() => {
-    const tab = searchParams.get('tab')
-    return tab || "ai"
+  const [stats, setStats] = useState({
+    totalInterviews: 0,
+    averageScore: 0,
+    lastSession: "N/A"
   })
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserData = async () => {
       try {
-        // Check if it's a guest session first
-        const guestSession = localStorage.getItem("guestSession")
-        if (guestSession === "true") {
-          setIsGuest(true)
-          setUser({
-            name: "Guest User",
-            email: "guest@example.com",
-            $createdAt: new Date().toISOString(),
-            $id: "guest",
-            lastLogin: new Date().toISOString()
-          })
-          setLoading(false)
-          return
-        }
-
-        // Regular user session
-        const { data: { user }, error } = await supabase.auth.getUser()
-        if (error) throw error
-        
+        const { data: { user } } = await supabase.auth.getUser()
         if (user) {
-          // Get user profile
-          const { data: profile } = await supabase
-            .from('user_profiles')
-            .select('*')
-            .eq('id', user.id)
-            .single()
-          
-          setUser({
-            email: user.email || '',
-            name: profile?.name || user.user_metadata?.name || '',
-            lastLogin: user.last_sign_in_at || new Date().toISOString(),
-            $createdAt: user.created_at,
-            $id: user.id,
-            prefs: profile || {}
+          setUser(user)
+          // Mock stats for now or fetch from DB
+          setStats({
+            totalInterviews: 12,
+            averageScore: 85,
+            lastSession: "2 hours ago"
           })
         }
-      } catch (error) {
-        console.error("Auth error:", error)
-        router.push("/auth/login")
+      } catch (e) {
+        console.error(e)
       } finally {
         setLoading(false)
       }
     }
-    fetchUser()
-  }, [router])
-
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab)
-    // Update URL without page reload
-    const url = new URL(window.location.href)
-    url.searchParams.set('tab', tab)
-    window.history.pushState({}, '', url.toString())
-  }
-
-  const handleLogout = async () => {
-    try {
-      if (isGuest) {
-        // Clear guest session
-        localStorage.removeItem("guestSession")
-        localStorage.removeItem("guestName")
-      } else {
-        // Regular user logout
-        await supabase.auth.signOut()
-      }
-      router.push("/auth/login")
-    } catch (error) {
-      console.error("Logout error:", error)
-      // Force redirect even if logout fails
-      router.push("/auth/login")
-    }
-  }
-
-  const clearMessage = () => {
-    setTimeout(() => {
-      setMessage("")
-      setMessageType("")
-    }, 5000)
-  }
+    fetchUserData()
+  }, [])
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-transparent flex items-center justify-center transition-colors duration-300">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {[1, 2, 3].map((i) => (
+          <Skeleton key={i} className="h-32 bg-zinc-900/50 rounded-sm" />
+        ))}
       </div>
     )
   }
 
-  const renderActiveTab = () => {
-    switch (activeTab) {
-      case "profile":
-        return <ProfilePage />
-      case "history":
-        return <HistoryPage />
-      case "security":
-        return <SecurityPage />
-      case "ai":
-      default:
-        return <AIInterviewPage />
-    }
-  }
-
   return (
-    <div className="min-h-screen bg-transparent transition-colors duration-300">
-      <StaggeredMenu
-        items={[
-          {
-            label: "Profile",
-            ariaLabel: "Profile",
-            onClick: () => handleTabChange("profile"),
-          },
-          {
-            label: "History",
-            ariaLabel: "History",
-            onClick: () => handleTabChange("history"),
-          },
-          {
-            label: "AI Interview",
-            ariaLabel: "AI Interview",
-            onClick: () => handleTabChange("ai"),
-          },
-          {
-            label: "Security",
-            ariaLabel: "Security",
-            onClick: () => handleTabChange("security"),
-          },
-          {
-            label: "Sign Out",
-            ariaLabel: "Sign Out",
-            onClick: handleLogout,
-          }
-        ]}
-        logoContent={<div className="flex items-center gap-3"><Image src="/brand-logo.png" width={40} height={40} className="w-10 h-10 rounded-full bg-black p-2 object-contain" alt="Logo" /><span className="text-sm md:text-xl font-boldonse tracking-tighter text-pink-500">The Boring Interview</span></div>}
-        colors={["#0f0518", "#1a0b2e", "#260d40", "#D02752"]}
-        menuButtonColor="#ec4899" 
-        openMenuButtonColor="#ffffff"
-        accentColor="#ec4899"
-      />
-      {/* Message Alert */}
-      {message && (
-        <div className="max-w-4xl mx-auto px-4 pt-28">
-          <Alert className={messageType === "success" ? "border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20" : "border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20"}>
-            {messageType === "success" ? (
-              <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
-            ) : (
-              <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
-            )}
-            <AlertDescription className={messageType === "success" ? "text-green-800 dark:text-green-200" : "text-red-800 dark:text-red-200"}>
-              {message}
-            </AlertDescription>
-          </Alert>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-boldonse uppercase tracking-widest text-zinc-900 dark:text-white">
+          Command Center
+        </h1>
+        <p className="text-zinc-500 font-mono text-sm">
+          Welcome back, <span className="text-zinc-900 dark:text-white">{user?.user_metadata?.name || "Candidate"}</span>. System ready.
+        </p>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-sm">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-xs font-mono uppercase tracking-wider text-zinc-500">
+              Total Sessions
+            </CardTitle>
+            <Monitor className="h-4 w-4 text-pink-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-boldonse">{stats.totalInterviews}</div>
+            <p className="text-xs text-zinc-400 dark:text-zinc-600 font-mono mt-1">+2 from last week</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-sm">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-xs font-mono uppercase tracking-wider text-zinc-500">
+              Avg. Performance
+            </CardTitle>
+            <TrendingUp className="h-4 w-4 text-emerald-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-boldonse">{stats.averageScore}%</div>
+            <p className="text-xs text-zinc-400 dark:text-zinc-600 font-mono mt-1">Top 10% of candidates</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 rounded-sm">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-xs font-mono uppercase tracking-wider text-zinc-500">
+              Last Active
+            </CardTitle>
+            <Clock className="h-4 w-4 text-blue-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-xl font-boldonse truncate">{stats.lastSession}</div>
+            <p className="text-xs text-zinc-400 dark:text-zinc-600 font-mono mt-1">Session ID: #8X-92</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="bg-white/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-6 rounded-sm flex flex-col justify-between group hover:border-pink-500/50 transition-colors">
+          <div>
+            <div className="w-10 h-10 bg-zinc-100 dark:bg-zinc-800 rounded-sm flex items-center justify-center mb-4 text-pink-500">
+              <Monitor className="w-5 h-5" />
+            </div>
+            <h3 className="text-xl font-boldonse uppercase tracking-wide mb-2 text-zinc-900 dark:text-white">Start New Interview</h3>
+            <p className="text-zinc-500 text-sm font-mono leading-relaxed mb-6">
+              Initialize a new AI-driven mock interview session. Configure parameters and begin simulation.
+            </p>
+          </div>
+          <Link href="/dashboard/ai-interview">
+            <Button className="w-full bg-pink-600 hover:bg-pink-700 text-white rounded-sm font-mono text-xs uppercase tracking-wider h-11">
+              Initialize Session <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </Link>
         </div>
-      )}
 
-      {/* Tab Content */}
-      <main className={`max-w-4xl mx-auto px-4 pb-20 ${message ? 'pt-6' : 'pt-28'}`}>
-        {renderActiveTab()}
-      </main>
-
-      {/* Theme Toggle - Bottom Left */}
-      <div className="fixed bottom-6 left-6 z-50">
-        <ThemeToggle />
+        <div className="bg-white/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-6 rounded-sm flex flex-col justify-between group hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors">
+          <div>
+            <div className="w-10 h-10 bg-zinc-100 dark:bg-zinc-800 rounded-sm flex items-center justify-center mb-4 text-zinc-600 dark:text-zinc-400">
+              <History className="w-5 h-5" />
+            </div>
+            <h3 className="text-xl font-boldonse uppercase tracking-wide mb-2 text-zinc-900 dark:text-white">Review History</h3>
+            <p className="text-zinc-500 text-sm font-mono leading-relaxed mb-6">
+              Access logs of previous sessions, performance metrics, and detailed feedback reports.
+            </p>
+          </div>
+          <Link href="/dashboard/history">
+            <Button variant="outline" className="w-full border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-300 rounded-sm font-mono text-xs uppercase tracking-wider h-11">
+              Access Logs
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   )

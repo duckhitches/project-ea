@@ -12,6 +12,7 @@ import InterviewScreen from "@/components/ai-interview-coach/components/Intervie
 import FeedbackScreen from "@/components/ai-interview-coach/components/FeedbackScreen"
 import { useInterview } from "@/components/ai-interview-coach/hooks/useInterview"
 import { InterviewPhase } from "@/components/ai-interview-coach/types"
+import { Loading } from "@/components/ui/Loading"
 
 interface AIInterviewProps {
   isGuest?: boolean
@@ -39,28 +40,27 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
     setIsMounted(true)
   }, [])
 
+  // Reset window scroll on phase change to ensure screen doesn't "load from the bottom"
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [phase])
+
   if (!isMounted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-transparent transition-colors duration-300">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
-      </div>
-    )
+    return <Loading message="INITIALIZING_ENVIRONMENT" />
   }
 
   // Render ai-coach phased UI
   if (phase === InterviewPhase.SETUP) {
     return (
-      <div className="min-h-screen bg-transparent transition-colors duration-300">
-        <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 lg:py-20">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
-            
-            <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-white mb-4">Perfect Your Interview Skills</h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 max-w-lg mx-auto">
-              Get real-time feedback and guidance from our AI interviewer.
-              {isGuest && " Try a 2-minute demo or sign up for full access."}
-            </p>
-          </motion.div>
-          <SetupScreen onStart={startInterview} mode={mode} setMode={setMode} />
+      <div className="min-h-screen bg-transparent p-4 md:p-8 font-mono">
+        <div className="max-w-4xl mx-auto space-y-8">
+            <div className="border-b-2 border-zinc-200 dark:border-zinc-800 pb-4">
+               <h1 className="text-3xl font-boldonse text-zinc-900 dark:text-white uppercase tracking-tight">System Configuration</h1>
+               <p className="text-zinc-500 mt-1 uppercase text-xs tracking-widest">
+                 {"/// INTERVIEW_MODULE_V2.0 /// INITIALIZING..."}
+               </p>
+            </div>
+            <SetupScreen onStart={startInterview} mode={mode} setMode={setMode} />
         </div>
       </div>
     )
@@ -68,26 +68,37 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
 
   if (phase === InterviewPhase.INTERVIEW) {
     return (
-      <div className="min-h-screen bg-transparent transition-colors duration-300">
-        <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 lg:py-20">
-          <InterviewScreen
-            state={interviewState}
-            messages={messages}
-            liveTranscript={liveTranscript}
-            elapsedTime={elapsedTime}
-            endInterview={endInterview}
-            handleFeedback={handleFeedback}
-          />
-        </div>
+      <div className="min-h-screen bg-transparent p-4 md:p-8 font-mono">
+         <div className="max-w-4xl mx-auto h-[80vh]">
+            <InterviewScreen
+                state={interviewState}
+                messages={messages}
+                liveTranscript={liveTranscript}
+                elapsedTime={elapsedTime}
+                endInterview={endInterview}
+                handleFeedback={handleFeedback}
+            />
+         </div>
       </div>
     )
   }
 
   if (phase === InterviewPhase.FEEDBACK && feedback) {
     return (
-      <div className="min-h-screen bg-transparent transition-colors duration-300">
-        <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 lg:py-20">
-          <FeedbackScreen feedback={feedback} mode={mode} onRestart={resetInterview} quotaExceededError={quotaExceededError} />
+      <div className="min-h-screen bg-transparent p-4 md:p-8 font-mono">
+        <div className="max-w-4xl mx-auto space-y-6">
+            <div className="border-b-2 border-zinc-200 dark:border-zinc-800 pb-4 flex justify-between items-end">
+               <div>
+                   <h1 className="text-3xl font-boldonse text-zinc-900 dark:text-white uppercase tracking-tight">Session Report</h1>
+                   <p className="text-zinc-500 mt-1 uppercase text-xs tracking-widest">
+                     {"/// DATA_ANALYSIS_COMPLETE ///"}
+                   </p>
+               </div>
+               <div className="text-emerald-600 dark:text-emerald-500 font-bold uppercase text-xs animate-pulse">
+                   log_saved_successfully
+               </div>
+            </div>
+            <FeedbackScreen feedback={feedback} mode={mode} onRestart={resetInterview} quotaExceededError={quotaExceededError} />
         </div>
       </div>
     )
@@ -95,94 +106,64 @@ const AIInterview = ({ isGuest = false }: AIInterviewProps) => {
 
   // Feedback loading state (phase is FEEDBACK but feedback not ready yet)
   if (phase === InterviewPhase.FEEDBACK && !feedback) {
-    return (
-      <div className="min-h-screen bg-transparent transition-colors duration-300">
-        <div className="max-w-5xl mx-auto px-4 py-16 sm:py-24">
-          <div className="flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full border-2 border-gray-300 dark:border-gray-700 border-t-gray-900 dark:border-t-white animate-spin mb-6" />
-            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-2">Generating Feedback</h2>
-            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 max-w-md">Analyzing your interview transcript and preparing a detailed report...</p>
-          </div>
-        </div>
-      </div>
-    )
+    return <Loading message="COMPILING_FEEDBACK_REPORT" />
   }
 
   return (
-    <div className="min-h-screen bg-transparent transition-colors duration-300">
-      <div className="max-w-5xl mx-auto px-4 py-12 sm:py-16 lg:py-20">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
-          
-
-          <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-white mb-4">
-            Perfect Your Interview Skills
-          </h1>
-          
-          <p className="text-sm text-gray-600 dark:text-gray-400 max-w-lg mx-auto">
-            Get real-time feedback and guidance from our AI interviewer. 
-            {isGuest && " Try a 2-minute demo or sign up for full access."}
-          </p>
-        </motion.div>
-
-        {/* Features */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-        >
-          {[
-            {
-              icon: Brain,
-              title: "AI Analysis",
-              desc: "Get instant feedback on your responses"
-            },
-            {
-              icon: Volume2,
-              title: "Natural Conversation",
-              desc: "Practice with human-like interactions"
-            },
-            {
-              icon: Sparkles,
-              title: "Smart Questions",
-              desc: "Industry-specific interview scenarios"
-            }
-          ].map((feature, index) => (
-            <div
-              key={index}
-              className="bg-white/5 dark:bg-black/5 backdrop-blur-xl p-4 rounded-lg border border-white/10 dark:border-white/5 shadow-sm"
-            >
-              <feature.icon className="w-5 h-5 text-gray-900 dark:text-white mb-2" />
-              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-1">
-                {feature.title}
-              </h3>
-              <p className="text-xs text-gray-600 dark:text-gray-400">{feature.desc}</p>
+    <div className="min-h-screen bg-transparent p-4 md:p-8 font-mono">
+       <div className="max-w-4xl mx-auto space-y-12">
+            
+            {/* Header */}
+            <div className="border-b-2 border-zinc-200 dark:border-zinc-800 pb-6">
+               <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2 h-2 bg-pink-500 animate-pulse" />
+                  <span className="text-xs text-pink-500 uppercase tracking-widest">AI Trainer Module</span>
+               </div>
+               <h1 className="text-4xl md:text-5xl font-boldonse text-zinc-900 dark:text-white uppercase tracking-tight">
+                  Interview <span className="text-zinc-400 dark:text-zinc-600">Coach</span>
+               </h1>
+               <p className="text-zinc-500 mt-4 max-w-lg">
+                 Advanced simulation environment for technical interview preparation.
+                 {isGuest && <span className="text-amber-600 dark:text-amber-500 ml-2"> [DEMO_MODE_ACTIVE]</span>}
+               </p>
             </div>
-          ))}
-        </motion.div>
 
-        {/* Guest Notice */}
-        {isGuest && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="mt-8 text-center"
-          >
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              Demo limited to 2 minutes. 
-              <Link href="/auth/signup" className="text-gray-900 dark:text-white font-medium ml-1">
-                Sign up for full access →
-              </Link>
-            </p>
-          </motion.div>
-        )}
-      </div>
+            {/* Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+               {[
+                 {
+                   icon: Brain,
+                   title: "Neural Analysis",
+                   desc: "Real-time semantic feedback processing."
+                 },
+                 {
+                   icon: Volume2,
+                   title: "Voice Synth",
+                   desc: "Low-latency audio interaction engine."
+                 },
+                 {
+                   icon: Sparkles,
+                   title: "Scenario Gen",
+                   desc: "Dynamic problem generation algorithms."
+                 }
+               ].map((feature, i) => (
+                 <div key={i} className="group border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 hover:border-zinc-900 dark:hover:border-white transition-colors">
+                     <feature.icon className="w-8 h-8 text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-white mb-4 transition-colors" />
+                     <h3 className="font-bold text-zinc-900 dark:text-white uppercase mb-2 tracking-wide">{feature.title}</h3>
+                     <p className="text-xs text-zinc-500 uppercase tracking-widest">{feature.desc}</p>
+                 </div>
+               ))}
+            </div>
+
+            {/* Guest Notice */}
+            {isGuest && (
+               <div className="border border-amber-900/20 dark:border-amber-900/50 bg-amber-500/5 dark:bg-amber-900/10 p-4 text-center">
+                   <p className="text-amber-700 dark:text-amber-500 font-mono text-sm uppercase tracking-wide">
+                      Notice: Session limit set to 2 minutes. <Link href="/auth/signup" className="underline decoration-amber-500 underline-offset-4 hover:text-zinc-900 dark:hover:text-white">Initialize Full Account</Link>
+                   </p>
+               </div>
+            )}
+       </div>
     </div>
   )
 }

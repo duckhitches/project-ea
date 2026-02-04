@@ -37,21 +37,29 @@ export function Footer() {
   ];
 
   return (
-    <footer className="w-full border-t border-neutral-200 dark:border-white/10 bg-white/5 dark:bg-black/5 backdrop-blur-xl font-michroma" suppressHydrationWarning>
+    <footer className="w-full border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black font-mono text-sm" suppressHydrationWarning>
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8" suppressHydrationWarning>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4" suppressHydrationWarning>
           {/* Brand Section */}
           <div className="space-y-4" suppressHydrationWarning>
-            <h3 className="text-md font-boldonse text-neutral-900 dark:text-neutral-100 flex items-center gap-2"><Image src="/brand-logo.png" width={40} height={40} className="w-10 h-10 rounded-full bg-black p-2 object-contain" alt="Logo" /> The Boring Interview</h3>
-            <p className="text-sm text-neutral-600 dark:text-neutral-400 ">
-              Transforming interviews with AI-powered conversations.
+            <h3 className="text-md font-bold text-black dark:text-white flex items-center gap-2 uppercase tracking-tight">
+              <div className="w-3 h-3 bg-pink-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(236,72,153,0.5)]"></div>
+              System Online
+            </h3>
+            <div className="flex items-center gap-2">
+               <Image src="/brand-logo.png" width={32} height={32} className="w-8 h-8 rounded-none border border-gray-300 dark:border-gray-700 p-1 object-contain bg-black" alt="Logo" />
+               <span className="font-bold">The Boring Interview</span>
+            </div>
+            <p className="text-xs text-pink-500/80 font-mono">
+              {'//'} Version 2.4.0-stable<br/>
+              {'//'} AI-powered interview optimization protocol initiated.
             </p>
           </div>
 
           {/* Links Sections */}
           {footerLinks.map((section) => (
             <div key={section.title} className="space-y-4" suppressHydrationWarning>
-              <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+              <h3 className="text-xs font-bold uppercase text-gray-400 dark:text-gray-600 tracking-wider">
                 {section.title}
               </h3>
               <ul className="space-y-2" suppressHydrationWarning>
@@ -59,10 +67,10 @@ export function Footer() {
                   <li key={link.name} suppressHydrationWarning>
                     <Link
                       href={link.href}
-                      className="text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+                      className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white hover:underline decoration-pink-500 underline-offset-4 transition-all"
                       suppressHydrationWarning
                     >
-                      {link.name}
+                      {`> ${link.name}`}
                     </Link>
                   </li>
                 ))}
@@ -72,21 +80,15 @@ export function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-12 border-t border-neutral-200 pt-8 dark:border-neutral-800" suppressHydrationWarning>
+        <div className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-800" suppressHydrationWarning>
           <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0" suppressHydrationWarning>
-            <p className="text-sm text-neutral-600 dark:text-neutral-400" suppressHydrationWarning>
-              © {currentYear} The Boring Interview(NoQwit.ai). All rights reserved.
+            <p className="text-xs text-gray-500 dark:text-gray-500" suppressHydrationWarning>
+              {'/*'} © {currentYear} The Boring Interview (NoQwit.ai). All rights reserved. {'*/'}
             </p>
-            <div className="flex items-center space-x-2 text-sm text-neutral-600 dark:text-neutral-400" suppressHydrationWarning>
-              <span>Created with</span>
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-                suppressHydrationWarning
-              >
-                <IconHeart className="h-4 w-4 text-red-500" />
-              </motion.div>
-              <span>by The Boring Project</span>
+            <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-500" suppressHydrationWarning>
+              <span>Deployed with</span>
+              <IconHeart className="h-3 w-3 text-pink-500" />
+              <span>by <span className="text-black dark:text-white font-bold">The Boring Project</span></span>
             </div>
           </div>
         </div>

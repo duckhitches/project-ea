@@ -16,7 +16,6 @@ export function CarouselDemo() {
         // { label: "Sessions", value: "50K+" },
       ],
       src: "/pexels-1.jpg",
-      gradient: "bg-gradient-to-br from-blue-600/80 via-purple-600/70 to-pink-600/60",
     },
     {
       title: "Instant AI Analysis",
@@ -30,7 +29,6 @@ export function CarouselDemo() {
         { label: "Models", value: "2+" },
       ],
       src: "/pexels-3.jpg",
-      gradient: "bg-gradient-to-br from-green-600/80 via-teal-600/70 to-blue-600/60",
     },
     {
       title: "Perfect for Students",
@@ -44,7 +42,6 @@ export function CarouselDemo() {
         { label: "Placement", value: "89%" },
       ],
       src: "/pexels-2.jpg",
-      gradient: "bg-gradient-to-br from-orange-600/80 via-red-600/70 to-pink-600/60",
     },
     {
       title: "Build Confidence",
@@ -58,7 +55,6 @@ export function CarouselDemo() {
         { label: "Success", value: "100%" },
       ],
       src: "/pexels-4.jpg",
-      gradient: "bg-gradient-to-br from-purple-600/80 via-indigo-600/70 to-blue-600/60",
     },
   ]
 

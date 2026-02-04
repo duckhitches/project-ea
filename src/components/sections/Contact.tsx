@@ -10,7 +10,7 @@ const developerTeam = [
   {
     name: "Eshan Shettennavar",
     role: "Full Stack Development & Testing",
-    description: "Expert in modern web technologies, cloud infrastructure, and deployment automation.",
+    description: "Expert in modern web technologies, AI-integration, and deployment automation.",
     skills: [
       "React, Next.js, TypeScript, Framer Motion and more",
       "Node.js, Python, Go",
@@ -44,7 +44,7 @@ const developerTeam = [
 
 const eaTeam = {
   name: "The Boring Project Team",
-  role: "CEO & Founder",
+  role: "The Parent Company",
   description: "The Boring Project is the parent company of NoQwit.ai. It is a professional support team for business operations, scheduling, and administrative tasks.",
   services: [
     "Executive Support & Scheduling",
@@ -92,9 +92,9 @@ export default function Contact() {
   }, [isSuccess])
 
   return (
-    <div className="min-h-screen bg-transparent text-gray-900 dark:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-transparent text-black dark:text-white transition-colors duration-300 font-mono">
       {/* Header Section */}
-      <div className="relative border-b border-gray-200 dark:border-gray-800">
+      <div className="relative border-b-4 border-black dark:border-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-12">
             {/* Back Link */}
@@ -105,12 +105,12 @@ export default function Contact() {
             >
               <Link
                 href="/"
-                className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-all duration-200 group"
+                className="inline-flex items-center text-black dark:text-white hover:underline transition-all duration-200 group"
               >
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition-all duration-200 mr-3">
+                <div className="flex items-center justify-center w-10 h-10 rounded-none bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white mr-3 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] transition-all">
                   <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform duration-200" />
                 </div>
-                <span className="font-medium">Back to Home</span>
+                <span className="font-bold uppercase tracking-widest">Back to Home</span>
               </Link>
             </motion.div>
 
@@ -122,18 +122,18 @@ export default function Contact() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-4xl md:text-6xl font-bold mb-6"
+                className="text-5xl md:text-7xl font-boldonse uppercase tracking-tighter mb-6 bg-black text-white dark:bg-white dark:text-black p-4 inline-block transform -rotate-1 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]"
               >
-                Get in Touch Today
+                Get in <span className="text-pink-500">Touch</span>
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-gray-700 dark:text-gray-300 text-lg md:text-xl"
+                className="text-black dark:text-white text-lg md:text-xl font-bold mt-8 border-2 border-black dark:border-white p-4 inline-block bg-white dark:bg-black"
               >
-                Have questions about our AI interview platform? Our expert team is ready to help you succeed.
+                {'//'} Have questions? Our expert team is ready to help.
               </motion.p>
             </div>
           </div>
@@ -148,11 +148,11 @@ export default function Contact() {
           className="mb-20"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Choose Your Preferred Way
+            <h2 className="text-3xl md:text-5xl font-boldonse uppercase mb-4 tracking-tight">
+              Choose Your Path
             </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              Multiple ways to reach us - pick what works best for you
+            <p className="text-black dark:text-white font-mono text-sm uppercase tracking-widest">
+              Multiple vector points established
             </p>
           </div>
 
@@ -168,19 +168,19 @@ export default function Contact() {
                   href={method.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative bg-white/5 dark:bg-black/5 backdrop-blur-xl rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 dark:border-white/10"
+                  className="group relative bg-white dark:bg-black rounded-none p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] transition-all duration-200 border-4 border-black dark:border-white"
                 >
                   <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-black dark:bg-white mb-6 group-hover:scale-110 transition-transform duration-200">
-                      <IconComponent className="w-8 h-8 text-white dark:text-black" />
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-none bg-black dark:bg-white mb-6 border-2 border-black dark:border-white group-hover:bg-pink-500 group-hover:border-pink-500 transition-colors duration-300">
+                      <IconComponent className="w-8 h-8 text-white dark:text-black group-hover:text-white" />
                     </div>
 
-                    <h3 className="text-xl font-bold mb-2">{method.name}</h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">{method.description}</p>
-                    <div className="font-medium mb-2">{method.value}</div>
+                    <h3 className="text-2xl font-boldonse uppercase mb-2 group-hover:text-pink-500 transition-colors">{method.name}</h3>
+                    <p className="text-black dark:text-white mb-4 font-mono text-sm">{method.description}</p>
+                    <div className="font-bold underline mb-4">{method.value}</div>
 
-                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-sm">
-                      <Clock className="w-3 h-3 mr-1" />
+                    <div className="inline-flex items-center px-3 py-1 rounded-none bg-black dark:bg-white text-white dark:text-black text-xs font-mono uppercase border border-black dark:border-white">
+                      <Clock className="w-3 h-3 mr-2" />
                       {method.response}
                     </div>
                   </div>
@@ -197,11 +197,11 @@ export default function Contact() {
           className="mb-20"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Meet Our Expert Team
+            <h2 className="text-3xl md:text-5xl font-boldonse uppercase mb-4 tracking-tight">
+              Core Team
             </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              Skilled professionals ready to bring your ideas to life
+            <p className="text-black dark:text-white font-mono text-sm uppercase tracking-widest">
+              Active operatives ready for deployment
             </p>
           </div>
 
@@ -212,10 +212,10 @@ export default function Contact() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white/5 dark:bg-black/5 backdrop-blur-xl rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 dark:border-white/10"
+                className="bg-white dark:bg-black rounded-none p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] border-4 border-black dark:border-white"
               >
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
-                  <div className="relative w-24 h-24 rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-700">
+                  <div className="relative w-24 h-24 rounded-none overflow-hidden border-2 border-black dark:border-white transition-all">
                     <Image
                       src={(developer.avatar || "/logo.svg").split("?")[0]}
                       alt={developer.name}
@@ -224,32 +224,32 @@ export default function Contact() {
                       className="object-cover"
                     />
                   </div>
-                  {/* <div className="absolute -top-2 -right-2 bg-black dark:bg-white text-white dark:text-black text-xs font-bold px-2 py-1 rounded-full">
-                    {developer.rating} ⭐
-                  </div> */}
+                  
 
                   <div className="text-center sm:text-left flex-1">
-                    <h3 className="text-xl font-bold mb-1">{developer.name}</h3>
-                    <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">{developer.role}</p>
-                    <div className="flex flex-wrap justify-center sm:justify-start gap-2 text-xs">
-                      <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">{developer.experience}</span>
-                      <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">{developer.projects}</span>
+                    <h3 className="text-2xl font-boldonse uppercase mb-1">{developer.name}</h3>
+                    <p className="text-black dark:text-white font-mono text-sm mb-2 bg-gray-200 dark:bg-gray-800 px-2 inline-block border border-black dark:border-white">{developer.role}</p>
+                    <div className="flex flex-wrap justify-center sm:justify-start gap-2 text-xs font-mono">
+                      <span className="bg-transparent border border-black dark:border-white px-2 py-1 rounded-none uppercase">{developer.experience}</span>
+                      <span className="bg-transparent border border-black dark:border-white px-2 py-1 rounded-none uppercase">{developer.projects}</span>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">{developer.description}</p>
+                <p className="text-black dark:text-white mb-6 leading-relaxed font-mono text-sm border-l-4 border-black dark:border-white pl-4 italic">
+                  &quot;{developer.description}&quot;
+                </p>
 
                 <div className="mb-6">
-                  <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                  <h4 className="text-sm font-bold uppercase mb-3 flex items-center gap-2 font-mono border-b-2 border-black dark:border-white pb-1 w-fit">
                     <Code className="w-4 h-4" />
-                    Core Expertise
+                    Stack
                   </h4>
                   <div className="space-y-2">
                     {developer.skills.map((skill, i) => (
-                      <div key={i} className="flex items-center text-sm bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2">
-                        <div className="w-2 h-2 bg-black dark:bg-white rounded-full mr-2 flex-shrink-0" />
-                        <span className="text-gray-700 dark:text-gray-300">{skill}</span>
+                      <div key={i} className="flex items-center text-xs font-mono uppercase">
+                        <div className="w-2 h-2 bg-black dark:bg-white rounded-none mr-2 flex-shrink-0" />
+                        <span className="text-black dark:text-white">{skill}</span>
                       </div>
                     ))}
                   </div>
@@ -259,7 +259,7 @@ export default function Contact() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   href={developer.href}
-                  className="block w-full bg-black dark:bg-white text-white dark:text-black py-4 px-6 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-center"
+                  className="block w-full bg-black dark:bg-white text-white dark:text-black py-4 px-6 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none translate-x-0 translate-y-0 hover:translate-x-[2px] hover:translate-y-[2px] text-center border-2 border-transparent hover:border-black dark:hover:border-white"
                 >
                   Contact {developer.name.split(" ")[0]}
                 </motion.a>
@@ -274,18 +274,18 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Executive Support Team
+            <h2 className="text-3xl md:text-5xl font-boldonse uppercase mb-4 tracking-tight">
+              Support Ops
             </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              Professional administrative support for all your business needs
+            <p className="text-black dark:text-white font-mono text-sm uppercase tracking-widest">
+              Logistical and administrative backbone
             </p>
           </div>
 
           <div className="max-w-2xl mx-auto">
-            <div className="bg-white/5 dark:bg-black/5 backdrop-blur-xl rounded-2xl p-8 shadow-lg border border-white/20 dark:border-white/10">
+            <div className="bg-white dark:bg-black rounded-none p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] border-4 border-black dark:border-white">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
-                <div className="relative w-24 h-24 rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-700">
+                <div className="relative w-24 h-24 rounded-none overflow-hidden border-2 border-black dark:border-white bg-black dark:bg-black grayscale hover:grayscale-0 transition-all">
                   <Image
                     src={(eaTeam.avatar || "/logo.svg").split("?")[0]}
                     alt={eaTeam.name}
@@ -294,32 +294,29 @@ export default function Contact() {
                     className="object-cover"
                   />
                 </div>
-                {/* <div className="absolute -top-2 -right-2 bg-black dark:bg-white text-white dark:text-black text-xs font-bold px-2 py-1 rounded-full">
-                  {eaTeam.rating} ⭐
-                </div> */}
 
                 <div className="text-center sm:text-left flex-1">
-                  <h3 className="text-xl font-bold mb-1">{eaTeam.name}</h3>
-                  <p className="text-purple-600 dark:text-purple-400 font-medium mb-2">{eaTeam.role}</p>
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-2 text-xs">
-                    <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">{eaTeam.teamSize}</span>
-                    <span className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">{eaTeam.availability}</span>
+                  <h3 className="text-2xl font-boldonse uppercase mb-1">{eaTeam.name}</h3>
+                  <p className="text-black dark:text-white font-mono text-sm mb-2 bg-pink-100 dark:bg-gray-800 px-2 inline-block border border-black dark:border-white">{eaTeam.role}</p>
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-2 text-xs font-mono">
+                    <span className="bg-transparent border border-black dark:border-white px-2 py-1 rounded-none uppercase">{eaTeam.teamSize}</span>
+                    <span className="bg-transparent border border-black dark:border-white px-2 py-1 rounded-none uppercase">{eaTeam.availability}</span>
                   </div>
                 </div>
               </div>
 
-              <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">{eaTeam.description}</p>
+              <p className="text-black dark:text-white mb-6 leading-relaxed font-mono text-sm border-l-4 border-black dark:border-white pl-4 italic">{eaTeam.description}</p>
 
               <div className="mb-6">
-                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                <h4 className="text-sm font-bold uppercase mb-3 flex items-center gap-2 font-mono border-b-2 border-black dark:border-white pb-1 w-fit">
                   <Users className="w-4 h-4" />
-                  Our Services
+                  Services
                 </h4>
                 <div className="space-y-2">
                   {eaTeam.services.map((service, i) => (
-                    <div key={i} className="flex items-center text-sm bg-gray-50 dark:bg-gray-800 rounded-lg px-3 py-2">
-                      <div className="w-2 h-2 bg-black dark:bg-white rounded-full mr-2 flex-shrink-0" />
-                      <span className="text-gray-700 dark:text-gray-300">{service}</span>
+                    <div key={i} className="flex items-center text-xs font-mono uppercase bg-gray-100 dark:bg-gray-900 rounded-none px-3 py-2 border border-black dark:border-white">
+                      <div className="w-2 h-2 bg-black dark:bg-white rounded-none mr-2 flex-shrink-0" />
+                      <span className="text-black dark:text-white">{service}</span>
                     </div>
                   ))}
                 </div>
@@ -329,9 +326,9 @@ export default function Contact() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 href={eaTeam.href}
-                className="block w-full bg-black dark:bg-white text-white dark:text-black py-4 px-6 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl text-center"
+                className="block w-full bg-black dark:bg-white text-white dark:text-black py-4 px-6 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none translate-x-0 translate-y-0 hover:translate-x-[2px] hover:translate-y-[2px] text-center border-2 border-transparent hover:border-black dark:hover:border-white"
               >
-                Contact The Boring Project Team
+                Contact Team
               </motion.a>
             </div>
           </div>
@@ -343,18 +340,19 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
           className="mt-24 text-center"
         >
-          <div className="bg-black dark:bg-white text-white dark:text-black rounded-3xl p-12">
-            <h3 className="text-3xl font-bold mb-6">Ready to Start Your Project with The Boring Project?</h3>
-            <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-              Let&apos;s get started!
+          <div className="bg-black dark:bg-white text-white dark:text-black rounded-none p-12 border-4 border-black dark:border-white shadow-[12px_12px_0px_0px_rgba(128,128,128,1)]">
+            <h3 className="text-3xl md:text-4xl font-boldonse mb-6 uppercase tracking-tight">Ready to Deploy?</h3>
+            <p className="text-lg mb-8 font-mono max-w-2xl mx-auto border-b-2 border-white dark:border-black inline-block pb-2">
+              {'//'} Initiate handshake protocol
             </p>
+            <br/>
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               href="https://calendly.com/shettennavareshan/30min"
-              className="inline-flex bg-white dark:bg-black text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-900 py-4 px-8 rounded-2xl font-semibold transition-all duration-200"
+              className="inline-flex bg-white dark:bg-black text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 py-4 px-8 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 border-4 border-transparent hover:border-black dark:hover:border-white"
             >
-              Schedule a Call
+              Schedule Link
             </motion.a>
           </div>
         </motion.div>

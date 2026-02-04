@@ -63,10 +63,11 @@ const postReleasePlans = [
 ]
 
 export default function Pricing() {
+
   return (
-    <div className="min-h-screen bg-transparent transition-colors duration-300">
+    <div className="min-h-screen bg-transparent transition-colors duration-300 font-mono">
       {/* Header Section */}
-      <div className="relative border-b border-gray-200 dark:border-gray-800">
+      <div className="relative border-b-4 border-black dark:border-white">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-12 md:py-16">
             {/* Back Link */}
@@ -77,30 +78,29 @@ export default function Pricing() {
             >
               <Link
                 href="/"
-                className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all duration-200 group"
+                className="inline-flex items-center text-gray-900 dark:text-white hover:underline transition-all duration-200 group"
               >
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition-all duration-200 mr-3">
+                <div className="flex items-center justify-center w-10 h-10 rounded-none bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white mr-3 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] transition-all">
                   <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform duration-200" />
                 </div>
-                <span className="font-medium">Back to Home</span>
+                <span className="font-bold uppercase tracking-widest">Back to Home</span>
               </Link>
             </motion.div>
 
             {/* Header Content */}
             <div className="text-center max-w-4xl mx-auto">
               
-
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6"
+                className="text-5xl md:text-7xl font-boldonse uppercase tracking-tighter mb-6 bg-black text-white dark:bg-white dark:text-black p-4 inline-block transform -rotate-1 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]"
               >
-                Choose Your Plan
-                <span className="block text-gray-500 dark:text-gray-400">
-                  Start your journey today
-                </span>
+                Pricing Structure
               </motion.h1>
+              <div className="text-black dark:text-white text-lg font-mono uppercase tracking-widest mt-4">
+                {'//'} Select your tier allocation
+              </div>
             </div>
           </div>
         </div>
@@ -115,29 +115,29 @@ export default function Pricing() {
           className="mb-20"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Limited Time Offer
+            <h2 className="text-3xl md:text-5xl font-boldonse uppercase text-gray-900 dark:text-white mb-4 tracking-tight">
+              Beta Access
             </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              Get premium features for free during our pre-release phase
+            <p className="text-black dark:text-white font-mono text-sm uppercase tracking-widest">
+              Limited time operational window
             </p>
           </div>
 
           <div className="max-w-md mx-auto">
             <div className="relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                <div className="bg-black dark:bg-white text-white dark:text-black px-6 py-2 rounded-full text-sm font-bold shadow-xl">
-                  Limited Time Offer
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10 w-full text-center">
+                <div className="bg-black dark:bg-white text-white dark:text-black px-6 py-2 rounded-none text-sm font-bold uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] inline-block border-2 border-transparent">
+                  Current Status: Active
                 </div>
               </div>
 
-              <div className="bg-white/5 dark:bg-black/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 dark:border-white/10 p-8">
-                <div className="text-center mb-8">
-                  <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              <div className="bg-white dark:bg-black rounded-none border-4 border-black dark:border-white p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_0px_rgba(255,255,255,1)]">
+                <div className="text-center mb-8 pt-6">
+                  <h3 className="text-3xl font-boldonse uppercase text-gray-900 dark:text-white mb-4">
                     {preReleasePlan.name}
                   </h3>
                   <div className="flex items-center justify-center gap-2 mb-4">
-                    <span className="text-5xl font-bold text-gray-900 dark:text-white">
+                    <span className="text-6xl font-boldonse text-pink-500">
                       {preReleasePlan.price}
                     </span>
                   </div>
@@ -150,12 +150,12 @@ export default function Pricing() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.1 }}
-                      className="flex items-center gap-3"
+                      className="flex items-start gap-3"
                     >
-                      <div className="flex-shrink-0 w-5 h-5 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
-                        <Check className="w-3 h-3 text-gray-900 dark:text-white" />
+                      <div className="flex-shrink-0 w-6 h-6 bg-black dark:bg-white rounded-none flex items-center justify-center border border-black dark:border-white">
+                        <Check className="w-4 h-4 text-white dark:text-black" />
                       </div>
-                      <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                      <span className="text-black dark:text-white uppercase font-mono text-sm pt-0.5">{feature}</span>
                     </motion.li>
                   ))}
                 </ul>
@@ -163,10 +163,10 @@ export default function Pricing() {
                 <motion.button 
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full bg-black dark:bg-white text-white dark:text-black py-4 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+                  className="w-full bg-pink-500 text-white py-4 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 border-2 border-transparent hover:border-black dark:hover:border-white shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none hover:bg-pink-600"
                   onClick={() => window.location.href = '/auth/login'}
                 >
-                  Get Started Free
+                  Confirm Entry
                 </motion.button>
               </div>
             </div>
@@ -176,11 +176,11 @@ export default function Pricing() {
         {/* Post-release Plans */}
         <div>
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Future Pricing Plans
+            <h2 className="text-3xl md:text-5xl font-boldonse uppercase text-gray-900 dark:text-white mb-4 tracking-tight">
+              Future Roadmap
             </h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              After our launch, these will be our regular pricing tiers
+            <p className="text-gray-600 dark:text-gray-400 font-mono text-sm uppercase tracking-widest">
+              Projected tier classification
             </p>
           </div>
 
@@ -193,57 +193,57 @@ export default function Pricing() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className={`relative bg-white/5 dark:bg-black/5 backdrop-blur-xl rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 dark:border-white/10 ${
-                    plan.popular ? "ring-2 ring-gray-900 dark:ring-white" : ""
+                  className={`relative bg-white dark:bg-black rounded-none border-2 border-black dark:border-white p-0 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-200 ${
+                    plan.popular ? "border-4" : ""
                   }`}
                 >
                   {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                      <div className="bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-full text-sm font-bold">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-full text-center">
+                      <div className="bg-pink-500 text-white px-4 py-1 rounded-none text-xs font-bold uppercase tracking-widest border-2 border-black dark:border-white shadow-md inline-block">
                         {plan.badge}
                       </div>
                     </div>
                   )}
 
-                  <div className="p-8">
-                    <div className="text-center mb-8">
-                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gray-100 dark:bg-gray-800 mb-4">
-                        <IconComponent className="w-8 h-8 text-gray-900 dark:text-white" />
+                  <div className="p-8 h-full flex flex-col">
+                    <div className="text-center mb-8 pt-2">
+                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-none bg-gray-100 dark:bg-gray-800 mb-4 border-2 border-black dark:border-white">
+                        <IconComponent className="w-8 h-8 text-black dark:text-white" />
                       </div>
 
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      <h3 className="text-2xl font-boldonse uppercase text-gray-900 dark:text-white mb-2">
                         {plan.name}
                       </h3>
 
-                      <div className="flex items-center justify-center gap-2">
-                        <span className="text-4xl font-bold text-gray-900 dark:text-white">
+                      <div className="flex items-center justify-center gap-1">
+                        <span className={`text-3xl font-boldonse ${plan.popular ? 'text-pink-500' : 'text-gray-900 dark:text-white'}`}>
                           {plan.price}
                         </span>
                         {plan.period && (
-                          <span className="text-gray-500 dark:text-gray-400">
+                          <span className="text-gray-500 dark:text-gray-400 font-mono text-sm self-end mb-1">
                             {plan.period}
                           </span>
                         )}
                       </div>
 
                       {plan.badge && !plan.popular && (
-                        <div className="text-sm text-gray-600 dark:text-gray-400 mt-1 font-medium">{plan.badge}</div>
+                        <div className="text-xs text-black dark:text-white mt-2 font-mono uppercase bg-gray-200 dark:bg-gray-800 px-2 py-0.5 inline-block">{plan.badge}</div>
                       )}
                     </div>
 
-                    <ul className="space-y-4 mb-8">
+                    <ul className="space-y-4 mb-8 flex-1">
                       {plan.features.map((feature, i) => (
                         <motion.li 
                           key={i}
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.1 }}
-                          className="flex items-center gap-3"
+                          className="flex items-start gap-3"
                         >
-                          <div className="flex-shrink-0 w-5 h-5 bg-white/10 dark:bg-white/10 rounded-full flex items-center justify-center">
-                            <Check className="w-3 h-3 text-black dark:text-white" />
+                          <div className="flex-shrink-0 w-4 h-4 mt-1 bg-black dark:bg-white rounded-none flex items-center justify-center">
+                            <Check className="w-3 h-3 text-white dark:text-black" />
                           </div>
-                          <span className="text-gray-700 dark:text-gray-300">
+                          <span className="text-gray-700 dark:text-gray-300 font-mono text-xs uppercase leading-tight">
                             {feature}
                           </span>
                         </motion.li>
@@ -253,13 +253,14 @@ export default function Pricing() {
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className={`w-full py-4 rounded-2xl font-semibold transition-all duration-200 ${
+                      disabled={true}
+                      className={`w-full py-3 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 border-2 border-black dark:border-white ${
                         plan.popular
-                          ? "bg-black dark:bg-white text-white dark:text-black"
-                          : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
+                          ? "bg-black dark:bg-white text-white dark:text-black opacity-50 cursor-not-allowed"
+                          : "bg-transparent text-gray-900 dark:text-white opacity-50 cursor-not-allowed"
                       }`}
                     >
-                      Coming Soon
+                      Locked
                     </motion.button>
                   </div>
                 </motion.div>
@@ -274,17 +275,17 @@ export default function Pricing() {
           animate={{ opacity: 1, y: 0 }}
           className="mt-24 text-center"
         >
-          <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-            Questions? We&apos;re here to help
+          <h3 className="text-2xl md:text-3xl font-boldonse uppercase text-gray-900 dark:text-white mb-6">
+            Help Signal
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">
-            Contact our support team for any pricing questions
+          <p className="text-gray-600 dark:text-gray-400 mb-8 font-mono uppercase text-sm">
+            Request support frequency
           </p>
           <Link href="/contact">
             <motion.button 
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="bg-black dark:bg-white text-white dark:text-black py-4 px-8 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="bg-black dark:bg-white text-white dark:text-black py-4 px-8 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 shadow-[8px_8px_0px_0px_rgba(128,128,128,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] border-2 border-transparent"
             >
               Contact Support
             </motion.button>
@@ -293,4 +294,5 @@ export default function Pricing() {
       </div>
     </div>
   )
+
 }

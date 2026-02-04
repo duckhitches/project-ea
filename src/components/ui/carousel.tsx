@@ -116,7 +116,7 @@ export function Carousel({ slides }: CarouselProps) {
 
   return (
     <div
-      className="relative w-full max-w-[400px] mx-auto bg-transparent dark:bg-white/10 rounded-3xl overflow-hidden shadow-2xl transition-colors duration-300"
+      className="relative w-full max-w-[300px] sm:max-w-[340px] md:max-w-[400px] mx-auto bg-black dark:bg-black rounded-none overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] sm:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:sm:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] transition-colors duration-300 border-2 sm:border-4 border-black dark:border-white"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
@@ -152,21 +152,20 @@ export function Carousel({ slides }: CarouselProps) {
             {/* Image Container */}
             <div className="relative w-full h-full">
               <Image
-                src={slides[currentIndex].src}
-                alt={slides[currentIndex].title}
+                src={slides[currentIndex]?.src}
+                alt={slides[currentIndex]?.title || "Slide"}
                 fill
                 priority
-                className="object-cover"
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
                 onLoadingComplete={() => setIsLoading(false)}
               />
               
-              {/* Enhanced Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/95" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
-
+              {/* Overlay - Solid dim for readability */}
+              <div className="absolute inset-0 bg-black/40" />
+              
               {/* Content */}
               <motion.div 
-                className="absolute inset-0 flex flex-col justify-between p-6"
+                className="absolute inset-0 flex flex-col justify-between p-4 sm:p-6"
                 initial="hidden"
                 animate="visible"
                 transition={{ staggerChildren: 0.1 }}
@@ -178,28 +177,19 @@ export function Carousel({ slides }: CarouselProps) {
                 >
                   <div className="flex items-center space-x-3">
                     <motion.div 
-                      className="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center"
+                      className="w-10 h-10 bg-white text-black border-2 border-white rounded-none flex items-center justify-center p-1"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                     >
                       <Image
-                        src="/logo.svg"
+                        src="/brand-logo.png"
                         alt="Logo"
                         width={24}
                         height={24}
-                        className="opacity-90"
+                        className="opacity-100 invert"
                       />
                     </motion.div>
-                    <div className="text-white/90 text-sm font-medium">Part of the Boring Project</div>
                   </div>
-                  
-                  <motion.button 
-                    className="w-10 h-10 flex items-center justify-center"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                   
-                  </motion.button>
                 </motion.div>
 
                 {/* Center Content */}
@@ -208,25 +198,25 @@ export function Carousel({ slides }: CarouselProps) {
                   variants={contentVariants}
                 >
                   <motion.span 
-                    className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs text-white/90"
+                    className="px-3 py-1 bg-black text-white border-2 border-white rounded-none text-xs font-mono uppercase tracking-widest"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                   >
-                    {slides[currentIndex].subtitle}
+                    {slides[currentIndex]?.subtitle}
                   </motion.span>
                   
                   <motion.h2 
-                    className="text-2xl font-bold text-white"
+                    className="text-2xl sm:text-3xl md:text-4xl font-boldonse text-white uppercase tracking-tighter bg-black px-2 py-1 transform -rotate-1 border-2 border-white shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] sm:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
                     variants={contentVariants}
                   >
-                    {slides[currentIndex].title}
+                    {slides[currentIndex]?.title}
                   </motion.h2>
                   
                   <motion.p 
-                    className="text-white/80 text-sm max-w-xs"
+                    className="text-white text-[10px] sm:text-xs md:text-sm max-w-[220px] sm:max-w-xs font-mono bg-black/80 p-1.5 sm:p-2 border border-white"
                     variants={contentVariants}
                   >
-                    {slides[currentIndex].description}
+                    {slides[currentIndex]?.description}
                   </motion.p>
                 </motion.div>
 
@@ -237,10 +227,10 @@ export function Carousel({ slides }: CarouselProps) {
                 >
                   {/* Features */}
                   <div className="flex flex-wrap justify-center gap-2">
-                    {slides[currentIndex].features.map((feature, idx) => (
+                    {slides[currentIndex]?.features?.map((feature, idx) => (
                       <motion.div
                         key={idx}
-                        className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs text-white/90"
+                        className="px-2 py-1 bg-white text-black border-2 border-black rounded-none text-xs font-mono font-bold uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: idx * 0.1 }}
@@ -252,11 +242,11 @@ export function Carousel({ slides }: CarouselProps) {
 
                   {/* Analytics/Stats */}
                   {slides[currentIndex].stats && (
-                    <div className="flex justify-center gap-6 mt-2">
+                    <div className="flex justify-center gap-4 sm:gap-6 mt-1 sm:mt-2 bg-black/80 p-2 sm:p-3 border-2 border-white">
                       {slides[currentIndex].stats.map((stat, idx) => (
                         <div key={idx} className="flex flex-col items-center">
-                          <span className="text-2xl font-bold text-white/90">{stat.value}</span>
-                          <span className="text-xs text-white/70">{stat.label}</span>
+                          <span className="text-xl sm:text-2xl font-boldonse text-white">{stat.value}</span>
+                          <span className="text-[10px] sm:text-xs text-white font-mono uppercase">{stat.label}</span>
                         </div>
                       ))}
                     </div>
@@ -265,7 +255,7 @@ export function Carousel({ slides }: CarouselProps) {
                   {/* CTA Button */}
                   <Link href="/auth/login" className="block">
                     <motion.button 
-                      className="w-full py-4 bg-white rounded-xl text-black font-semibold flex items-center justify-center gap-2 group"
+                      className="w-full py-3 sm:py-4 bg-white border-2 border-black text-black font-boldonse text-sm sm:text-base uppercase tracking-widest flex items-center justify-center gap-2 group hover:bg-pink-500 hover:text-white hover:border-white transition-colors duration-300"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
@@ -284,10 +274,10 @@ export function Carousel({ slides }: CarouselProps) {
                           setCurrentIndex(idx)
                         }}
                         className={cn(
-                          "h-2 rounded-full transition-all duration-300",
+                          "h-3 w-3 border-2 border-white transition-all duration-300",
                           idx === currentIndex 
-                            ? "bg-white w-6" 
-                            : "bg-white/30 w-2 hover:bg-white/50"
+                            ? "bg-white" 
+                            : "bg-transparent hover:bg-white/50"
                         )}
                       />
                     ))}
@@ -300,8 +290,8 @@ export function Carousel({ slides }: CarouselProps) {
 
         {/* Loading State */}
         {isLoading && (
-          <div className="absolute inset-0 bg-white dark:bg-black">
-            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-white via-white/60 to-white dark:from-black dark:via-black/60 dark:to-black" />
+          <div className="absolute inset-0 bg-black flex items-center justify-center border-4 border-white">
+            <div className="text-white font-mono animate-pulse">LOADING...</div>
           </div>
         )}
 
@@ -313,33 +303,33 @@ export function Carousel({ slides }: CarouselProps) {
           className="absolute inset-0 flex items-center justify-between pointer-events-none"
         >
           {/* Navigation Buttons */}
-          <div className="w-full px-4 flex justify-between items-center">
+          <div className="w-full px-2 sm:px-4 flex justify-between items-center">
             <motion.button
-              className="pointer-events-auto p-3 rounded-full bg-black/20 dark:bg-white/20 backdrop-blur-md text-white hover:bg-black/30 dark:hover:bg-white/30 transition-colors"
+              className="pointer-events-auto p-2 sm:p-3 bg-black text-white border-2 border-white hover:bg-white hover:text-black hover:border-black transition-colors shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] sm:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
               onClick={handlePrev}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
             </motion.button>
             <motion.button
-              className="pointer-events-auto p-3 rounded-full bg-black/20 dark:bg-white/20 backdrop-blur-md text-white hover:bg-black/30 dark:hover:bg-white/30 transition-colors"
+              className="pointer-events-auto p-2 sm:p-3 bg-black text-white border-2 border-white hover:bg-white hover:text-black hover:border-black transition-colors shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] sm:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
               onClick={handleNext}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <ChevronRight className="w-6 h-6" />
+              <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
             </motion.button>
           </div>
 
           {/* Play/Pause Button - Repositioned */}
           <motion.button
-            className="pointer-events-auto absolute bottom-24 right-4 p-3 rounded-full bg-black/20 dark:bg-white/20 backdrop-blur-md text-white hover:bg-black/30 dark:hover:bg-white/30 transition-colors"
+            className="pointer-events-auto absolute bottom-20 sm:bottom-24 right-2 sm:right-4 p-2 sm:p-3 bg-black text-white border-2 border-white hover:bg-white hover:text-black hover:border-black transition-colors shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] sm:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            {isAutoPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+            {isAutoPlaying ? <Pause className="w-4 h-4 sm:w-5 sm:h-5" /> : <Play className="w-4 h-4 sm:w-5 sm:h-5" />}
           </motion.button>
         </motion.div>
       </div>

@@ -68,9 +68,10 @@ export default function ThemeToggle({ onToggle }: ThemeToggleProps) {
         ref={buttonRef}
         onClick={toggleTheme}
         className={`
-          w-10 h-10 rounded-full flex items-center justify-center
-          ${isDark ? 'bg-gray-800' : 'bg-white'}
-          shadow-lg hover:shadow-xl transition-shadow
+          w-10 h-10 rounded-none flex items-center justify-center
+          ${isDark ? 'bg-gray-800 border-white' : 'bg-white border-black'}
+          border-2
+          shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all
           relative z-10
         `}
         whileHover={{ scale: 1.05 }}
@@ -94,7 +95,7 @@ export default function ThemeToggle({ onToggle }: ThemeToggleProps) {
 
         {/* Glow Effect */}
         <motion.div
-          className="absolute inset-0 rounded-full"
+          className="absolute inset-0 rounded-none"
           animate={{
             boxShadow: isDark
               ? '0 0 10px rgba(147, 51, 234, 0.3)'

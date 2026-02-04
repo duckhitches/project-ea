@@ -10,6 +10,13 @@ function getSupabaseConfig() {
   return { supabaseUrl, supabaseAnonKey }
 }
 
+/** Use in API routes to avoid throwing during build when env vars are missing */
+export function isSupabaseConfigured(): boolean {
+  return Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )
+}
+
 let _supabase: SupabaseClient | null = null
 
 // Client-side Supabase client (for browser) - created lazily so build can run without env

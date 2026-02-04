@@ -37,16 +37,8 @@ export default function StorySection() {
 
   return (
     <section ref={ref} className="relative py-24 sm:py-32 bg-transparent overflow-hidden">
-      {/* Gradient overlays for motion depth */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-blue-100/30 via-transparent to-purple-100/20 dark:from-blue-900/10 dark:to-purple-900/20"
-        style={{ y }}
-      />
-      <motion.div
-        className="absolute -top-20 right-0 w-96 h-96 bg-gradient-to-t from-blue-500/10 to-purple-500/0 rounded-full blur-3xl"
-        animate={{ y: [0, 40, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {/* Gradient overlays for motion depth - REMOVED for Brutalism */}
+      {/* Background blobs removed */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
         {/* Section Header */}
@@ -57,12 +49,12 @@ export default function StorySection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl font-boldonse tracking-tight text-gray-900 dark:text-white mb-4 uppercase">
             {whyWeBuiltThis.title}
-            <span className="text-blue-500 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-blue-500 dark:to-purple-500 dark:bg-clip-text dark:text-transparent">NoQwit.ai</span>
+            <span className="text-white bg-pink-500 border-2 border-black dark:border-white px-2 inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] transform -rotate-2">NoQwit.ai</span>
           </h2>
-          <p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            {whyWeBuiltThis.subtitle}
+          <p className="text-xl sm:text-2xl text-black dark:text-white max-w-3xl mx-auto leading-relaxed font-mono">
+            {'//'} {whyWeBuiltThis.subtitle}
           </p>
         </motion.div>
 
@@ -76,23 +68,20 @@ export default function StorySection() {
             viewport={{ once: true }}
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
-            <div className="relative group">
+            <div className="relative group border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:border-pink-500 transition-all duration-300">
               <motion.img
                 src={whyWeBuiltThis.image}
                 alt="Our journey building NoQwit.ai"
-                className="w-full h-[500px] object-cover rounded-3xl shadow-2xl"
-                whileHover={{ scale: 1.03 }}
-                transition={{ type: "spring", stiffness: 150 }}
+                className="w-full h-[500px] transition-all duration-300 object-cover"
+                whileHover={{ scale: 1.0 }}
               />
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-black/60 to-transparent opacity-70 group-hover:opacity-90 transition-all duration-700" />
               <motion.div
-                className="absolute bottom-8 left-8 right-8 text-white"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                className="absolute bottom-0 left-0 right-0 p-6 bg-pink-500 border-t-4 border-black dark:border-white"
+                initial={{ opacity: 1 }}
+                whileInView={{ opacity: 1 }}
               >
-                <p className="text-lg italic font-light leading-snug">
-                  “Every innovation starts with a problem worth solving — this one started with ours.”
+                <p className="text-lg italic font-mono text-white leading-snug">
+                  &quot;Every innovation starts with a problem worth solving — this one started with ours.&quot;
                 </p>
               </motion.div>
             </div>
@@ -107,10 +96,10 @@ export default function StorySection() {
             className="space-y-10 order-1 lg:order-2"
           >
             <div>
-              <h3 className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-white mb-6">
-                The Challenge We Saw
+              <h3 className="text-3xl sm:text-4xl font-boldonse text-gray-900 dark:text-white mb-6 uppercase border-b-2 border-black dark:border-white w-fit group">
+                <span className="group-hover:text-pink-500 transition-colors">The Challenge We Saw</span>
               </h3>
-              <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
+              <p className="text-lg sm:text-xl text-black dark:text-white mb-8 leading-relaxed font-mono">
                 {whyWeBuiltThis.story}
               </p>
               <div className="space-y-4">
@@ -123,16 +112,16 @@ export default function StorySection() {
                     transition={{ delay: index * 0.08 }}
                     className="flex items-start"
                   >
-                    <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0 shadow-md" />
-                    <span className="text-base sm:text-lg text-gray-700 dark:text-gray-300">{problem}</span>
+                    <div className="w-4 h-4 bg-black dark:bg-white mt-1 mr-4 flex-shrink-0" />
+                    <span className="text-base sm:text-lg text-black dark:text-white font-mono">{problem}</span>
                   </motion.div>
                 ))}
               </div>
             </div>
 
             <div>
-              <h3 className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-white mb-6">
-                Our AI-Driven Solution
+              <h3 className="text-3xl sm:text-4xl font-boldonse text-gray-900 dark:text-white mb-6 uppercase border-b-2 border-black dark:border-white w-fit group">
+                <span className="group-hover:text-pink-500 transition-colors">Our AI-Driven Solution</span>
               </h3>
               <div className="space-y-4">
                 {whyWeBuiltThis.solution.map((solution, index) => (
@@ -144,8 +133,8 @@ export default function StorySection() {
                     transition={{ delay: index * 0.08 }}
                     className="flex items-start"
                   >
-                    <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0 shadow-md" />
-                    <span className="text-base sm:text-lg text-gray-700 dark:text-gray-300">{solution}</span>
+                    <div className="w-4 h-4 bg-pink-500 border-2 border-black dark:border-white mt-1 mr-4 flex-shrink-0" />
+                    <span className="text-base sm:text-lg text-black dark:text-white font-mono">{solution}</span>
                   </motion.div>
                 ))}
               </div>

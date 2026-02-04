@@ -55,7 +55,7 @@ export const LandingPage = () => {
   }, [])
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto">
+    <div className="min-h-screen max-w-7xl mx-auto font-mono transition-colors duration-300">
 
 
       {/* Hero Section */}
@@ -72,53 +72,54 @@ export const LandingPage = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="relative z-10"
+              className="relative z-10 w-full"
             >
-              {/* Decorative elements */}
-              <div className="absolute -top-10 -left-10 w-20 h-20 bg-blue-500/10 rounded-full blur-xl" />
-              <div className="absolute -bottom-10 -right-10 w-20 h-20 bg-purple-500/10 rounded-full blur-xl" />
+              {/* Decorative elements - Brutalist Grid Background */}
+              <div className="absolute inset-0 z-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
 
-              {/* <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm text-blue-800 text-xs font-medium mb-6">
-                <Sparkles className="w-3 h-3 mr-1" />
-                AI-Powered Interview Practice
-              </div> */}
+              <div className="relative bg-white dark:bg-black border-4 border-black dark:border-white p-6 sm:p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] mb-24 max-w-5xl mx-auto">
+                {/* System Status Banner */}
+                <div className="flex justify-center mb-8">
+                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-pink-500/10 border border-pink-500 transform -rotate-1">
+                      <div className="w-2 h-2 bg-pink-500 rounded-full animate-pulse"/>
+                      <span className="text-pink-500 text-xs font-bold uppercase tracking-widest">System Online</span>
+                   </div>
+                </div>
 
-              <div className="relative bg-white/5 dark:bg-black/5 backdrop-blur-xl border border-white/20 rounded-2xl p-6 sm:p-8 md:p-10 shadow-xl mb-24">
-                <h1 className="mx-auto max-w-4xl text-center text-4xl font-bold text-balance text-black dark:text-white md:text-5xl lg:text-6xl xl:text-7xl">
+                <h1 className="mx-auto max-w-5xl text-center text-4xl font-boldonse text-black dark:text-white md:text-6xl lg:text-7xl xl:text-8xl uppercase tracking-tighter leading-none mb-6">
                   Master Your Interview Skills{" "}
-                  <span className="relative inline-block">
-                    <span className="relative z-10">
-                      With <span className="rounded-xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">Confidence</span>
+                  <span className="relative inline-block mt-2 sm:mt-0">
+                    <span className="relative z-10 bg-pink-500 text-white px-4 py-0 inline-block transform -rotate-2 border-2 border-transparent">
+                      Confidence
                     </span>
-                    <span className="absolute bottom-0 left-0 right-0 h-3 bg-blue-500/30 rounded-full blur-sm"></span>
                   </span>
-                  
                 </h1>
 
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.8 }}
-                  className="mx-auto max-w-2xl py-6 sm:py-8 text-center text-2xl sm:text-2xl text-gray-800 dark:text-gray-200"
+                  className="mx-auto max-w-2xl py-6 sm:py-8 text-center text-lg sm:text-xl text-gray-600 dark:text-gray-300 font-mono border-l-4 border-black dark:border-white pl-4"
                 >
-                  Perfect for students, interns, and job seekers - practice mock interviews with AI and transform your career journey into success.
+                  {'//'} Perfect for students, interns, and job seekers.<br/>
+                  {'//'} Practice mock interviews with AI. Transform your career journey.
                 </motion.p>
 
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.8 }}
-                  className="flex flex-wrap items-center justify-center gap-4 pt-4"
+                  className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8"
                 >
                   <button
                     onClick={() => router.push("/auth/login")}
-                    className="rounded-full bg-black/90 backdrop-blur-sm px-8 py-3 text-sm sm:text-base font-medium text-white transition-all hover:shadow-lg hover:scale-105 focus:ring-2 focus:ring-black focus:ring-offset-2 focus:outline-none"
+                    className="w-full sm:w-auto bg-pink-500 text-white border-2 border-transparent hover:border-black dark:hover:border-white px-8 py-4 text-xl font-boldonse uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-pink-600 transition-all"
                   >
                     Get Started Free
                   </button>
                   <button
                     onClick={scrollToAbout}
-                    className="rounded-full border border-black/50 dark:border-white/50 bg-white/80 dark:bg-black/80 backdrop-blur-sm px-8 py-3 text-sm sm:text-base font-medium text-black dark:text-white shadow-sm transition-all hover:shadow-md hover:scale-105 focus:ring-2 focus:ring-black dark:focus:ring-white focus:ring-offset-2 focus:outline-none"
+                    className="w-full sm:w-auto bg-transparent text-black dark:text-white border-2 border-black dark:border-white px-8 py-4 text-xl font-boldonse uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
                   >
                     Learn More
                   </button>
@@ -130,7 +131,7 @@ export const LandingPage = () => {
       </motion.div>
 
       {/* About Section */}
-      <section id="about" className="relative py-16 sm:py-20 md:py-24">
+      <section id="about" className="relative py-16 sm:py-20 md:py-24 border-t-4 border-black dark:border-white bg-white dark:bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <motion.div
@@ -140,11 +141,11 @@ export const LandingPage = () => {
               transition={{ duration: 0.8 }}
               className="space-y-4"
             >
-              {/* <div className="inline-flex items-center px-4 py-2 rounded-full bg-gray-100 text-gray-800 text-sm font-medium">
-                <Sparkles className="w-4 h-4 mr-2" />
-                Our Story
-              </div> */}
-              <p className="text-gray-600 text-2xl sm:text-2xl max-w-3xl mx-auto mt-6 dark:text-white">
+              <div className="inline-block bg-pink-500/10 border border-pink-500 px-3 py-1 mb-4 transform -rotate-2">
+                 <span className="text-pink-500 font-mono text-xs uppercase tracking-widest">{'//'} Our Story</span>
+              </div>
+              
+              <p className="text-black dark:text-white text-2xl sm:text-3xl max-w-3xl mx-auto mt-6 font-boldonse uppercase leading-tight">
                 We are a team of developers who are passionate about creating a platform that helps people prepare for interviews.
               </p>
               <motion.div
@@ -156,17 +157,19 @@ export const LandingPage = () => {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 border-2 border-transparent hover:border-pink-500 px-8 py-6 rounded-none text-xl font-boldonse uppercase tracking-widest shadow-none hover:shadow-[4px_4px_0px_0px_#ec4899] transition-all duration-200"
                 >
                   <Link href="#founders">
-                    Meet Our Team
+                    Meet The Team
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
                 </Button>
               </motion.div>
             </motion.div>
           </div>
-          <div className="mt-52"><About /></div>
+          <div className="mt-32 p-4 border-2 border-black dark:border-white bg-white dark:bg-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]">
+            <About />
+          </div>
         </div>
       </section>
 
@@ -178,7 +181,7 @@ export const LandingPage = () => {
               e.preventDefault()
               scrollToTop()
             }}
-            className="fixed bottom-6 right-6 z-[9999] flex items-center justify-center w-14 h-14 bg-pink-500 text-black dark:text-black rounded-full text-sm font-semibold hover:scale-105 transition-all duration-200 shadow-lg cursor-pointer"
+            className="fixed bottom-6 right-6 z-[9999] flex items-center justify-center w-14 h-14 bg-pink-500 text-white rounded-none border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-200 cursor-pointer"
             style={{ 
               position: 'fixed',
               zIndex: 9999,
@@ -188,7 +191,7 @@ export const LandingPage = () => {
             type="button"
           >
             <span className="text-lg">
-              <Image src="/top-arrow.svg" alt="Top Arrow" width={24} height={24} />
+              <ArrowUp className="w-6 h-6" />
             </span>
           </button>
         ),

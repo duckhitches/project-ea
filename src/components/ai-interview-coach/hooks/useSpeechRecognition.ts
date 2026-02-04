@@ -45,10 +45,6 @@ interface Transcript {
   final: string;
 }
 
-// FIX: Cast window to any to access browser-specific speech recognition APIs
-// and rename to avoid conflict with the SpeechRecognition type.
-const SpeechRecognitionAPI = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
 export const useSpeechRecognition = () => {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState<Transcript>({ partial: '', final: '' });
@@ -57,7 +53,8 @@ export const useSpeechRecognition = () => {
   const stoppedManually = useRef(true);
 
   useEffect(() => {
-    // FIX: Check for the renamed API variable.
+    // FIX: Check for the renamed API variable inside useEffect (client-side only).
+    const SpeechRecognitionAPI = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognitionAPI) {
       console.error('Speech Recognition API not supported in this browser.');
       return;
@@ -70,7 +67,7 @@ export const useSpeechRecognition = () => {
     recognition.lang = 'en-US';
 
     recognition.onstart = () => {
-        setIsListening(true);
+      setIsListening(true);
     };
 
     recognition.onend = () => {
@@ -84,7 +81,7 @@ export const useSpeechRecognition = () => {
         }, 100);
       }
     };
-    
+
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       console.error('Speech recognition error:', event.error);
       // If permission is denied, don't try to restart.
@@ -103,7 +100,7 @@ export const useSpeechRecognition = () => {
           interimTranscript += event.results[i][0].transcript;
         }
       }
-      
+
       // Accumulate final transcript parts correctly
       setTranscript(prev => ({
         partial: interimTranscript,
@@ -138,7 +135,7 @@ export const useSpeechRecognition = () => {
       recognitionRef.current.stop();
     }
   };
-  
+
   const clearTranscript = () => {
     setTranscript({ partial: '', final: '' });
   };

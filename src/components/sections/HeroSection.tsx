@@ -18,18 +18,18 @@ export default function HeroSection({ scrollYProgress }: HeroSectionProps) {
       className="relative min-h-screen space-y-10 flex items-center justify-center bg-transparent"
     >
       <div className="relative z-10 max-w-7xl mx-auto mt-20 px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-black dark:text-white mb-6 leading-tight">
+        <h1 className="hero-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-boldonse text-black dark:text-white mb-6 leading-[0.9] uppercase tracking-tighter">
           About{" "}
-          <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          <span className="text-black dark:text-white underline decoration-4 decoration-pink-500 underline-offset-8">
             AI Interview
           </span>
         </h1>
 
-        <p className="hero-subtitle text-2xl sm:text-2xl md:text-3xl text-gray-600 dark:text-gray-300 mb-8 font-medium">
-          Empowering careers through AI-powered interview preparation
+        <p className="hero-subtitle text-xl sm:text-2xl md:text-3xl text-black dark:text-white mb-8 font-mono border-l-4 border-black dark:border-white pl-4 mx-auto max-w-fit bg-gray-100 dark:bg-gray-900 py-1 pr-4">
+          {'//'} Empowering careers through AI-powered interview preparation
         </p>
 
-        <p className="hero-description text-2xl sm:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+        <p className="hero-description text-lg sm:text-xl text-black dark:text-white max-w-3xl mx-auto leading-relaxed font-mono">
           We&apos;re on a mission to democratize interview success by making professional-grade interview coaching
           accessible to everyone, everywhere, at any time.
         </p>
