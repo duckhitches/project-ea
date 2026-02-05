@@ -19,7 +19,7 @@ const Signup = () => {
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
   const [error, setError] = useState("")
-  const [bannerMessage, setBannerMessage] = useState("")
+  const [bannerMessage, setBannerMessage] = useState("Check mail to verify & unlock access.")
   const [signupSuccess, setSignupSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -54,7 +54,7 @@ const Signup = () => {
         localStorage.removeItem("guestName")
 
         setSignupSuccess(true)
-        setBannerMessage("Account initialized. Verification required via secure link sent to email.")
+        setBannerMessage("Check mail to verify & unlock access.")
       } else {
         throw new Error("Failed to create account")
       }
@@ -102,9 +102,12 @@ const Signup = () => {
   return (
     <div className={cn("min-h-screen flex bg-zinc-50 dark:bg-zinc-950 font-sans transition-all", bannerMessage ? "pt-14" : "")}>
       {bannerMessage && (
-        <StickyBanner className="bg-emerald-500 text-white font-mono text-sm border-b border-emerald-600" hideOnScroll>
-          <div className="flex items-center gap-3">
-            <CheckCircle className="w-4 h-4" />
+        <StickyBanner 
+          className="bg-black/80 text-emerald-400 border-b border-emerald-500/20 backdrop-blur-xl" 
+          hideOnScroll
+        >
+          <div className="flex items-center gap-3 uppercase tracking-[0.2em] text-[10px] sm:text-xs font-bold">
+            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
             <span>{bannerMessage}</span>
           </div>
         </StickyBanner>

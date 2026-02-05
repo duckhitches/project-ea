@@ -32,11 +32,14 @@ export const StickyBanner = ({
       ? "fixed inset-x-0 top-0"
       : "sticky inset-x-0 top-0";
 
+  if (!open) return null;
+
   return (
     <motion.div
       className={cn(
         basePositionClasses,
-        "z-40 flex min-h-14 w-full items-center justify-center px-3 py-2 sm:px-4",
+        "z-[100] flex min-h-12 w-full items-center justify-center px-4 py-2 font-mono selection:bg-white selection:text-black",
+        "border-b border-white/10 backdrop-blur-md shadow-[0_1px_10px_rgba(0,0,0,0.5)]",
         className,
       )}
       initial={{
@@ -44,28 +47,28 @@ export const StickyBanner = ({
         opacity: 0,
       }}
       animate={{
-        y: open ? 0 : -100,
-        opacity: open ? 1 : 0,
+        y: 0,
+        opacity: 1,
+      }}
+      exit={{
+        y: -100,
+        opacity: 0,
       }}
       transition={{
-        duration: 0.3,
-        ease: "easeInOut",
+        duration: 0.4,
+        ease: [0.23, 1, 0.32, 1],
       }}
     >
-      {children}
+      <div className="flex items-center gap-4 max-w-7xl w-full justify-center">
+        {children}
+      </div>
 
-      <motion.button
-        initial={{
-          scale: 0,
-        }}
-        animate={{
-          scale: 1,
-        }}
-        className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-full bg-black/20 p-1 text-white transition hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
-        onClick={() => setOpen(!open)}
+      <button
+        className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer rounded-none border border-white/20 p-1 text-white/50 transition hover:text-white hover:border-white/40 focus:outline-none"
+        onClick={() => setOpen(false)}
       >
-        <CloseIcon className="h-5 w-5 text-white" />
-      </motion.button>
+        <CloseIcon className="h-4 w-4" />
+      </button>
     </motion.div>
   );
 };
