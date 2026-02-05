@@ -30,7 +30,7 @@ export function Footer() {
       title: "Support",
       links: [
         { name: "Help Center", href: "/contact" },
-        { name: "Documentation", href: "/docs" },
+        { name: "Documentation", href: "https://portfolio-eshan-2z6t.vercel.app/boring-projects/noqwit-ai-interview-platform#how-to-use" },
         { name: "Status", href: "/status" },
       ],
     },
