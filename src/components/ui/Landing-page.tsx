@@ -118,10 +118,12 @@ export const LandingPage = () => {
                     Get Started Free
                   </button>
                   <button
-                    onClick={scrollToAbout}
+                    // onClick={scrollToAbout}
                     className="w-full sm:w-auto bg-transparent text-black dark:text-white border-2 border-black dark:border-white px-8 py-4 text-xl font-boldonse uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
                   >
-                    Learn More
+                    <a href="https://portfolio-eshan-2z6t.vercel.app/boring-projects/noqwit-ai-interview-platform">
+                      Learn More
+                    </a>
                   </button>
                 </motion.div>
               </div>
