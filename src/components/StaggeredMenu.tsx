@@ -8,6 +8,7 @@
 "use client"
 import React, { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { gsap } from 'gsap';
 
 export interface StaggeredMenuItem {
@@ -63,6 +64,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   const [mounted, setMounted] = useState(false);
   const [gsapReady, setGsapReady] = useState(false);
   const openRef = useRef(false);
+  const router = useRouter();
 
   const panelRef = useRef<HTMLDivElement | null>(null);
   const preLayersRef = useRef<HTMLDivElement | null>(null);
@@ -233,7 +235,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     }
   }, [buildOpenTimeline]);
 
-  const playClose = useCallback(() => {
+  const playClose = useCallback((onComplete?: () => void) => {
     openTlRef.current?.kill();
     openTlRef.current = null;
     itemEntranceTweenRef.current?.kill();
@@ -268,6 +270,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         if (socialLinks.length) gsap.set(socialLinks, { y: 25, opacity: 0 });
 
         busyRef.current = false;
+        onComplete?.();
       }
     });
   }, [position]);
@@ -372,15 +375,17 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     animateText(target);
   }, [playOpen, playClose, animateIcon, animateColor, animateText, onMenuOpen, onMenuClose]);
 
-  const closeMenu = useCallback(() => {
+  const closeMenu = useCallback((onFinished?: () => void) => {
     if (openRef.current) {
       openRef.current = false;
       setOpen(false);
       onMenuClose?.();
-      playClose();
+      playClose(onFinished);
       animateIcon(false);
       animateColor(false);
       animateText(false);
+    } else {
+      onFinished?.();
     }
   }, [playClose, animateIcon, animateColor, animateText, onMenuClose]);
 
@@ -546,9 +551,13 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                         href={it.link}
                         aria-label={it.ariaLabel}
                         data-index={idx + 1}
-                        onClick={() => {
-                          it.onClick?.();
-                          closeMenu();
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const targetLink = it.link;
+                          closeMenu(() => {
+                            it.onClick?.();
+                            if (targetLink) router.push(targetLink);
+                          });
                         }}
                       >
                         <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform" suppressHydrationWarning>
@@ -561,8 +570,9 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                         aria-label={it.ariaLabel}
                         data-index={idx + 1}
                         onClick={() => {
-                          it.onClick?.();
-                          closeMenu();
+                          closeMenu(() => {
+                            it.onClick?.();
+                          });
                         }}
                       >
                         <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform" suppressHydrationWarning>
