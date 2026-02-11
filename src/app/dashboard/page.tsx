@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { supabase } from "@/lib/supabase"
+import { supabase, getInterviewSessions } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { 
@@ -16,6 +16,25 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
+
+function getTimeAgo(dateString: string | undefined | null) {
+  if (!dateString) return "N/A"
+  const date = new Date(dateString)
+  const now = new Date()
+  const seconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+  
+  let interval = seconds / 31536000
+  if (interval > 1) return Math.floor(interval) + " years ago"
+  interval = seconds / 2592000
+  if (interval > 1) return Math.floor(interval) + " months ago"
+  interval = seconds / 86400
+  if (interval > 1) return Math.floor(interval) + " days ago"
+  interval = seconds / 3600
+  if (interval > 1) return Math.floor(interval) + " hours ago"
+  interval = seconds / 60
+  if (interval > 1) return Math.floor(interval) + " minutes ago"
+  return Math.floor(seconds) + " seconds ago"
+}
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null)
@@ -45,11 +64,24 @@ export default function DashboardPage() {
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
           setUser(user)
-          // Mock stats for now or fetch from DB
+          
+          // Fetch real stats
+          const sessions = await getInterviewSessions(user.id)
+          
+          const totalInterviews = sessions.length
+          
+          const scores = sessions.map(s => s.score).filter(s => s !== null && s !== undefined) as number[]
+          const averageScore = scores.length > 0 
+            ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) 
+            : 0
+            
+          const lastSessionDate = sessions.length > 0 ? (sessions[0].created_at || sessions[0].started_at) : null
+          const lastSession = getTimeAgo(lastSessionDate)
+
           setStats({
-            totalInterviews: 12,
-            averageScore: 85,
-            lastSession: "2 hours ago"
+            totalInterviews,
+            averageScore,
+            lastSession
           })
         }
       } catch (e) {
