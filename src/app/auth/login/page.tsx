@@ -5,7 +5,7 @@ import { useState } from "react"
 import { supabase, isSupabaseConfigured } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, User, ArrowRight, Check, AlertCircle } from "lucide-react"
+import { ArrowLeft, User, ArrowRight, Check, AlertCircle, Github } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -62,6 +62,22 @@ const Login = () => {
         : (error?.message || "An error occurred during login")
       setError(message)
     } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleGithubLogin = async () => {
+    setLoading(true)
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+          redirectTo: `${location.origin}/auth/callback`,
+        },
+      })
+      if (error) throw error
+    } catch (error: any) {
+      setError(error.message || "GitHub login failed")
       setLoading(false)
     }
   }
@@ -227,6 +243,17 @@ const Login = () => {
                     >
                         <User className="w-4 h-4 mr-2" />
                         Guest Access
+                    </Button>
+
+                    <Button 
+                        type="button" 
+                        onClick={handleGithubLogin}
+                        disabled={loading}
+                        variant="outline"
+                        className="w-full h-12 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 rounded-md font-mono text-xs uppercase tracking-wide"
+                    >
+                        <Github className="w-4 h-4 mr-2" />
+                        Continue with GitHub
                     </Button>
                 </div>
 
