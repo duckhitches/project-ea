@@ -57,6 +57,13 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    line-height: 1.6;
+  }
+
+  /* Readability: comfortable reading length and contrast */
+  .prose-readable {
+    max-width: 65ch;
+    line-height: 1.65;
   }
 }

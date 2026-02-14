@@ -351,19 +351,19 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8 space-y-8 font-mono text-zinc-600 dark:text-zinc-300 max-w-6xl mx-auto">
+    <div className="min-h-screen p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 font-mono text-zinc-600 dark:text-zinc-300 max-w-6xl mx-auto">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-zinc-200 dark:border-zinc-800 pb-6 transition-colors">
-        <div>
-           <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-pink-500 animate-pulse" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 border-b border-zinc-200 dark:border-zinc-800 pb-4 sm:pb-6 transition-colors">
+        <div className="min-w-0">
+           <div className="flex items-center gap-2 mb-1 sm:mb-2">
+              <div className="w-2 h-2 bg-pink-500 animate-pulse shrink-0" aria-hidden />
               <span className="text-xs text-pink-500 uppercase tracking-widest">User Configuration</span>
            </div>
-           <h1 className="text-4xl md:text-5xl font-boldonse text-zinc-900 dark:text-white uppercase tracking-tight">
+           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse text-zinc-900 dark:text-white uppercase tracking-tight leading-tight">
               Profile <span className="text-zinc-400 dark:text-zinc-600">Manifest</span>
            </h1>
-           <p className="text-zinc-500 mt-2 max-w-xl">
+           <p className="text-zinc-500 dark:text-zinc-400 mt-2 max-w-xl text-xs sm:text-sm leading-snug">
              Manage your digital identity and system preferences.
              {!isGuest ? (
                <span className="text-emerald-600 dark:text-emerald-500 ml-2">{'//'} ACCESS GRANTED</span>
@@ -375,9 +375,10 @@ const ProfilePage = () => {
 
         {!isGuest && (
           <Button
+            type="button"
             onClick={handleProfileUpdate}
             disabled={profileLoading}
-            className="bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-black rounded-none border-2 border-transparent hover:border-pink-500 transition-all min-w-[180px] h-12 uppercase font-bold tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] hover:shadow-[4px_4px_0px_0px_rgba(236,72,153,1)]"
+            className="min-h-[48px] bg-zinc-900 dark:bg-zinc-100 hover:bg-zinc-800 dark:hover:bg-white text-white dark:text-black rounded-none border-2 border-transparent hover:border-pink-500 transition-all min-w-0 sm:min-w-[180px] h-12 px-4 sm:px-6 uppercase font-bold tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] hover:shadow-[4px_4px_0px_0px_rgba(236,72,153,1)] text-sm sm:text-base"
           >
              {profileLoading ? (
                 <div className="flex items-center gap-2">
@@ -420,21 +421,21 @@ const ProfilePage = () => {
       </AnimatePresence>
 
       {isGuest && (
-         <div className="border border-amber-500/20 dark:border-amber-500/30 bg-amber-500/5 p-4 flex items-start gap-4 transition-colors">
-            <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" />
-            <div>
-               <h3 className="text-amber-700 dark:text-amber-500 font-bold uppercase tracking-wider text-sm mb-1">Guest Mode Active</h3>
-               <p className="text-amber-800/70 dark:text-amber-500/80 text-xs">Profile persistence protocols are disabled. Data will strictly expire upon session termination.</p>
+         <div className="border border-amber-500/20 dark:border-amber-500/30 bg-amber-500/5 p-3 sm:p-4 flex items-start gap-3 sm:gap-4 transition-colors">
+            <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" aria-hidden />
+            <div className="min-w-0">
+               <h3 className="text-amber-700 dark:text-amber-500 font-bold uppercase tracking-wider text-xs sm:text-sm mb-1 leading-tight">Guest Mode Active</h3>
+               <p className="text-amber-800/70 dark:text-amber-500/80 text-xs leading-snug">Profile persistence protocols are disabled. Data will strictly expire upon session termination.</p>
             </div>
          </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8">
         
         {/* Left Col - Identity */}
-        <div className="lg:col-span-4 space-y-8">
+        <div className="lg:col-span-4 space-y-6 sm:space-y-8">
            {/* Profile Card */}
-           <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 flex flex-col items-center text-center relative overflow-hidden group shadow-sm transition-colors">
+           <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-4 sm:p-6 flex flex-col items-center text-center relative overflow-hidden group shadow-sm transition-colors">
               <div className="absolute top-0 right-0 p-2 opacity-10 dark:opacity-50 transition-opacity">
                  <UserIcon className="w-12 h-12 text-zinc-900 dark:text-zinc-900" />
               </div>
@@ -445,9 +446,9 @@ const ProfilePage = () => {
                  isLoading={profileLoading}
               />
 
-              <div className="mt-6 w-full space-y-4">
+              <div className="mt-4 sm:mt-6 w-full space-y-3 sm:space-y-4">
                  <div>
-                    <h2 className="text-xl font-boldonse text-zinc-900 dark:text-white uppercase tracking-wider truncate">
+                    <h2 className="text-lg sm:text-xl font-boldonse text-zinc-900 dark:text-white uppercase tracking-wider truncate leading-tight">
                        {profileData.name || "Unknown_User"}
                     </h2>
                     <p className="text-zinc-500 text-xs uppercase tracking-widest mt-1 truncate">
@@ -474,8 +475,8 @@ const ProfilePage = () => {
            </div>
 
            {/* Account Meta */}
-           <div className="bg-zinc-100/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-6 transition-colors shadow-sm">
-              <h3 className="text-sm font-boldonse text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-4">Metadata</h3>
+           <div className="bg-zinc-100/50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-4 sm:p-6 transition-colors shadow-sm">
+              <h3 className="text-xs sm:text-sm font-boldonse text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-3 sm:mb-4 leading-tight">Metadata</h3>
               <div className="space-y-3 text-xs">
                  <div className="flex justify-between items-center">
                     <span className="text-zinc-500 dark:text-zinc-600 font-medium">ID_HASH</span>
@@ -501,19 +502,19 @@ const ProfilePage = () => {
 
         {/* Right Col - Form */}
         <div className="lg:col-span-8">
-           <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-8 relative shadow-sm transition-colors">
+           <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-4 sm:p-6 md:p-8 relative shadow-sm transition-colors">
               {/* Corner Accents */}
-              <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-zinc-300 dark:border-zinc-600 transition-colors" />
-              <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-zinc-300 dark:border-zinc-600 transition-colors" />
-              <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-zinc-300 dark:border-zinc-600 transition-colors" />
-              <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-zinc-300 dark:border-zinc-600 transition-colors" />
+              <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-zinc-300 dark:border-zinc-600 transition-colors" aria-hidden />
+              <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-zinc-300 dark:border-zinc-600 transition-colors" aria-hidden />
+              <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-zinc-300 dark:border-zinc-600 transition-colors" aria-hidden />
+              <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-zinc-300 dark:border-zinc-600 transition-colors" aria-hidden />
 
-              <h3 className="text-lg font-boldonse text-zinc-900 dark:text-white uppercase tracking-widest mb-8 flex items-center gap-3">
-                 <span className="w-1 h-6 bg-pink-500" />
+              <h3 className="text-base sm:text-lg font-boldonse text-zinc-900 dark:text-white uppercase tracking-widest mb-6 sm:mb-8 flex items-center gap-3 leading-tight">
+                 <span className="w-1 h-6 bg-pink-500 shrink-0" aria-hidden />
                  User Parameters
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
                  <div className="space-y-2">
                     <Label className="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest font-bold">Display Name</Label>
                     <Input

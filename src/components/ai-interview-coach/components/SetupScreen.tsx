@@ -134,18 +134,18 @@ const SetupScreen: React.FC<{
               aria-hidden="true"
             />
 
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 type="button"
                 onClick={handleUploadClick}
                 disabled={isParsing}
                 className={cn(
-                  "flex-1 border-2 border-dashed border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-500 text-zinc-500 dark:text-zinc-400 py-6 px-4 flex flex-col items-center justify-center gap-2 transition-all group",
+                  "min-w-0 flex-1 border-2 border-dashed border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950 hover:bg-zinc-100 dark:hover:bg-zinc-900 hover:border-zinc-400 dark:hover:border-zinc-500 text-zinc-500 dark:text-zinc-400 py-6 px-4 flex flex-col items-center justify-center gap-2 transition-all group",
                   isParsing && "opacity-50 cursor-wait"
                 )}
               >
-                <UploadIcon className="w-6 h-6 text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors" />
-                <span className="text-xs uppercase tracking-wider">
+                <UploadIcon className="w-6 h-6 text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors shrink-0" />
+                <span className="text-xs uppercase tracking-wider text-center truncate max-w-full">
                   {isParsing ? "PARSING_FILE_STREAM..." : fileName ? fileName : "DRAG_FILE_OR_CLICK_TO_UPLOAD"}
                 </span>
                 {!fileName && <span className="text-[10px] text-zinc-400 dark:text-zinc-600 uppercase">Supported Formats: .TXT, .PDF</span>}
@@ -155,7 +155,7 @@ const SetupScreen: React.FC<{
                 type="button"
                 onClick={clearResume}
                 disabled={!resumeText && !fileName}
-                className="w-24 border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-zinc-500 hover:text-zinc-900 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 disabled:opacity-30 disabled:cursor-not-allowed uppercase text-xs font-bold transition-all"
+                className="flex shrink-0 items-center justify-center min-h-[48px] w-full sm:w-24 border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-zinc-500 hover:text-zinc-900 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600 disabled:opacity-30 disabled:cursor-not-allowed uppercase text-xs font-bold transition-all"
               >
                 Clear
               </button>

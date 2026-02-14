@@ -67,38 +67,37 @@ export default function Pricing() {
   return (
     <div className="min-h-screen bg-transparent transition-colors duration-300 font-mono">
       {/* Header Section */}
-      <div className="relative border-b-4 border-black dark:border-white">
+      <div className="relative border-b-2 sm:border-b-4 border-black dark:border-white">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-12 md:py-16">
+          <div className="py-8 sm:py-12 md:py-16">
             {/* Back Link */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center mb-8"
+              className="flex items-center mb-6 sm:mb-8"
             >
               <Link
                 href="/"
                 className="inline-flex items-center text-gray-900 dark:text-white hover:underline transition-all duration-200 group"
               >
-                <div className="flex items-center justify-center w-10 h-10 rounded-none bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white mr-3 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] transition-all">
-                  <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform duration-200" />
+                <div className="flex items-center justify-center min-w-[44px] min-h-[44px] w-10 h-10 rounded-none bg-black dark:bg-white text-white dark:text-black border-2 border-black dark:border-white mr-3 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] transition-all">
+                  <ArrowLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform duration-200" aria-hidden />
                 </div>
-                <span className="font-bold uppercase tracking-widest">Back to Home</span>
+                <span className="font-bold uppercase tracking-widest text-sm sm:text-base">Back to Home</span>
               </Link>
             </motion.div>
 
             {/* Header Content */}
             <div className="text-center max-w-4xl mx-auto">
-              
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-5xl md:text-7xl font-boldonse uppercase tracking-tighter mb-6 bg-black text-white dark:bg-white dark:text-black p-4 inline-block transform -rotate-1 border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-boldonse uppercase tracking-tighter mb-4 sm:mb-6 bg-black text-white dark:bg-white dark:text-black p-3 sm:p-4 inline-block transform -rotate-1 border-2 sm:border-4 border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] leading-tight break-words"
               >
                 Pricing Structure
               </motion.h1>
-              <div className="text-black dark:text-white text-lg font-mono uppercase tracking-widest mt-4">
+              <div className="text-black dark:text-white text-base sm:text-lg font-mono uppercase tracking-widest mt-3 sm:mt-4 leading-snug">
                 {'//'} Select your tier allocation
               </div>
             </div>
@@ -107,43 +106,43 @@ export default function Pricing() {
       </div>
 
       {/* Plans Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16">
         {/* Pre-release Plan */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-20"
+          className="mb-12 sm:mb-16 lg:mb-20"
         >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-boldonse uppercase text-gray-900 dark:text-white mb-4 tracking-tight">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse uppercase text-gray-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-tight">
               Beta Access
             </h2>
-            <p className="text-black dark:text-white font-mono text-sm uppercase tracking-widest">
+            <p className="text-black dark:text-white font-mono text-xs sm:text-sm uppercase tracking-widest leading-snug">
               Limited time operational window
             </p>
           </div>
 
           <div className="max-w-md mx-auto">
             <div className="relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10 w-full text-center">
-                <div className="bg-black dark:bg-white text-white dark:text-black px-6 py-2 rounded-none text-sm font-bold uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] inline-block border-2 border-transparent">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10 w-full text-center px-2">
+                <div className="bg-black dark:bg-white text-white dark:text-black px-4 sm:px-6 py-2 rounded-none text-xs sm:text-sm font-bold uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] inline-block border-2 border-transparent">
                   Current Status: Active
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-black rounded-none border-4 border-black dark:border-white p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] dark:shadow-[12px_12px_0px_0px_rgba(255,255,255,1)]">
-                <div className="text-center mb-8 pt-6">
-                  <h3 className="text-3xl font-boldonse uppercase text-gray-900 dark:text-white mb-4">
+              <div className="bg-white dark:bg-black rounded-none border-2 sm:border-4 border-black dark:border-white p-5 sm:p-6 md:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]">
+                <div className="text-center mb-6 sm:mb-8 pt-6">
+                  <h3 className="text-2xl sm:text-3xl font-boldonse uppercase text-gray-900 dark:text-white mb-3 sm:mb-4 leading-tight">
                     {preReleasePlan.name}
                   </h3>
                   <div className="flex items-center justify-center gap-2 mb-4">
-                    <span className="text-6xl font-boldonse text-pink-500">
+                    <span className="text-4xl sm:text-5xl md:text-6xl font-boldonse text-pink-500">
                       {preReleasePlan.price}
                     </span>
                   </div>
                 </div>
 
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                   {preReleasePlan.features.map((feature, i) => (
                     <motion.li 
                       key={i}
@@ -152,18 +151,19 @@ export default function Pricing() {
                       transition={{ delay: i * 0.1 }}
                       className="flex items-start gap-3"
                     >
-                      <div className="flex-shrink-0 w-6 h-6 bg-black dark:bg-white rounded-none flex items-center justify-center border border-black dark:border-white">
-                        <Check className="w-4 h-4 text-white dark:text-black" />
+                      <div className="flex-shrink-0 w-6 h-6 bg-black dark:bg-white rounded-none flex items-center justify-center border border-black dark:border-white mt-0.5">
+                        <Check className="w-4 h-4 text-white dark:text-black" aria-hidden />
                       </div>
-                      <span className="text-black dark:text-white uppercase font-mono text-sm pt-0.5">{feature}</span>
+                      <span className="text-black dark:text-white uppercase font-mono text-xs sm:text-sm pt-0.5 leading-snug">{feature}</span>
                     </motion.li>
                   ))}
                 </ul>
 
                 <motion.button 
+                  type="button"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full bg-pink-500 text-white py-4 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 border-2 border-transparent hover:border-black dark:hover:border-white shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none hover:bg-pink-600"
+                  className="w-full min-h-[48px] bg-pink-500 text-white py-3 sm:py-4 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 border-2 border-transparent hover:border-black dark:hover:border-white shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none hover:bg-pink-600 text-base sm:text-lg"
                   onClick={() => window.location.href = '/auth/login'}
                 >
                   Confirm Entry
@@ -175,16 +175,16 @@ export default function Pricing() {
 
         {/* Post-release Plans */}
         <div>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-boldonse uppercase text-gray-900 dark:text-white mb-4 tracking-tight">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse uppercase text-gray-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-tight">
               Future Roadmap
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 font-mono text-sm uppercase tracking-widest">
+            <p className="text-gray-600 dark:text-gray-400 font-mono text-xs sm:text-sm uppercase tracking-widest leading-snug">
               Projected tier classification
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {postReleasePlans.map((plan, index) => {
               const IconComponent = plan.icon
               return (
@@ -193,34 +193,34 @@ export default function Pricing() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className={`relative bg-white dark:bg-black rounded-none border-2 border-black dark:border-white p-0 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-200 ${
-                    plan.popular ? "border-4" : ""
+                  className={`relative bg-white dark:bg-black rounded-none border-2 border-black dark:border-white p-0 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-200 ${
+                    plan.popular ? "sm:border-4" : ""
                   }`}
                 >
                   {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-full text-center">
-                      <div className="bg-pink-500 text-white px-4 py-1 rounded-none text-xs font-bold uppercase tracking-widest border-2 border-black dark:border-white shadow-md inline-block">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-full text-center px-2">
+                      <div className="bg-pink-500 text-white px-3 sm:px-4 py-1 rounded-none text-xs font-bold uppercase tracking-widest border-2 border-black dark:border-white shadow-md inline-block">
                         {plan.badge}
                       </div>
                     </div>
                   )}
 
-                  <div className="p-8 h-full flex flex-col">
-                    <div className="text-center mb-8 pt-2">
-                      <div className="inline-flex items-center justify-center w-16 h-16 rounded-none bg-gray-100 dark:bg-gray-800 mb-4 border-2 border-black dark:border-white">
-                        <IconComponent className="w-8 h-8 text-black dark:text-white" />
+                  <div className="p-5 sm:p-6 md:p-8 h-full flex flex-col">
+                    <div className="text-center mb-6 sm:mb-8 pt-2">
+                      <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-none bg-gray-100 dark:bg-gray-800 mb-3 sm:mb-4 border-2 border-black dark:border-white">
+                        <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-black dark:text-white" aria-hidden />
                       </div>
 
-                      <h3 className="text-2xl font-boldonse uppercase text-gray-900 dark:text-white mb-2">
+                      <h3 className="text-xl sm:text-2xl font-boldonse uppercase text-gray-900 dark:text-white mb-2 leading-tight">
                         {plan.name}
                       </h3>
 
                       <div className="flex items-center justify-center gap-1">
-                        <span className={`text-3xl font-boldonse ${plan.popular ? 'text-pink-500' : 'text-gray-900 dark:text-white'}`}>
+                        <span className={`text-2xl sm:text-3xl font-boldonse ${plan.popular ? 'text-pink-500' : 'text-gray-900 dark:text-white'}`}>
                           {plan.price}
                         </span>
                         {plan.period && (
-                          <span className="text-gray-500 dark:text-gray-400 font-mono text-sm self-end mb-1">
+                          <span className="text-gray-500 dark:text-gray-400 font-mono text-xs sm:text-sm self-end mb-1">
                             {plan.period}
                           </span>
                         )}
@@ -231,7 +231,7 @@ export default function Pricing() {
                       )}
                     </div>
 
-                    <ul className="space-y-4 mb-8 flex-1">
+                    <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-1">
                       {plan.features.map((feature, i) => (
                         <motion.li 
                           key={i}
@@ -241,9 +241,9 @@ export default function Pricing() {
                           className="flex items-start gap-3"
                         >
                           <div className="flex-shrink-0 w-4 h-4 mt-1 bg-black dark:bg-white rounded-none flex items-center justify-center">
-                            <Check className="w-3 h-3 text-white dark:text-black" />
+                            <Check className="w-3 h-3 text-white dark:text-black" aria-hidden />
                           </div>
-                          <span className="text-gray-700 dark:text-gray-300 font-mono text-xs uppercase leading-tight">
+                          <span className="text-gray-700 dark:text-gray-300 font-mono text-xs uppercase leading-snug">
                             {feature}
                           </span>
                         </motion.li>
@@ -251,10 +251,11 @@ export default function Pricing() {
                     </ul>
 
                     <motion.button
+                      type="button"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       disabled={true}
-                      className={`w-full py-3 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 border-2 border-black dark:border-white ${
+                      className={`w-full min-h-[48px] py-3 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 border-2 border-black dark:border-white text-sm sm:text-base ${
                         plan.popular
                           ? "bg-black dark:bg-white text-white dark:text-black opacity-50 cursor-not-allowed"
                           : "bg-transparent text-gray-900 dark:text-white opacity-50 cursor-not-allowed"
@@ -273,22 +274,19 @@ export default function Pricing() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-24 text-center"
+          className="mt-16 sm:mt-20 lg:mt-24 text-center"
         >
-          <h3 className="text-2xl md:text-3xl font-boldonse uppercase text-gray-900 dark:text-white mb-6">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-boldonse uppercase text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight">
             Help Signal
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-8 font-mono uppercase text-sm">
+          <p className="text-gray-600 dark:text-gray-400 mb-6 sm:mb-8 font-mono uppercase text-xs sm:text-sm leading-snug">
             Request support frequency
           </p>
-          <Link href="/contact">
-            <motion.button 
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-black dark:bg-white text-white dark:text-black py-4 px-8 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 shadow-[8px_8px_0px_0px_rgba(128,128,128,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] border-2 border-transparent"
-            >
-              Contact Support
-            </motion.button>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center min-h-[48px] bg-black dark:bg-white text-white dark:text-black py-3 sm:py-4 px-6 sm:px-8 rounded-none font-boldonse uppercase tracking-widest transition-all duration-200 shadow-[6px_6px_0px_0px_rgba(128,128,128,1)] hover:shadow-none hover:translate-x-[4px] hover:translate-y-[4px] border-2 border-transparent text-base sm:text-lg"
+          >
+            Contact Support
           </Link>
         </motion.div>
       </div>

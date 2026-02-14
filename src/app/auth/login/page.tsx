@@ -143,19 +143,19 @@ const Login = () => {
       </div>
 
       {/* Right Side - Form */}
-      <div className="flex-1 flex flex-col justify-center items-center p-6 sm:p-12 relative">
+      <div className="flex-1 flex flex-col justify-center items-center p-4 sm:p-6 md:p-8 lg:p-12 relative">
           <div className="w-full max-w-sm">
             {/* Mobile Back */}
-            <div className="lg:hidden mb-10">
+            <div className="lg:hidden mb-6 sm:mb-10">
                 <Link href="/" className="inline-flex items-center text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors gap-2 font-mono text-xs uppercase tracking-wider">
                     <ArrowLeft className="w-4 h-4" />
                     <span>Return</span>
                 </Link>
             </div>
 
-            <div className="mb-10 text-center lg:text-left">
-                <h2 className="text-2xl font-boldonse uppercase tracking-wider text-black dark:text-white mb-2">Authenticated Login</h2>
-                <p className="text-zinc-500 font-mono text-xs">Enter your credentials to access the console.</p>
+            <div className="mb-8 sm:mb-10 text-center lg:text-left">
+                <h2 className="text-xl sm:text-2xl font-boldonse uppercase tracking-wider text-black dark:text-white mb-2 leading-tight">Authenticated Login</h2>
+                <p className="text-zinc-500 dark:text-zinc-400 font-mono text-xs sm:text-sm">Enter your credentials to access the console.</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-6">
@@ -209,9 +209,9 @@ const Login = () => {
                 <AnimatePresence>
                     {error && (
                         <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
-                            <Alert variant="destructive" className="bg-red-500/5 border-red-500/20 text-red-500 font-mono text-xs">
-                                <AlertCircle className="h-4 w-4" />
-                                <AlertDescription>{error}</AlertDescription>
+                            <Alert variant="destructive" className="bg-red-500/5 border-red-500/20 text-red-600 dark:text-red-400 font-mono text-sm leading-snug">
+                                <AlertCircle className="h-4 w-4 shrink-0" />
+                                <AlertDescription className="text-inherit">{error}</AlertDescription>
                             </Alert>
                         </motion.div>
                     )}
@@ -221,7 +221,7 @@ const Login = () => {
                     <Button 
                         type="submit" 
                         disabled={loading}
-                        className="w-full h-12 bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-md font-medium text-sm transition-all shadow-sm"
+                        className="w-full min-h-[48px] h-12 bg-black dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-md font-medium text-sm transition-all shadow-sm"
                     >
                         {loading ? (
                             <div className="flex gap-1">
@@ -239,7 +239,7 @@ const Login = () => {
                         onClick={handleGuestLogin}
                         disabled={loading}
                         variant="outline"
-                        className="w-full h-12 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 rounded-md font-mono text-xs uppercase tracking-wide"
+                        className="w-full min-h-[48px] h-12 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-600 dark:text-zinc-400 rounded-md font-mono text-xs sm:text-sm uppercase tracking-wide"
                     >
                         <User className="w-4 h-4 mr-2" />
                         Guest Access

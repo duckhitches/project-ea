@@ -258,10 +258,11 @@ const HistoryPage = () => {
   // Brutalist Loading Button
   const LoadingButton = ({ children, loading, onClick, className }: any) => (
     <Button
+      type="button"
       onClick={onClick}
       disabled={loading}
       className={cn(
-        "relative overflow-hidden bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-none border-2 border-transparent transition-all duration-200 font-bold uppercase tracking-wider h-10 px-6",
+        "relative overflow-hidden min-h-[48px] bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-none border-2 border-transparent transition-all duration-200 font-bold uppercase tracking-wider h-10 sm:h-11 px-4 sm:px-6 text-xs sm:text-sm",
         className
       )}
     >
@@ -314,19 +315,19 @@ const HistoryPage = () => {
   )
 
   return (
-    <div className="min-h-screen p-4 md:p-8 space-y-8 font-mono text-zinc-600 dark:text-zinc-300 max-w-6xl mx-auto">
+    <div className="min-h-screen p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 font-mono text-zinc-600 dark:text-zinc-300 max-w-6xl mx-auto">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-zinc-200 dark:border-zinc-800 pb-6 transition-colors">
-        <div>
-           <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-emerald-500 animate-pulse" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 border-b border-zinc-200 dark:border-zinc-800 pb-4 sm:pb-6 transition-colors">
+        <div className="min-w-0">
+           <div className="flex items-center gap-2 mb-1 sm:mb-2">
+              <div className="w-2 h-2 bg-emerald-500 animate-pulse shrink-0" aria-hidden />
               <span className="text-xs text-emerald-600 dark:text-emerald-500 uppercase tracking-widest font-bold">System Audit Log</span>
            </div>
-           <h1 className="text-4xl md:text-5xl font-boldonse text-zinc-900 dark:text-white uppercase tracking-tight">
+           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse text-zinc-900 dark:text-white uppercase tracking-tight leading-tight">
               Activity <span className="text-zinc-400 dark:text-zinc-600">History</span>
            </h1>
-           <p className="text-zinc-500 mt-2 max-w-xl">
+           <p className="text-zinc-500 dark:text-zinc-400 mt-2 max-w-xl text-xs sm:text-sm leading-snug">
              Comprehensive log of all authentication events and active sessions.
            </p>
         </div>
@@ -351,57 +352,58 @@ const HistoryPage = () => {
       </div>
 
       {isGuest ? (
-        <div className="border border-amber-500/20 dark:border-amber-500/30 bg-amber-500/5 p-6 flex flex-col items-center justify-center text-center space-y-4 min-h-[300px] transition-colors">
-           <AlertCircle className="w-12 h-12 text-amber-600 dark:text-amber-500 mb-2" />
-           <h3 className="text-amber-600 dark:text-amber-500 font-boldonse text-2xl uppercase tracking-widest">Access Restricted</h3>
-           <p className="text-amber-700/80 dark:text-amber-500/80 font-mono text-sm max-w-md">
+        <div className="border border-amber-500/20 dark:border-amber-500/30 bg-amber-500/5 p-4 sm:p-6 flex flex-col items-center justify-center text-center space-y-3 sm:space-y-4 min-h-[280px] sm:min-h-[300px] transition-colors">
+           <AlertCircle className="w-10 h-10 sm:w-12 sm:h-12 text-amber-600 dark:text-amber-500 mb-2 shrink-0" aria-hidden />
+           <h3 className="text-amber-600 dark:text-amber-500 font-boldonse text-xl sm:text-2xl uppercase tracking-widest leading-tight">Access Restricted</h3>
+           <p className="text-amber-700/80 dark:text-amber-500/80 font-mono text-xs sm:text-sm max-w-md leading-snug">
              Audit logs are classified information. Guest clearance level is insufficient for viewing historical data.
            </p>
            <Button
+             type="button"
              onClick={() => router.push('/auth/signup')}
-             className="mt-4 bg-amber-600 dark:bg-amber-500 hover:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-black rounded-none font-bold uppercase tracking-wider h-12 px-8 shadow-md"
+             className="mt-4 min-h-[48px] bg-amber-600 dark:bg-amber-500 hover:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-black rounded-none font-bold uppercase tracking-wider h-12 px-6 sm:px-8 shadow-md text-sm sm:text-base"
            >
              Initialize Account
              <ArrowRight className="w-4 h-4 ml-2" />
            </Button>
         </div>
       ) : (
-        <div className="space-y-12">
+        <div className="space-y-8 sm:space-y-12">
            
            {/* Stats Grid */}
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 relative overflow-hidden group hover:border-emerald-500/50 transition-colors shadow-sm">
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+              <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-4 sm:p-6 relative overflow-hidden group hover:border-emerald-500/50 transition-colors shadow-sm">
                  <div className="absolute top-0 right-0 p-2 opacity-5 dark:opacity-20 group-hover:opacity-10 dark:group-hover:opacity-50 transition-opacity">
-                    <Activity className="w-16 h-16 text-emerald-500" />
+                    <Activity className="w-16 h-16 text-emerald-500" aria-hidden />
                  </div>
                  <div className="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2 font-bold">Active Sessions</div>
-                 <div className="text-4xl font-boldonse text-zinc-900 dark:text-white transition-colors">{currentSession ? 1 : 0}</div>
+                 <div className="text-3xl sm:text-4xl font-boldonse text-zinc-900 dark:text-white transition-colors">{currentSession ? 1 : 0}</div>
                  <div className="mt-4 flex items-center gap-2 text-[10px] text-emerald-600 dark:text-emerald-500 uppercase font-bold">
                     <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
                     System Online
                  </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 relative overflow-hidden group hover:border-pink-500/50 transition-colors shadow-sm">
+              <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-4 sm:p-6 relative overflow-hidden group hover:border-pink-500/50 transition-colors shadow-sm">
                  <div className="absolute top-0 right-0 p-2 opacity-5 dark:opacity-20 group-hover:opacity-10 dark:group-hover:opacity-50 transition-opacity">
-                    <Calendar className="w-16 h-16 text-pink-500" />
+                    <Calendar className="w-16 h-16 text-pink-500" aria-hidden />
                  </div>
                  <div className="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2 font-bold">Retention Period</div>
-                 <div className="text-4xl font-boldonse text-zinc-900 dark:text-white transition-colors">
+                 <div className="text-3xl sm:text-4xl font-boldonse text-zinc-900 dark:text-white transition-colors">
                     {user?.$createdAt ? Math.floor((Date.now() - new Date(user.$createdAt).getTime()) / (1000 * 60 * 60 * 24)) : 0}
-                    <span className="text-lg text-zinc-400 dark:text-zinc-600 ml-1">DAYS</span>
+                    <span className="text-base sm:text-lg text-zinc-400 dark:text-zinc-600 ml-1">DAYS</span>
                  </div>
                  <div className="mt-4 text-[10px] text-zinc-400 dark:text-zinc-600 uppercase border-t border-zinc-100 dark:border-zinc-900 pt-2 transition-colors">
                     Since: {user?.$createdAt ? new Date(user.$createdAt).toLocaleDateString() : "N/A"}
                  </div>
               </div>
 
-              <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 relative overflow-hidden group hover:border-zinc-400 dark:hover:border-white/50 transition-colors shadow-sm">
+              <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-4 sm:p-6 relative overflow-hidden group hover:border-zinc-400 dark:hover:border-white/50 transition-colors shadow-sm">
                  <div className="absolute top-0 right-0 p-2 opacity-5 dark:opacity-20 group-hover:opacity-10 dark:group-hover:opacity-50 transition-opacity">
-                    <Monitor className="w-16 h-16 text-zinc-900 dark:text-white" />
+                    <Monitor className="w-16 h-16 text-zinc-900 dark:text-white" aria-hidden />
                  </div>
                  <div className="text-xs text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-2 font-bold">Total Events</div>
-                 <div className="text-4xl font-boldonse text-zinc-900 dark:text-white transition-colors">{loginHistory.length}</div>
+                 <div className="text-3xl sm:text-4xl font-boldonse text-zinc-900 dark:text-white transition-colors">{loginHistory.length}</div>
                  <div className="mt-4 text-[10px] text-zinc-400 dark:text-zinc-600 uppercase border-t border-zinc-100 dark:border-zinc-900 pt-2 transition-colors">
                     Log Integrity: Verified
                  </div>

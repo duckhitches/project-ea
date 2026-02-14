@@ -118,18 +118,18 @@ export default function SecurityPage() {
   }
 
   return (
-    <div className="space-y-8 max-w-4xl font-mono text-zinc-600 dark:text-zinc-300">
+    <div className="space-y-6 sm:space-y-8 max-w-4xl font-mono text-zinc-600 dark:text-zinc-300">
       {/* Header */}
-      <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-6 transition-colors">
-        <div className="flex items-center gap-3">
-          <div className="bg-emerald-500/10 p-2 rounded-sm border border-emerald-500/20">
-             <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-500" />
+      <div className="flex flex-col gap-1 sm:gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-4 sm:pb-6 transition-colors">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="bg-emerald-500/10 p-2 rounded-sm border border-emerald-500/20 shrink-0">
+             <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-500" aria-hidden />
           </div>
-          <h1 className="text-2xl font-boldonse uppercase tracking-widest text-zinc-900 dark:text-white transition-colors">
+          <h1 className="text-xl sm:text-2xl font-boldonse uppercase tracking-widest text-zinc-900 dark:text-white transition-colors leading-tight">
             Security Console
           </h1>
         </div>
-        <p className="text-zinc-400 dark:text-zinc-500 font-mono text-xs pl-[3.25rem]">
+        <p className="text-zinc-400 dark:text-zinc-500 font-mono text-xs sm:text-sm pl-0 sm:pl-[3.25rem] leading-snug">
           Manage access credentials and encryption protocols.
         </p>
       </div>
@@ -138,7 +138,7 @@ export default function SecurityPage() {
         <motion.div
            initial={{ opacity: 0, scale: 0.98 }}
            animate={{ opacity: 1, scale: 1 }}
-           className="bg-red-500/5 border-2 border-red-500/20 dark:border-red-500/30 p-8 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group transition-colors"
+           className="bg-red-500/5 border-2 border-red-500/20 dark:border-red-500/30 p-4 sm:p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 md:gap-8 relative overflow-hidden group transition-colors"
         >
           {/* Scanline Effect */}
           <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.05)_50%)] dark:bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.2)_50%)] bg-[size:100%_4px] opacity-10 pointer-events-none" />
@@ -165,8 +165,9 @@ export default function SecurityPage() {
           </div>
 
           <Button
+            type="button"
             onClick={() => router.push('/auth/signup')}
-            className="group/btn relative bg-red-600 dark:bg-red-500 hover:bg-red-500 dark:hover:bg-red-400 text-white dark:text-black rounded-none border-2 border-zinc-900 dark:border-black font-bold uppercase tracking-wider h-12 px-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-[0px] active:translate-y-[0px] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+            className="group/btn relative min-h-[48px] bg-red-600 dark:bg-red-500 hover:bg-red-500 dark:hover:bg-red-400 text-white dark:text-black rounded-none border-2 border-zinc-900 dark:border-black font-bold uppercase tracking-wider h-12 px-6 sm:px-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-[0px] active:translate-y-[0px] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-sm sm:text-base"
           >
             <span>Initialize Account</span>
             <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
@@ -175,22 +176,22 @@ export default function SecurityPage() {
       ) : (
         <>
             {/* Status Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-bold">
-                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-none flex flex-col gap-2 shadow-sm transition-colors">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 font-bold">
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-3 sm:p-4 rounded-none flex flex-col gap-2 shadow-sm transition-colors">
                     <span className="text-[10px] font-mono uppercase text-zinc-400 dark:text-zinc-500">Encryption Status</span>
                     <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-500 font-mono text-sm uppercase">
                         <CheckCircle className="w-4 h-4" />
                         AES-256 Active
                     </div>
                 </div>
-                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-none flex flex-col gap-2 shadow-sm transition-colors">
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-3 sm:p-4 rounded-none flex flex-col gap-2 shadow-sm transition-colors">
                     <span className="text-[10px] font-mono uppercase text-zinc-400 dark:text-zinc-500">Email Verification</span>
                     <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-500 font-mono text-sm uppercase">
                         <CheckCircle className="w-4 h-4" />
                         Verified
                     </div>
                 </div>
-                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-none flex flex-col gap-2 shadow-sm transition-colors">
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-3 sm:p-4 rounded-none flex flex-col gap-2 shadow-sm transition-colors">
                     <span className="text-[10px] font-mono uppercase text-zinc-400 dark:text-zinc-500">Two-Factor Auth</span>
                      <div className="flex items-center gap-2 text-amber-600 dark:text-amber-500 font-mono text-sm uppercase">
                         <AlertCircle className="w-4 h-4" />
@@ -200,10 +201,10 @@ export default function SecurityPage() {
             </div>
 
             {/* Password Update Form */}
-            <div className="bg-white dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 rounded-none p-6 lg:p-8 shadow-sm transition-colors">
-                 <div className="mb-8">
-                    <h3 className="text-lg font-boldonse uppercase bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 dark:from-white to-zinc-500 transition-colors">Credential Update</h3>
-                    <p className="text-xs font-mono text-zinc-400 dark:text-zinc-500 mt-1">Modify your system access password.</p>
+            <div className="bg-white dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-800 rounded-none p-4 sm:p-6 lg:p-8 shadow-sm transition-colors">
+                 <div className="mb-6 sm:mb-8">
+                    <h3 className="text-base sm:text-lg font-boldonse uppercase bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 dark:from-white to-zinc-500 transition-colors leading-tight">Credential Update</h3>
+                    <p className="text-xs font-mono text-zinc-400 dark:text-zinc-500 mt-1 leading-snug">Modify your system access password.</p>
                  </div>
 
                  <form onSubmit={handlePasswordUpdate} className="space-y-6 max-w-lg">
@@ -221,7 +222,8 @@ export default function SecurityPage() {
                              <button
                                 type="button"
                                 onClick={() => setShowNew(!showNew)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center -my-2 text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                                aria-label={showNew ? "Hide password" : "Show password"}
                             >
                                 {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
@@ -252,7 +254,7 @@ export default function SecurityPage() {
                      <AnimatePresence>
                         {message && (
                             <motion.div initial={{opacity:0, height:0}} animate={{opacity:1, height:"auto"}} exit={{opacity:0, height:0}}>
-                                 <Alert variant={messageType === "success" ? "default" : "destructive"} className={cn("font-mono text-xs border rounded-none transition-colors", messageType === "success" ? "border-emerald-500 text-emerald-700 dark:text-emerald-500 bg-emerald-500/5 dark:bg-emerald-500/10" : "border-red-500 text-red-700 dark:text-red-500 bg-red-500/5 dark:bg-red-500/10")}>
+                                 <Alert variant={messageType === "success" ? "default" : "destructive"} className={cn("font-mono text-xs sm:text-sm border rounded-none transition-colors leading-snug", messageType === "success" ? "border-emerald-500 text-emerald-700 dark:text-emerald-500 bg-emerald-500/5 dark:bg-emerald-500/10" : "border-red-500 text-red-700 dark:text-red-500 bg-red-500/5 dark:bg-red-500/10")}>
                                     <AlertDescription className="font-bold">
                                         {messageType === "success" ? "SUCCESS: " : "ERROR: "} {message}
                                     </AlertDescription>
@@ -262,9 +264,10 @@ export default function SecurityPage() {
                      </AnimatePresence>
 
                     <div className="pt-4">
-                         <Button 
+                         <Button
+                            type="submit"
                             disabled={passwordLoading}
-                            className="bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 font-mono text-xs font-bold uppercase tracking-wider rounded-none h-11 px-8 w-full sm:w-auto shadow-md transition-all"
+                            className="min-h-[48px] bg-zinc-900 dark:bg-white text-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider rounded-none h-11 px-6 sm:px-8 w-full sm:w-auto shadow-md transition-all"
                         >
                             {passwordLoading ? "PROCESSING..." : "UPDATE CREDENTIALS"}
                          </Button>
