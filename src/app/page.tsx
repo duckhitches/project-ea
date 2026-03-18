@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import StaggeredMenu from '@/components/StaggeredMenu'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 import { LandingPage } from '@/components/ui/Landing-page'
+import DevMessageBanner from '@/components/DevMessageBanner'
 
 export default function Home() {
   const router = useRouter()
@@ -15,6 +16,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-transparent text-foreground transition-colors duration-300">
+      <DevMessageBanner />
       <div className='flex justify-center mb-10'>
       <StaggeredMenu
         items={[
