@@ -67,7 +67,7 @@ export default function DevMessageBanner() {
                     Dev Message
                   </h2>
                   <span className="hidden sm:inline text-[10px] font-mono text-white/40 uppercase tracking-wider">
-                    // Notice
+                    {"// Notice"}
                   </span>
                 </div>
                 <button
