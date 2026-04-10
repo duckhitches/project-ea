@@ -69,12 +69,12 @@ export default function Pricing() {
       {/* Header Section */}
       <div className="relative border-b-2 sm:border-b-4 border-black dark:border-white">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-8 sm:py-12 md:py-16">
+          <div className="py-8 sm:py-12 md:py-16 lg:py-20">
             {/* Back Link */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center mb-6 sm:mb-8"
+              className="flex items-center mb-6 sm:mb-8 lg:mb-12"
             >
               <Link
                 href="/"
@@ -93,11 +93,11 @@ export default function Pricing() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-boldonse uppercase tracking-tighter mb-4 sm:mb-6 bg-black text-white dark:bg-white dark:text-black p-3 sm:p-4 inline-block transform -rotate-1 border-2 sm:border-4 border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] leading-tight break-words"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-boldonse uppercase tracking-tighter mb-4 sm:mb-6 lg:mb-8 bg-black text-white dark:bg-white dark:text-black p-3 sm:p-4 lg:p-5 inline-block transform -rotate-1 border-2 sm:border-4 border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] leading-tight break-words"
               >
                 Pricing Structure
               </motion.h1>
-              <div className="text-black dark:text-white text-base sm:text-lg font-mono uppercase tracking-widest mt-3 sm:mt-4 leading-snug">
+              <div className="text-black dark:text-white text-base sm:text-lg font-mono uppercase tracking-widest mt-3 sm:mt-4 lg:mt-6 leading-snug">
                 {'//'} Select your tier allocation
               </div>
             </div>
@@ -106,15 +106,15 @@ export default function Pricing() {
       </div>
 
       {/* Plans Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16 lg:py-20">
         {/* Pre-release Plan */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-12 sm:mb-16 lg:mb-20"
+          className="mb-12 sm:mb-16 lg:mb-24"
         >
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse uppercase text-gray-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-tight">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-14">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse uppercase text-gray-900 dark:text-white mb-3 sm:mb-4 lg:mb-6 tracking-tight leading-tight">
               Beta Access
             </h2>
             <p className="text-black dark:text-white font-mono text-xs sm:text-sm uppercase tracking-widest leading-snug">
@@ -175,8 +175,8 @@ export default function Pricing() {
 
         {/* Post-release Plans */}
         <div>
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse uppercase text-gray-900 dark:text-white mb-3 sm:mb-4 tracking-tight leading-tight">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-14">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse uppercase text-gray-900 dark:text-white mb-3 sm:mb-4 lg:mb-6 tracking-tight leading-tight">
               Future Roadmap
             </h2>
             <p className="text-gray-600 dark:text-gray-400 font-mono text-xs sm:text-sm uppercase tracking-widest leading-snug">

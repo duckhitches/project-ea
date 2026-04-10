@@ -22,17 +22,17 @@ export default function HeroSection({ scrollYProgress }: HeroSectionProps) {
     <motion.section
       style={{ y: heroY, opacity: heroOpacity }}
       id="About"
-      className="relative min-h-[85vh] sm:min-h-screen space-y-6 sm:space-y-10 flex items-center justify-center bg-transparent py-12 sm:py-16"
+      className="relative min-h-[85vh] sm:min-h-screen space-y-6 sm:space-y-10 lg:space-y-14 flex items-center justify-center bg-transparent py-12 sm:py-16 lg:py-24"
     >
-      <div className="relative z-10 max-w-7xl mx-auto mt-16 sm:mt-20 px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-boldonse text-black dark:text-white mb-4 sm:mb-6 leading-tight uppercase tracking-tighter">
+      <div className="relative z-10 max-w-7xl mx-auto mt-16 sm:mt-20 lg:mt-28 px-4 sm:px-6 lg:px-8 text-center">
+        <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-boldonse text-black dark:text-white mb-4 sm:mb-6 lg:mb-10 leading-tight uppercase tracking-tighter">
           About{" "}
           <span className="text-black dark:text-white underline decoration-2 sm:decoration-4 decoration-pink-500 underline-offset-4 sm:underline-offset-8">
             AI Interview
           </span>
         </h1>
 
-        <p className="hero-subtitle text-base sm:text-xl md:text-2xl lg:text-3xl text-black dark:text-white mb-6 sm:mb-8 font-mono border-l-4 border-black dark:border-white pl-3 sm:pl-4 mx-auto max-w-full sm:max-w-fit bg-gray-100 dark:bg-gray-900 py-2 pr-3 sm:pr-4 break-words leading-snug">
+        <p className="hero-subtitle text-base sm:text-xl md:text-2xl lg:text-3xl text-black dark:text-white mb-6 sm:mb-8 lg:mb-12 font-mono border-l-4 border-black dark:border-white pl-3 sm:pl-4 mx-auto max-w-full sm:max-w-fit bg-gray-100 dark:bg-gray-900 py-2 pr-3 sm:pr-4 break-words leading-snug">
           {'//'} Empowering careers through AI-powered interview preparation
         </p>
 
@@ -41,7 +41,7 @@ export default function HeroSection({ scrollYProgress }: HeroSectionProps) {
           accessible to everyone, everywhere, at any time.
         </p>
 
-        <div className="mt-12">
+        <div className="mt-12 lg:mt-16">
           <TimelineDemo />
         </div>
       </div>

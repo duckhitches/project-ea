@@ -96,12 +96,12 @@ export default function Contact() {
       {/* Header Section */}
       <div className="relative border-b-2 sm:border-b-4 border-black dark:border-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-8 sm:py-12">
+          <div className="py-8 sm:py-12 lg:py-16">
             {/* Back Link */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center mb-6 sm:mb-8"
+              className="flex items-center mb-6 sm:mb-8 lg:mb-12"
             >
               <Link
                 href="/"
@@ -120,7 +120,7 @@ export default function Contact() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-boldonse uppercase tracking-tighter mb-4 sm:mb-6 bg-black text-white dark:bg-white dark:text-black p-3 sm:p-4 inline-block transform -rotate-1 border-2 sm:border-4 border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] leading-tight break-words"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-boldonse uppercase tracking-tighter mb-4 sm:mb-6 lg:mb-8 bg-black text-white dark:bg-white dark:text-black p-3 sm:p-4 lg:p-5 inline-block transform -rotate-1 border-2 sm:border-4 border-black dark:border-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] leading-tight break-words"
               >
                 Get in <span className="text-pink-500">Touch</span>
               </motion.h1>
@@ -129,7 +129,7 @@ export default function Contact() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-black dark:text-white text-base sm:text-lg md:text-xl font-bold mt-6 sm:mt-8 border-2 border-black dark:border-white p-3 sm:p-4 inline-block bg-white dark:bg-black leading-snug break-words"
+                className="text-black dark:text-white text-base sm:text-lg md:text-xl font-bold mt-6 sm:mt-8 lg:mt-10 border-2 border-black dark:border-white p-3 sm:p-4 lg:p-5 inline-block bg-white dark:bg-black leading-snug break-words"
               >
                 {'//'} Have questions? Our expert team is ready to help.
               </motion.p>
@@ -139,14 +139,14 @@ export default function Contact() {
       </div>
 
       {/* Contact Methods */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16 lg:py-20">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-12 sm:mb-16 lg:mb-20"
+          className="mb-12 sm:mb-16 lg:mb-24"
         >
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse uppercase mb-3 sm:mb-4 tracking-tight leading-tight">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-14">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse uppercase mb-3 sm:mb-4 lg:mb-6 tracking-tight leading-tight">
               Choose Your Path
             </h2>
             <p className="text-black dark:text-white font-mono text-xs sm:text-sm uppercase tracking-widest leading-snug">
@@ -192,10 +192,10 @@ export default function Contact() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-12 sm:mb-16 lg:mb-20"
+          className="mb-12 sm:mb-16 lg:mb-24"
         >
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse uppercase mb-3 sm:mb-4 tracking-tight leading-tight">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-14">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-boldonse uppercase mb-3 sm:mb-4 lg:mb-6 tracking-tight leading-tight">
               Core Team
             </h2>
             <p className="text-black dark:text-white font-mono text-xs sm:text-sm uppercase tracking-widest leading-snug">

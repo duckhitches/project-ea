@@ -36,7 +36,7 @@ export default function StorySection() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
 
   return (
-    <section ref={ref} className="relative py-24 sm:py-32 bg-transparent overflow-hidden">
+    <section ref={ref} className="relative py-24 sm:py-32 lg:py-40 bg-transparent overflow-hidden">
       {/* Gradient overlays for motion depth - REMOVED for Brutalism */}
       {/* Background blobs removed */}
 
@@ -47,9 +47,9 @@ export default function StorySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-20"
+          className="text-center mb-20 lg:mb-24"
         >
-          <h2 className="text-4xl sm:text-5xl font-boldonse tracking-tight text-gray-900 dark:text-white mb-4 uppercase">
+          <h2 className="text-4xl sm:text-5xl font-boldonse tracking-tight text-gray-900 dark:text-white mb-4 lg:mb-6 uppercase">
             {whyWeBuiltThis.title}
             <span className="text-white bg-pink-500 border-2 border-black dark:border-white px-2 inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] transform -rotate-2">NoQwit.ai</span>
           </h2>
@@ -58,7 +58,7 @@ export default function StorySection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
           {/* Image Section */}
           <motion.div
             style={{ y }}
@@ -93,13 +93,13 @@ export default function StorySection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
-            className="space-y-10 order-1 lg:order-2"
+            className="space-y-10 lg:space-y-12 order-1 lg:order-2"
           >
             <div>
-              <h3 className="text-3xl sm:text-4xl font-boldonse text-gray-900 dark:text-white mb-6 uppercase border-b-2 border-black dark:border-white w-fit group">
+              <h3 className="text-3xl sm:text-4xl font-boldonse text-gray-900 dark:text-white mb-6 lg:mb-8 uppercase border-b-2 border-black dark:border-white w-fit group">
                 <span className="group-hover:text-pink-500 transition-colors">The Challenge We Saw</span>
               </h3>
-              <p className="text-lg sm:text-xl text-black dark:text-white mb-8 leading-relaxed font-mono">
+              <p className="text-lg sm:text-xl text-black dark:text-white mb-8 lg:mb-10 leading-relaxed font-mono">
                 {whyWeBuiltThis.story}
               </p>
               <div className="space-y-4">
@@ -120,7 +120,7 @@ export default function StorySection() {
             </div>
 
             <div>
-              <h3 className="text-3xl sm:text-4xl font-boldonse text-gray-900 dark:text-white mb-6 uppercase border-b-2 border-black dark:border-white w-fit group">
+              <h3 className="text-3xl sm:text-4xl font-boldonse text-gray-900 dark:text-white mb-6 lg:mb-8 uppercase border-b-2 border-black dark:border-white w-fit group">
                 <span className="group-hover:text-pink-500 transition-colors">Our AI-Driven Solution</span>
               </h3>
               <div className="space-y-4">
